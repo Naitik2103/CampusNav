@@ -1,0 +1,144 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "mainGate_to_LP",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.629867, 23.188572],
+          [72.629566, 23.18857],
+          [72.629502, 23.188523],
+          [72.627271, 23.188007]
+        ]
+      },
+      "properties": {
+        "id": "mainGate_to_LP",
+        "name": "Main Gate to LP",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting North and South Campus"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "G_wing_To_CEP",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627558, 23.188434],
+          [72.627509, 23.188402],
+          [72.627512, 23.188244],
+          [72.627271, 23.188007]
+        ]
+      },
+      "properties": {
+        "id": "G_wing_To_CEP",
+        "name": "G wing to CEP",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "path_admin_to_lab",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628137, 23.187164],
+          [72.628300, 23.187400],
+          [72.628500, 23.187600]
+        ]
+      },
+      "properties": {
+        "id": "path_admin_to_lab",
+        "name": "Administration to Lab Building",
+        "walkable": true,
+        "pathType": "asphalt",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Path connecting administrative building with lab facilities"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "path_circular_loop",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.629084, 23.188533],
+          [72.628900, 23.188600],
+          [72.628400, 23.188500],
+          [72.627900, 23.188200],
+          [72.628000, 23.187800],
+          [72.628500, 23.187600],
+          [72.629200, 23.187800],
+          [72.629500, 23.188200]
+        ]
+      },
+      "properties": {
+        "id": "path_circular_loop",
+        "name": "Campus Circular Loop",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main circular pathway around campus"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "path_garden_trail",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628400, 23.188500],
+          [72.628200, 23.188800],
+          [72.627800, 23.188900]
+        ]
+      },
+      "properties": {
+        "id": "path_garden_trail",
+        "name": "Garden Trail",
+        "walkable": true,
+        "pathType": "grass",
+        "difficulty": "medium",
+        "wheelchair_accessible": false,
+        "restrictions": "no_vehicles",
+        "description": "Scenic path through campus gardens"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "path_sports_access",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628500, 23.187600],
+          [72.628700, 23.187200],
+          [72.629000, 23.186800]
+        ]
+      },
+      "properties": {
+        "id": "path_sports_access",
+        "name": "Sports Complex Access",
+        "walkable": true,
+        "pathType": "asphalt",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Path connecting to sports facilities"
+      }
+    }
+  ]
+}

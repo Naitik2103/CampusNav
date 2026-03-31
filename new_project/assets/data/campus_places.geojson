@@ -1,0 +1,167 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "G_Wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627271, 23.188007]
+      },
+      "properties": {
+        "id": "place_g_wing",
+        "name": "G Wing",
+        "placeType": "building",
+        "department": "Academic Affairs",
+        "description": "G Wing Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "CEP",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627558, 23.188434]
+      },
+      "properties": {
+        "id": "place_library_1",
+        "name": "CEP Building",
+        "placeType": "building",
+        "department": "Academic Affairs",
+        "description": "Main library building with 5 floors",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Lab_Building",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628137, 23.187164]
+      },
+      "properties": {
+        "id": "Lab_Building",
+        "name": "Lab Building",
+        "placeType": "building",
+        "department": "Administration",
+        "description": "Main administrative offices",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "place_science_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.0515, 28.5370]
+      },
+      "properties": {
+        "id": "place_science_1",
+        "name": "Science & Technology Complex",
+        "placeType": "building",
+        "department": "Engineering & Science",
+        "description": "Modern laboratory and research facilities",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "place_sports_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.0525, 28.5375]
+      },
+      "properties": {
+        "id": "place_sports_1",
+        "name": "Sports Complex",
+        "placeType": "building",
+        "department": "Physical Education",
+        "description": "Indoor and outdoor sports facilities",
+        "imageUrl": null,
+        "floors": 2,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "place_cafe_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.0495, 28.5355]
+      },
+      "properties": {
+        "id": "place_cafe_1",
+        "name": "Main Cafeteria",
+        "placeType": "landmark",
+        "department": null,
+        "description": "Student cafeteria with multiple food outlets",
+        "imageUrl": null,
+        "floors": null,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "place_parking_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.0475, 28.5340]
+      },
+      "properties": {
+        "id": "place_parking_1",
+        "name": "North Parking Lot",
+        "placeType": "parking",
+        "department": null,
+        "description": "Parking area with 500+ spaces",
+        "imageUrl": null,
+        "floors": null,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "place_restroom_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.0505, 28.5352]
+      },
+      "properties": {
+        "id": "place_restroom_1",
+        "name": "Public Restroom",
+        "placeType": "restroom",
+        "department": null,
+        "description": "Accessible public facilities",
+        "imageUrl": null,
+        "floors": null,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "place_garden_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [77.0485, 28.5350]
+      },
+      "properties": {
+        "id": "place_garden_1",
+        "name": "Botanical Garden",
+        "placeType": "landmark",
+        "department": null,
+        "description": "Campus botanical garden for relaxation",
+        "imageUrl": null,
+        "floors": null,
+        "hasIndoorMap": false
+      }
+    }
+  ]
+}
