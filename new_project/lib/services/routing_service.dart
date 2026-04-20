@@ -11,11 +11,181 @@ class RoutingService {
   // Using OSRM - Free public API with OSM data
   // Uses actual roads and paths from OpenStreetMap
   static const String osrmBaseUrl = 'http://router.project-osrm.org/route/v1';
-  
+
   // Using OpenRouteService - Free tier includes 2,500 requests/day
   // Get your API key from: https://openrouteservice.org/dev/#/api-key
-  static const String apiKey = 'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjY5Y2JjYTRhOTI5YjQyNWZiMDg2NzI4ZmIxMTlhNmM2IiwiaCI6Im11cm11cjY0In0=';
-  static const String oasBaseUrl = 'https://api.openrouteservice.org/v2/directions';
+  static const String apiKey =
+      'eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjY5Y2JjYTRhOTI5YjQyNWZiMDg2NzI4ZmIxMTlhNmM2IiwiaCI6Im11cm11cjY0In0=';
+  static const String oasBaseUrl =
+      'https://api.openrouteservice.org/v2/directions';
+
+  static double _computePathDistanceMeters(List<LatLng> waypoints) {
+    if (waypoints.length < 2) return 0;
+    const distanceCalc = Distance();
+    double total = 0;
+    for (int i = 0; i < waypoints.length - 1; i++) {
+      total += distanceCalc(waypoints[i], waypoints[i + 1]);
+    }
+    return total;
+  }
+
+  static double _estimateWalkingDurationSeconds(double distanceMeters) {
+    if (distanceMeters <= 0) return 0;
+    return distanceMeters / 1.4;
+  }
+
+  static double _normalizeDelta(double angle) {
+    var delta = angle;
+    while (delta > 180) {
+      delta -= 360;
+    }
+    while (delta < -180) {
+      delta += 360;
+    }
+    return delta;
+  }
+
+  static String _turnTypeFromAngleDelta(double delta) {
+    final absDelta = delta.abs();
+    if (absDelta >= 165) return 'uturn';
+    if (absDelta >= 110) return delta > 0 ? 'sharp_right' : 'sharp_left';
+    if (absDelta >= 45) return delta > 0 ? 'right' : 'left';
+    if (absDelta >= 22) return delta > 0 ? 'slight_right' : 'slight_left';
+    return 'straight';
+  }
+
+  static String _instructionFromTurnType(String turnType) {
+    switch (turnType) {
+      case 'slight_left':
+        return 'Slight left';
+      case 'left':
+        return 'Turn left';
+      case 'sharp_left':
+        return 'Take a sharp left';
+      case 'slight_right':
+        return 'Slight right';
+      case 'right':
+        return 'Turn right';
+      case 'sharp_right':
+        return 'Take a sharp right';
+      case 'uturn':
+        return 'Make a U-turn';
+      default:
+        return 'Continue straight';
+    }
+  }
+
+  static String _turnTypeFromManeuver(
+    Map<String, dynamic> maneuver,
+    String fallbackInstruction,
+  ) {
+    final modifier = (maneuver['modifier'] ?? '').toString().toLowerCase();
+    final type = (maneuver['type'] ?? '').toString().toLowerCase();
+    final fallback = fallbackInstruction.toLowerCase();
+
+    if (type.contains('uturn') || modifier.contains('uturn')) return 'uturn';
+    if (modifier.contains('sharp left')) return 'sharp_left';
+    if (modifier.contains('sharp right')) return 'sharp_right';
+    if (modifier.contains('slight left')) return 'slight_left';
+    if (modifier.contains('slight right')) return 'slight_right';
+    if (modifier.contains('left')) return 'left';
+    if (modifier.contains('right')) return 'right';
+    if (fallback.contains('left')) return 'left';
+    if (fallback.contains('right')) return 'right';
+    if (fallback.contains('u-turn') || fallback.contains('uturn'))
+      return 'uturn';
+    return 'straight';
+  }
+
+  static String _instructionFromManeuver(
+    Map<String, dynamic> maneuver,
+    String roadName,
+  ) {
+    final turnType = _turnTypeFromManeuver(maneuver, roadName);
+    final base = _instructionFromTurnType(turnType);
+    final road = roadName.trim();
+
+    if (road.isNotEmpty && !road.toLowerCase().contains('unnamed')) {
+      if (turnType == 'straight') {
+        return 'Continue on $road';
+      }
+      return '$base towards $road';
+    }
+
+    return base;
+  }
+
+  static List<route_model.NavigationStep> buildTurnAwareSteps(
+    List<LatLng> waypoints, {
+    double walkingSpeedMps = 1.4,
+  }) {
+    if (waypoints.length < 2) return [];
+
+    const Distance distanceCalc = Distance();
+    final List<route_model.NavigationStep> steps = [];
+
+    final firstDistance = distanceCalc(waypoints[0], waypoints[1]);
+    steps.add(
+      route_model.NavigationStep(
+        index: 0,
+        instruction: 'Head straight',
+        distance: firstDistance,
+        duration: firstDistance / walkingSpeedMps,
+        location: waypoints[0],
+        turnType: 'straight',
+      ),
+    );
+
+    double distanceFromLastInstruction = firstDistance;
+    int stepIndex = 1;
+
+    for (int i = 1; i < waypoints.length - 1; i++) {
+      final incomingBearing = distanceCalc.bearing(
+        waypoints[i - 1],
+        waypoints[i],
+      );
+      final outgoingBearing = distanceCalc.bearing(
+        waypoints[i],
+        waypoints[i + 1],
+      );
+      final delta = _normalizeDelta(outgoingBearing - incomingBearing);
+      final turnType = _turnTypeFromAngleDelta(delta);
+
+      if (turnType != 'straight') {
+        steps.add(
+          route_model.NavigationStep(
+            index: stepIndex,
+            instruction: _instructionFromTurnType(turnType),
+            distance: distanceFromLastInstruction,
+            duration: distanceFromLastInstruction / walkingSpeedMps,
+            location: waypoints[i],
+            turnType: turnType,
+            bearing: outgoingBearing,
+          ),
+        );
+        stepIndex++;
+        distanceFromLastInstruction = 0;
+      }
+
+      distanceFromLastInstruction += distanceCalc(
+        waypoints[i],
+        waypoints[i + 1],
+      );
+    }
+
+    steps.add(
+      route_model.NavigationStep(
+        index: stepIndex,
+        instruction: 'Arrive at destination',
+        distance: distanceFromLastInstruction,
+        duration: distanceFromLastInstruction / walkingSpeedMps,
+        location: waypoints.last,
+        turnType: 'straight',
+      ),
+    );
+
+    return steps;
+  }
 
   /// Get single route between two points
   /// Uses OpenRouteService (POST request with proper API format)
@@ -27,7 +197,7 @@ class RoutingService {
   }) async {
     try {
       print('📍 Getting route from $start to $end');
-      
+
       // Try OpenRouteService first (now with proper POST request)
       final route = await _getOpenRouteServiceRoute(start, end);
       if (route != null) {
@@ -35,7 +205,7 @@ class RoutingService {
       }
 
       print('⚠️ OpenRouteService failed, trying OSRM...');
-      
+
       // Fallback to OSRM if OpenRouteService fails
       final osrmRoute = await _getOSRMRoute(start, end, profile);
       if (osrmRoute != null) {
@@ -57,7 +227,8 @@ class RoutingService {
     String profile,
   ) async {
     try {
-      final coordinates = '${start.longitude},${start.latitude};${end.longitude},${end.latitude}';
+      final coordinates =
+          '${start.longitude},${start.latitude};${end.longitude},${end.latitude}';
       final url = Uri.parse(
         '$osrmBaseUrl/$profile/$coordinates?overview=full&geometries=geojson&steps=true&annotations=distance,duration',
       );
@@ -65,16 +236,14 @@ class RoutingService {
       print('🗺️ OSRM Request: $url');
       print('Start: ${start.latitude}, ${start.longitude}');
       print('End: ${end.latitude}, ${end.longitude}');
-      
-      final response = await http.get(url).timeout(
-        const Duration(seconds: 15),
-      );
+
+      final response = await http.get(url).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
-        
+
         print('🗺️ OSRM Response status: ${json['code']}');
-        
+
         if (json['routes'] == null || (json['routes'] as List).isEmpty) {
           print('❌ No routes found from OSRM');
           return null;
@@ -84,7 +253,9 @@ class RoutingService {
         final legs = route['legs'] as List<dynamic>? ?? [];
         final geometry = route['geometry'] as Map<String, dynamic>? ?? {};
 
-        print('🗺️ Route distance: ${route['distance']}, duration: ${route['duration']}');
+        print(
+          '🗺️ Route distance: ${route['distance']}, duration: ${route['duration']}',
+        );
         print('🗺️ Number of legs: ${legs.length}');
 
         // Extract waypoints from geometry
@@ -110,9 +281,9 @@ class RoutingService {
 
         for (var leg in legs) {
           final legSteps = leg['steps'] as List<dynamic>? ?? [];
-          
+
           for (var step in legSteps) {
-            final instruction = step['name'] ?? 'Continue';
+            final roadName = (step['name'] ?? '').toString();
             final distance = (step['distance'] as num?)?.toDouble() ?? 0;
             final duration = (step['duration'] as num?)?.toDouble() ?? 0;
 
@@ -129,24 +300,33 @@ class RoutingService {
             steps.add(
               route_model.NavigationStep(
                 index: stepIndex,
-                instruction: instruction,
+                instruction: _instructionFromManeuver(maneuver, roadName),
                 distance: distance,
                 duration: duration,
                 location: stepLocation,
-                turnType: _getTurnType(maneuver['type'] ?? ''),
+                turnType: _turnTypeFromManeuver(maneuver, roadName),
+                bearing: (maneuver['bearing_after'] as num?)?.toDouble(),
               ),
             );
             stepIndex++;
           }
         }
 
-        final totalDistance = (route['distance'] as num?)?.toDouble() ?? 0;
-        final totalDuration = (route['duration'] as num?)?.toDouble() ?? 0;
-
-        print('🗺️ Final route - Distance: $totalDistance m, Duration: $totalDuration s');
-
-        // If no waypoints found, add start and end
         final finalWaypoints = waypoints.isNotEmpty ? waypoints : [start, end];
+
+        final apiDistance = (route['distance'] as num?)?.toDouble() ?? 0;
+        final apiDuration = (route['duration'] as num?)?.toDouble() ?? 0;
+        final computedDistance = _computePathDistanceMeters(finalWaypoints);
+        final totalDistance = computedDistance > 0
+            ? computedDistance
+            : apiDistance;
+        final totalDuration = totalDistance > 0
+            ? _estimateWalkingDurationSeconds(totalDistance)
+            : apiDuration;
+
+        print(
+          '🗺️ Final route - Distance: $totalDistance m, Duration: $totalDuration s',
+        );
 
         return route_model.Route(
           id: 'osrm_${DateTime.now().millisecondsSinceEpoch}',
@@ -170,14 +350,6 @@ class RoutingService {
     }
   }
 
-  static String? _getTurnType(String maneuverType) {
-    final lower = maneuverType.toLowerCase();
-    if (lower.contains('left')) return 'left';
-    if (lower.contains('right')) return 'right';
-    if (lower.contains('uturn') || lower.contains('u-turn')) return 'uturn';
-    return 'straight';
-  }
-
   /// Get route using OpenRouteService with POST request
   /// This is the PRIMARY method now - direct API call with proper formatting
   static Future<route_model.Route?> _getOpenRouteServiceRoute(
@@ -185,19 +357,24 @@ class RoutingService {
     LatLng end,
   ) async {
     try {
-      print('\n🛣️ =============== OpenRouteService Route Request ===============');
+      print(
+        '\n🛣️ =============== OpenRouteService Route Request ===============',
+      );
       print('📍 START Location: Lat=${start.latitude}, Lng=${start.longitude}');
       print('📍 END Location: Lat=${end.latitude}, Lng=${end.longitude}');
 
       // Calculate straight-line distance for reference
       final Distance distanceCalc = const Distance();
       final double straightLineDistance = distanceCalc(start, end);
-      print('📏 Straight-line distance: ${straightLineDistance.toStringAsFixed(2)} km = ${(straightLineDistance * 1000).toStringAsFixed(0)} m');
+      print(
+        '📏 Straight-line distance: ${straightLineDistance.toStringAsFixed(0)} m',
+      );
 
       // Explicitly create URL with proper spacing
-      const String endpoint = 'https://api.openrouteservice.org/v2/directions/foot-walking';
+      const String endpoint =
+          'https://api.openrouteservice.org/v2/directions/foot-walking';
       final uri = Uri.parse(endpoint);
-      
+
       final headers = <String, String>{
         'Authorization': apiKey,
         'Content-Type': 'application/json',
@@ -209,26 +386,22 @@ class RoutingService {
         [end.longitude, end.latitude],
       ];
 
-      final Map<String, dynamic> requestBody = {
-        'coordinates': coordinates,
-      };
+      final Map<String, dynamic> requestBody = {'coordinates': coordinates};
 
       final String jsonBody = jsonEncode(requestBody);
 
       print('🌐 Endpoint: $endpoint');
       print('📤 Coordinates being sent: ${coordinates[0]} → ${coordinates[1]}');
 
-      final response = await http.post(
-        uri,
-        headers: headers,
-        body: jsonBody,
-      ).timeout(const Duration(seconds: 15));
+      final response = await http
+          .post(uri, headers: headers, body: jsonBody)
+          .timeout(const Duration(seconds: 15));
 
       print('🔄 Response Status: ${response.statusCode}');
 
       if (response.statusCode == 200) {
         final Map<String, dynamic> json = jsonDecode(response.body);
-        
+
         print('✅ Response parsed successfully');
 
         // Check if features array exists
@@ -240,12 +413,12 @@ class RoutingService {
 
         final Map<String, dynamic> feature = features[0];
         final Map<String, dynamic>? geometry = feature['geometry'];
-        
+
         if (geometry == null) {
           print('❌ No geometry in feature');
           return null;
         }
-        
+
         final dynamic geometryCoords = geometry['coordinates'];
         if (geometryCoords == null) {
           print('❌ No coordinates in geometry');
@@ -255,9 +428,9 @@ class RoutingService {
         // Extract coordinates and convert [lng, lat] to LatLng(lat, lng)
         final List<dynamic> coordList = geometryCoords as List<dynamic>;
         print('📍 Number of waypoints from API: ${coordList.length}');
-        
+
         final List<LatLng> waypoints = <LatLng>[];
-        
+
         for (int i = 0; i < coordList.length; i++) {
           try {
             final dynamic coord = coordList[i];
@@ -265,9 +438,11 @@ class RoutingService {
               final double lat = (coord[1] as num).toDouble();
               final double lng = (coord[0] as num).toDouble();
               waypoints.add(LatLng(lat, lng));
-              
+
               // Debug first, middle, and last waypoints
-              if (i == 0 || i == coordList.length ~/ 2 || i == coordList.length - 1) {
+              if (i == 0 ||
+                  i == coordList.length ~/ 2 ||
+                  i == coordList.length - 1) {
                 print('  Waypoint[$i]: Lat=$lat, Lng=$lng');
               }
             }
@@ -277,7 +452,7 @@ class RoutingService {
         }
 
         print('✅ Extracted ${waypoints.length} valid waypoints');
-        
+
         if (waypoints.isEmpty) {
           print('❌ CRITICAL: No valid waypoints extracted!');
           return null;
@@ -285,55 +460,55 @@ class RoutingService {
 
         // Verify waypoints are within reasonable bounds
         print('📊 Waypoint bounds check:');
-        double minLat = waypoints.first.latitude, maxLat = waypoints.first.latitude;
-        double minLng = waypoints.first.longitude, maxLng = waypoints.first.longitude;
-        
+        double minLat = waypoints.first.latitude,
+            maxLat = waypoints.first.latitude;
+        double minLng = waypoints.first.longitude,
+            maxLng = waypoints.first.longitude;
+
         for (var wp in waypoints) {
           minLat = min(minLat, wp.latitude);
           maxLat = max(maxLat, wp.latitude);
           minLng = min(minLng, wp.longitude);
           maxLng = max(maxLng, wp.longitude);
         }
-        
-        print('  Latitude range: $minLat to $maxLat (span: ${(maxLat - minLat).toStringAsFixed(4)}°)');
-        print('  Longitude range: $minLng to $maxLng (span: ${(maxLng - minLng).toStringAsFixed(4)}°)');
+
+        print(
+          '  Latitude range: $minLat to $maxLat (span: ${(maxLat - minLat).toStringAsFixed(4)}°)',
+        );
+        print(
+          '  Longitude range: $minLng to $maxLng (span: ${(maxLng - minLng).toStringAsFixed(4)}°)',
+        );
 
         // Extract distance and duration from properties
         final Map<String, dynamic>? properties = feature['properties'];
         final Map<String, dynamic>? summary = properties?['summary'];
-        
-        final double totalDistance = (summary?['distance'] as num?)?.toDouble() ?? 0.0;
-        final double totalDuration = (summary?['duration'] as num?)?.toDouble() ?? 0.0;
 
-        print('📏 API returned distance: ${totalDistance}m, duration: ${totalDuration}s');
-        print('💡 Ratio (api_distance / straight_line): ${(totalDistance / (straightLineDistance * 1000)).toStringAsFixed(2)}x');
+        final double apiDistance =
+            (summary?['distance'] as num?)?.toDouble() ?? 0.0;
+        final double computedDistance = _computePathDistanceMeters(waypoints);
+        final double totalDistance = computedDistance > 0
+            ? computedDistance
+            : apiDistance;
+        final double totalDuration = _estimateWalkingDurationSeconds(
+          totalDistance,
+        );
 
-        // Create navigation steps
-        final List<route_model.NavigationStep> steps = <route_model.NavigationStep>[];
-        
-        if (waypoints.length > 1) {
-          for (int i = 0; i < waypoints.length - 1; i++) {
-            final String instruction = i == 0 
-                ? 'Head towards destination'
-                : i == waypoints.length - 2
-                    ? 'Arrive at destination'
-                    : 'Continue';
+        print(
+          '📏 API returned distance: ${totalDistance}m, duration: ${totalDuration}s',
+        );
+        final ratio = straightLineDistance > 0
+            ? (totalDistance / straightLineDistance)
+            : 0.0;
+        print('💡 Ratio (route / straight-line): ${ratio.toStringAsFixed(2)}x');
 
-            steps.add(
-              route_model.NavigationStep(
-                index: i,
-                instruction: instruction,
-                distance: totalDistance / (waypoints.length - 1),
-                duration: totalDuration / (waypoints.length - 1),
-                location: waypoints[i],
-                turnType: 'straight',
-              ),
-            );
-          }
-        }
+        final List<route_model.NavigationStep> steps = buildTurnAwareSteps(
+          waypoints,
+        );
 
         print('✅ Route ready with ${waypoints.length} waypoints');
-        print('🛣️ ===============================================================\n');
+        print(
+          '🛣️ ===============================================================\n',
+        );
 
         return route_model.Route(
           id: 'ors_${DateTime.now().millisecondsSinceEpoch}',
@@ -348,12 +523,16 @@ class RoutingService {
         );
       } else {
         print('❌ API Error - Status Code: ${response.statusCode}');
-        print('❌ Error Response: ${response.body.substring(0, min(500, response.body.length))}...');
+        print(
+          '❌ Error Response: ${response.body.substring(0, min(500, response.body.length))}...',
+        );
         return null;
       }
     } catch (e, stackTrace) {
       print('❌ Exception in OpenRouteService: $e');
-      print('📍 Stack: ${stackTrace.toString().split('\n').take(5).join('\n')}');
+      print(
+        '📍 Stack: ${stackTrace.toString().split('\n').take(5).join('\n')}',
+      );
       return null;
     }
   }
@@ -403,26 +582,28 @@ class RoutingService {
         '$osrmBaseUrl/$profile/$coordinatesParam?overview=full&geometries=geojson&steps=true&annotations=distance,duration',
       );
 
-      final response = await http.get(url).timeout(
-        const Duration(seconds: 15),
-      );
+      final response = await http.get(url).timeout(const Duration(seconds: 15));
 
       if (response.statusCode == 200) {
         final json = jsonDecode(response.body);
         final route = json['routes'][0];
         final waypoints = (route['geometry']['coordinates'] as List)
-            .map((coord) => LatLng(
-              (coord[1] as num).toDouble(),
-              (coord[0] as num).toDouble(),
-            ))
+            .map(
+              (coord) => LatLng(
+                (coord[1] as num).toDouble(),
+                (coord[0] as num).toDouble(),
+              ),
+            )
             .toList();
+
+        final computedDistance = _computePathDistanceMeters(waypoints);
 
         return route_model.Route(
           id: 'waypoint_route_${DateTime.now().millisecondsSinceEpoch}',
           name: 'Multi-waypoint Route',
           steps: [],
-          totalDistance: (route['distance'] as num?)?.toDouble() ?? 0,
-          totalDuration: (route['duration'] as num?)?.toDouble() ?? 0,
+          totalDistance: computedDistance,
+          totalDuration: _estimateWalkingDurationSeconds(computedDistance),
           routeQuality: 4,
           routeType: 'waypoint',
           wheelchairAccessible: true,
@@ -448,8 +629,8 @@ class RoutingService {
       final startDist = distance(campusCenter, start);
       final endDist = distance(campusCenter, end);
 
-      // Distance returns value in km
-      return startDist <= campusRadiusKm && endDist <= campusRadiusKm;
+      final campusRadiusMeters = campusRadiusKm * 1000;
+      return startDist <= campusRadiusMeters && endDist <= campusRadiusMeters;
     } catch (e) {
       print('Error validating campus route: $e');
       return false;
@@ -462,38 +643,37 @@ class RoutingService {
     // Create simple curved waypoints
     final List<LatLng> waypoints = [];
     waypoints.add(start);
-    
+
     final midLat = (start.latitude + end.latitude) / 2;
-    
+
     final waypoint1 = LatLng(
       start.latitude + (midLat - start.latitude) * 0.3,
       start.longitude + (end.longitude - start.longitude) * 0.25,
     );
-    
+
     final waypoint2 = LatLng(
       start.latitude + (midLat - start.latitude) * 0.6,
       start.longitude + (end.longitude - start.longitude) * 0.5,
     );
-    
+
     final waypoint3 = LatLng(
       start.latitude + (midLat - start.latitude) * 0.85,
       start.longitude + (end.longitude - start.longitude) * 0.75,
     );
-    
+
     waypoints.add(waypoint1);
     waypoints.add(waypoint2);
     waypoints.add(waypoint3);
     waypoints.add(end);
-    
+
     double totalDistance = 0;
     for (int i = 0; i < waypoints.length - 1; i++) {
       final segmentDistance = const Distance()(waypoints[i], waypoints[i + 1]);
       totalDistance += segmentDistance;
     }
-    totalDistance = totalDistance * 1000;
-    
+
     final totalDuration = (totalDistance / 1.4).toDouble();
-    
+
     final steps = [
       route_model.NavigationStep(
         index: 0,

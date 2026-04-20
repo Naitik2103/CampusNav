@@ -12,12 +12,12 @@ class CampusRoutingService {
   static List<LatLng> get _campusBoundary => CampusConfig.campusBoundary;
 
   static const List<LatLng> campusBoundary = [
-    LatLng(23.1905, 72.6302),  // Your Northeast
-    LatLng(23.1912, 72.6261),  // Your Northwest
-    LatLng(23.1857, 72.6293),  // Your Southwest
-    LatLng(23.1856, 72.6263),  // Your Southeast
+    LatLng(23.1905, 72.6302), // Your Northeast
+    LatLng(23.1912, 72.6261), // Your Northwest
+    LatLng(23.1857, 72.6293), // Your Southwest
+    LatLng(23.1856, 72.6263), // Your Southeast
   ];
-  
+
   static const LatLng campusCenter = LatLng(23.188, 72.6285); // Middle point
 
   /// Get route that stays within campus bounds
@@ -53,9 +53,11 @@ class CampusRoutingService {
         print('✅ Constrained waypoints: ${constrainedWaypoints.length}');
 
         // Step 4: Recalculate distance for constrained route
-        final constrainedDistance = _calculatePathDistance(constrainedWaypoints);
-        final constrainedDuration =
-            (constrainedDistance / 1.4).toDouble(); // Avg walking speed 1.4 m/s
+        final constrainedDistance = _calculatePathDistance(
+          constrainedWaypoints,
+        );
+        final constrainedDuration = (constrainedDistance / 1.4)
+            .toDouble(); // Avg walking speed 1.4 m/s
 
         return route_model.Route(
           id: route.id,
@@ -123,7 +125,8 @@ class CampusRoutingService {
   /// Check if point lies on a line segment
   static bool _isPointOnSegment(LatLng point, LatLng p1, LatLng p2) {
     final double epsilon = 0.00001;
-    final double crossProduct = (point.latitude - p1.latitude) * (p2.longitude - p1.longitude) -
+    final double crossProduct =
+        (point.latitude - p1.latitude) * (p2.longitude - p1.longitude) -
         (point.longitude - p1.longitude) * (p2.latitude - p1.latitude);
 
     if (crossProduct.abs() > epsilon) return false;
@@ -160,7 +163,10 @@ class CampusRoutingService {
         constrained.add(point);
       } else {
         // If outside campus, find nearest boundary point
-        final LatLng nearestBoundary = _findNearestBoundaryPoint(point, boundary);
+        final LatLng nearestBoundary = _findNearestBoundaryPoint(
+          point,
+          boundary,
+        );
         if (constrained.last != nearestBoundary) {
           constrained.add(nearestBoundary);
         }
@@ -200,11 +206,12 @@ class CampusRoutingService {
       total += distance(waypoints[i], waypoints[i + 1]);
     }
 
-    return total * 1000; // Convert km to meters
+    return total;
   }
 
   /// Get campus bounds as a rectangle
-  static ({double minLat, double maxLat, double minLng, double maxLng}) getCampusBounds() {
+  static ({double minLat, double maxLat, double minLng, double maxLng})
+  getCampusBounds() {
     double minLat = campusBoundary.first.latitude;
     double maxLat = campusBoundary.first.latitude;
     double minLng = campusBoundary.first.longitude;

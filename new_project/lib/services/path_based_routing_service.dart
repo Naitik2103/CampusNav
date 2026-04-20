@@ -1,6 +1,8 @@
 import 'package:latlong2/latlong.dart';
+import 'dart:math' as math;
 import '../models/route_model.dart' as route_model;
 import '../models/path_model.dart';
+import 'routing_service.dart';
 
 /// Node representing an intersection on campus
 class PathNode {
@@ -19,13 +21,52 @@ class PathNode {
   }
 
   @override
-  String toString() => 'PathNode($id at ${location.latitude}, ${location.longitude})';
+  String toString() =>
+      'PathNode($id at ${location.latitude}, ${location.longitude})';
+}
+
+class _PathSegment {
+  final String aKey;
+  final String bKey;
+  final LatLng a;
+  final LatLng b;
+  final double lengthMeters;
+
+  _PathSegment({
+    required this.aKey,
+    required this.bKey,
+    required this.a,
+    required this.b,
+    required this.lengthMeters,
+  });
+}
+
+class _PathGraph {
+  final Map<String, PathNode> nodes;
+  final List<_PathSegment> segments;
+
+  _PathGraph({required this.nodes, required this.segments});
+}
+
+class _ProjectedPoint {
+  final LatLng point;
+  final double t;
+
+  _ProjectedPoint({required this.point, required this.t});
+}
+
+class _SnapResult {
+  final PathNode node;
+  final double snapDistanceMeters;
+
+  _SnapResult({required this.node, required this.snapDistanceMeters});
 }
 
 /// Path-based routing service using campus paths from GeoJSON
 /// Builds a graph from campus paths and finds optimal routes through them
 class PathBasedRoutingService {
-  static const double _nodeMergeToleranceMeters = 8.0;
+  static const double _nodeMergeToleranceMeters = 2.5;
+  static const double _snapToExistingNodeToleranceMeters = 1.8;
 
   static String _keyForLocation(LatLng point) {
     return '${point.latitude.toStringAsFixed(6)},${point.longitude.toStringAsFixed(6)}';
@@ -37,7 +78,8 @@ class PathBasedRoutingService {
     Distance distanceCalc,
   ) {
     for (final entry in nodes.entries) {
-      if (distanceCalc(point, entry.value.location) <= _nodeMergeToleranceMeters) {
+      if (distanceCalc(point, entry.value.location) <=
+          _nodeMergeToleranceMeters) {
         return entry.key;
       }
     }
@@ -47,21 +89,29 @@ class PathBasedRoutingService {
     return key;
   }
 
-  static void _connectNodes(Map<String, PathNode> nodes, String aKey, String bKey, double distanceKm) {
+  static void _connectNodes(
+    Map<String, PathNode> nodes,
+    String aKey,
+    String bKey,
+    double distanceMeters,
+  ) {
     final a = nodes[aKey]!;
     final b = nodes[bKey]!;
-    a.addNeighbor(b, distanceKm);
-    b.addNeighbor(a, distanceKm);
+    a.addNeighbor(b, distanceMeters);
+    b.addNeighbor(a, distanceMeters);
   }
 
   /// Build a graph from campus paths
-  static Map<String, PathNode> _buildPathGraph(List<CampusPath> paths) {
+  static _PathGraph _buildPathGraph(List<CampusPath> paths) {
     final Map<String, PathNode> nodes = {};
+    final List<_PathSegment> segments = [];
     const Distance distanceCalc = Distance();
 
     print('📦 Loading ${paths.length} campus paths...');
     for (final path in paths) {
-      print('   Path: ${path.id} (walkable: ${path.walkable}, coords: ${path.coordinates.length})');
+      print(
+        '   Path: ${path.id} (walkable: ${path.walkable}, coords: ${path.coordinates.length})',
+      );
       if (!path.walkable) {
         print('      ⊘ Skipped: not walkable');
         continue;
@@ -82,19 +132,125 @@ class PathBasedRoutingService {
         final segmentDistance = distanceCalc(a, b);
 
         _connectNodes(nodes, aKey, bKey, segmentDistance);
+        segments.add(
+          _PathSegment(
+            aKey: aKey,
+            bKey: bKey,
+            a: nodes[aKey]!.location,
+            b: nodes[bKey]!.location,
+            lengthMeters: segmentDistance,
+          ),
+        );
       }
     }
 
     print('🗺️ Built path graph with ${nodes.length} nodes');
     for (final entry in nodes.entries) {
       final node = entry.value;
-      print('   ${node.id}: [${node.location.latitude.toStringAsFixed(6)}, ${node.location.longitude.toStringAsFixed(6)}] (${node.neighbors.length} connections)');
+      print(
+        '   ${node.id}: [${node.location.latitude.toStringAsFixed(6)}, ${node.location.longitude.toStringAsFixed(6)}] (${node.neighbors.length} connections)',
+      );
     }
-    return nodes;
+    return _PathGraph(nodes: nodes, segments: segments);
+  }
+
+  static _ProjectedPoint _projectPointOnSegment(LatLng p, LatLng a, LatLng b) {
+    final latRef = (a.latitude + b.latitude + p.latitude) / 3.0;
+    final cosLat = math.cos(latRef * (math.pi / 180.0));
+
+    final ax = a.longitude * cosLat;
+    final ay = a.latitude;
+    final bx = b.longitude * cosLat;
+    final by = b.latitude;
+    final px = p.longitude * cosLat;
+    final py = p.latitude;
+
+    final abx = bx - ax;
+    final aby = by - ay;
+    final apx = px - ax;
+    final apy = py - ay;
+    final ab2 = (abx * abx) + (aby * aby);
+
+    final rawT = ab2 == 0 ? 0.0 : ((apx * abx) + (apy * aby)) / ab2;
+    final t = rawT.clamp(0.0, 1.0);
+
+    final projX = ax + (abx * t);
+    final projY = ay + (aby * t);
+
+    return _ProjectedPoint(point: LatLng(projY, projX / cosLat), t: t);
+  }
+
+  static _SnapResult? _snapToGraph(
+    LatLng location,
+    Map<String, PathNode> nodes,
+    List<_PathSegment> segments,
+    String tempNodeId,
+  ) {
+    if (nodes.isEmpty || segments.isEmpty) return null;
+
+    const Distance distanceCalc = Distance();
+
+    PathNode? nearestNode;
+    double nearestNodeDistance = double.infinity;
+
+    for (final node in nodes.values) {
+      final d = distanceCalc(location, node.location);
+      if (d < nearestNodeDistance) {
+        nearestNodeDistance = d;
+        nearestNode = node;
+      }
+    }
+
+    _PathSegment? nearestSegment;
+    LatLng? nearestProjectedPoint;
+    double nearestSegmentDistance = double.infinity;
+    double nearestT = 0.0;
+
+    for (final segment in segments) {
+      final projected = _projectPointOnSegment(location, segment.a, segment.b);
+      final d = distanceCalc(location, projected.point);
+      if (d < nearestSegmentDistance) {
+        nearestSegmentDistance = d;
+        nearestSegment = segment;
+        nearestProjectedPoint = projected.point;
+        nearestT = projected.t;
+      }
+    }
+
+    if (nearestNode == null ||
+        nearestSegment == null ||
+        nearestProjectedPoint == null) {
+      return null;
+    }
+
+    if (nearestNodeDistance <= _snapToExistingNodeToleranceMeters) {
+      return _SnapResult(
+        node: nearestNode,
+        snapDistanceMeters: nearestNodeDistance,
+      );
+    }
+
+    final tempNode = PathNode(location: nearestProjectedPoint, id: tempNodeId);
+    final tempKey = _keyForLocation(nearestProjectedPoint);
+    nodes[tempKey] = tempNode;
+
+    final distanceToA = nearestSegment.lengthMeters * nearestT;
+    final distanceToB = nearestSegment.lengthMeters * (1.0 - nearestT);
+
+    _connectNodes(nodes, tempKey, nearestSegment.aKey, distanceToA);
+    _connectNodes(nodes, tempKey, nearestSegment.bKey, distanceToB);
+
+    return _SnapResult(
+      node: tempNode,
+      snapDistanceMeters: nearestSegmentDistance,
+    );
   }
 
   /// Find nearest path node to a location using snapping
-  static PathNode? _findNearestNode(LatLng location, Map<String, PathNode> nodes) {
+  static PathNode? _findNearestNode(
+    LatLng location,
+    Map<String, PathNode> nodes,
+  ) {
     if (nodes.isEmpty) return null;
 
     const Distance distanceCalc = Distance();
@@ -110,10 +266,14 @@ class PathBasedRoutingService {
     }
 
     final distanceMeters = minDistance;
-    print('📍 Snapped location [${location.latitude.toStringAsFixed(6)}, ${location.longitude.toStringAsFixed(6)}]');
-    print('   → Nearest node: ${nearest?.id} at [${nearest?.location.latitude.toStringAsFixed(6)}, ${nearest?.location.longitude.toStringAsFixed(6)}]');
+    print(
+      '📍 Snapped location [${location.latitude.toStringAsFixed(6)}, ${location.longitude.toStringAsFixed(6)}]',
+    );
+    print(
+      '   → Nearest node: ${nearest?.id} at [${nearest?.location.latitude.toStringAsFixed(6)}, ${nearest?.location.longitude.toStringAsFixed(6)}]',
+    );
     print('   → Distance: ${distanceMeters.toStringAsFixed(1)}m');
-    
+
     return nearest;
   }
 
@@ -125,11 +285,11 @@ class PathBasedRoutingService {
 
     // Initialize
     distances[start] = 0;
-    
+
     // Collect all reachable nodes using BFS
     final List<PathNode> toProcess = [start];
     final Set<PathNode> visited = {};
-    
+
     while (toProcess.isNotEmpty) {
       final current = toProcess.removeAt(0);
       if (visited.contains(current)) continue;
@@ -180,7 +340,9 @@ class PathBasedRoutingService {
     // Reconstruct path
     if (distances[end] == double.infinity) {
       print('❌ No path found from ${start.id} to ${end.id}');
-      print('   Start node reachability: ${distances[start] != null ? "reachable" : "unreachable"}');
+      print(
+        '   Start node reachability: ${distances[start] != null ? "reachable" : "unreachable"}',
+      );
       print('   End node distance: ${distances[end]}');
       return null;
     }
@@ -196,13 +358,15 @@ class PathBasedRoutingService {
     print('✅ Found path: ${start.id} → ${end.id}');
     print('   Path length: ${path.length} nodes');
     print('   Total distance: ${totalDistanceM.toStringAsFixed(1)}m');
-    
+
     // Print path nodes for debugging
     for (int i = 0; i < path.length; i++) {
       final node = path[i];
-      print('   Step $i: ${node.id} [${node.location.latitude.toStringAsFixed(6)}, ${node.location.longitude.toStringAsFixed(6)}]');
+      print(
+        '   Step $i: ${node.id} [${node.location.latitude.toStringAsFixed(6)}, ${node.location.longitude.toStringAsFixed(6)}]',
+      );
     }
-    
+
     return path;
   }
 
@@ -219,20 +383,37 @@ class PathBasedRoutingService {
       const Distance distanceCalc = Distance();
 
       // Step 1: Build graph from campus paths
-      final pathGraph = _buildPathGraph(campusPaths);
-      if (pathGraph.isEmpty) {
+      final graph = _buildPathGraph(campusPaths);
+      if (graph.nodes.isEmpty || graph.segments.isEmpty) {
         print('❌ No valid campus paths found');
         return null;
       }
 
-      // Step 2: Find nearest nodes to start and end
-      final startNode = _findNearestNode(start, pathGraph);
-      final endNode = _findNearestNode(end, pathGraph);
+      final graphNodes = Map<String, PathNode>.from(graph.nodes);
+
+      // Step 2: Snap source and destination to nearest campus segments (more stable at intersections)
+      final startSnap = _snapToGraph(
+        start,
+        graphNodes,
+        graph.segments,
+        'snap_start',
+      );
+      final endSnap = _snapToGraph(end, graphNodes, graph.segments, 'snap_end');
+
+      final startNode = startSnap?.node;
+      final endNode = endSnap?.node;
 
       if (startNode == null || endNode == null) {
         print('❌ Could not find valid start or end nodes');
         return null;
       }
+
+      print(
+        '📍 Start snapped at ${startSnap!.snapDistanceMeters.toStringAsFixed(1)}m',
+      );
+      print(
+        '📍 End snapped at ${endSnap!.snapDistanceMeters.toStringAsFixed(1)}m',
+      );
 
       // Step 3: Find shortest path through campus paths
       final pathNodes = _dijkstraShortestPath(startNode, endNode);
@@ -245,7 +426,8 @@ class PathBasedRoutingService {
       final waypoints = <LatLng>[];
       waypoints.add(start);
       for (final node in pathNodes) {
-        if (waypoints.isEmpty || distanceCalc(waypoints.last, node.location) > 2.0) {
+        if (waypoints.isEmpty ||
+            distanceCalc(waypoints.last, node.location) > 2.0) {
           waypoints.add(node.location);
         }
       }
@@ -262,30 +444,14 @@ class PathBasedRoutingService {
       // Estimate duration (average walking speed: 1.4 m/s)
       final totalDuration = totalDistance / 1.4;
 
-      // Step 6: Create navigation steps
-      final steps = <route_model.NavigationStep>[];
-      for (int i = 0; i < waypoints.length - 1; i++) {
-        final instruction = i == 0
-            ? 'Head towards destination'
-            : i == waypoints.length - 2
-                ? 'Arrive at destination'
-                : 'Continue on path';
-
-        steps.add(
-          route_model.NavigationStep(
-            index: i,
-            instruction: instruction,
-            distance: totalDistance / (waypoints.length - 1),
-            duration: totalDuration / (waypoints.length - 1),
-            location: waypoints[i],
-            turnType: 'straight',
-          ),
-        );
-      }
+      // Step 6: Create turn-aware navigation steps
+      final steps = RoutingService.buildTurnAwareSteps(waypoints);
 
       print('✅ Route ready with ${waypoints.length} waypoints');
       print('📏 Total distance: ${totalDistance.toStringAsFixed(1)} m');
-      print('⏱️  Estimated duration: ${(totalDuration / 60).toStringAsFixed(0)} minutes');
+      print(
+        '⏱️  Estimated duration: ${(totalDuration / 60).toStringAsFixed(0)} minutes',
+      );
       print('🛤️  ==========================================\n');
 
       return route_model.Route(
@@ -301,7 +467,9 @@ class PathBasedRoutingService {
       );
     } catch (e, stackTrace) {
       print('❌ Error in path-based routing: $e');
-      print('📍 Stack: ${stackTrace.toString().split('\n').take(3).join('\n')}');
+      print(
+        '📍 Stack: ${stackTrace.toString().split('\n').take(3).join('\n')}',
+      );
       return null;
     }
   }

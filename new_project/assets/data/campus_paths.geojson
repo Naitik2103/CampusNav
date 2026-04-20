@@ -10,7 +10,7 @@
           [72.629867, 23.188572],
           [72.629566, 23.18857],
           [72.629502, 23.188523],
-          [72.627271, 23.188007]
+          [72.629073, 23.188527]
         ]
       },
       "properties": {
@@ -26,19 +26,18 @@
     },
     {
       "type": "Feature",
-      "id": "G_wing_To_CEP",
+      "id": "LP_to_mainGate",
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [72.627558, 23.188434],
-          [72.627509, 23.188402],
-          [72.627512, 23.188244],
-          [72.627271, 23.188007]
+          [72.629078, 23.188606],
+          [72.629489, 23.188604],
+          [72.629566, 23.18857]          
         ]
       },
       "properties": {
-        "id": "G_wing_To_CEP",
-        "name": "G wing to CEP",
+        "id": "LP_to_mainGate",
+        "name": "LP to MainGate",
         "walkable": true,
         "pathType": "concrete",
         "difficulty": "easy",
@@ -49,95 +48,2660 @@
     },
     {
       "type": "Feature",
-      "id": "path_admin_to_lab",
+      "id": "LP_Circle",
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [72.628137, 23.187164],
-          [72.628300, 23.187400],
-          [72.628500, 23.187600]
+          [72.629078, 23.188606],
+          [72.629073, 23.188527],
+          [72.629049, 23.188470],
+          [72.629011, 23.188436],
+          [72.628976, 23.188406],
+          [72.628928, 23.188392],
+          [72.628877, 23.188392],
+          [72.628832, 23.188394],
+          [72.628807, 23.188404], 
+          [72.628748, 23.188441],
+          [72.628719, 23.188475],
+          [72.628697, 23.188517],
+          [72.628689, 23.188549],
+          [72.628711, 23.188643],
+          [72.628765, 23.188705],
+          [72.628821, 23.188732],
+          [72.628888, 23.188744],
+          [72.628936, 23.188732],
+          [72.628990, 23.188715],
+          [72.629041, 23.188658],
+          [72.629078, 23.188606]
         ]
       },
       "properties": {
-        "id": "path_admin_to_lab",
-        "name": "Administration to Lab Building",
-        "walkable": true,
-        "pathType": "asphalt",
-        "difficulty": "easy",
-        "wheelchair_accessible": true,
-        "restrictions": null,
-        "description": "Path connecting administrative building with lab facilities"
-      }
-    },
-    {
-      "type": "Feature",
-      "id": "path_circular_loop",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [72.629084, 23.188533],
-          [72.628900, 23.188600],
-          [72.628400, 23.188500],
-          [72.627900, 23.188200],
-          [72.628000, 23.187800],
-          [72.628500, 23.187600],
-          [72.629200, 23.187800],
-          [72.629500, 23.188200]
-        ]
-      },
-      "properties": {
-        "id": "path_circular_loop",
-        "name": "Campus Circular Loop",
+        "id": "LP_Circle",
+        "name": "LP Circle",
         "walkable": true,
         "pathType": "concrete",
         "difficulty": "easy",
         "wheelchair_accessible": true,
         "restrictions": null,
-        "description": "Main circular pathway around campus"
+        "description": "Main pathway connecting library and administrative building"
       }
     },
+
     {
       "type": "Feature",
-      "id": "path_garden_trail",
+      "id": "LP_to_HorCEP_Walkway",
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [72.628400, 23.188500],
-          [72.628200, 23.188800],
-          [72.627800, 23.188900]
+          [72.628807, 23.188404],
+          [72.628781, 23.188086],
+          [72.628789, 23.187985]          
         ]
       },
       "properties": {
-        "id": "path_garden_trail",
-        "name": "Garden Trail",
+        "id": "LP_to_HorCEP_Walkway",
+        "name": "LP to Hor And CEP walkway",
         "walkable": true,
-        "pathType": "grass",
-        "difficulty": "medium",
-        "wheelchair_accessible": false,
-        "restrictions": "no_vehicles",
-        "description": "Scenic path through campus gardens"
-      }
-    },
-    {
-      "type": "Feature",
-      "id": "path_sports_access",
-      "geometry": {
-        "type": "LineString",
-        "coordinates": [
-          [72.628500, 23.187600],
-          [72.628700, 23.187200],
-          [72.629000, 23.186800]
-        ]
-      },
-      "properties": {
-        "id": "path_sports_access",
-        "name": "Sports Complex Access",
-        "walkable": true,
-        "pathType": "asphalt",
+        "pathType": "concrete",
         "difficulty": "easy",
         "wheelchair_accessible": true,
         "restrictions": null,
-        "description": "Path connecting to sports facilities"
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HorCEP_Walkway_to_LAB_Walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628789, 23.187985],
+          [72.628837, 23.187832],
+          [72.628915, 23.187696],
+          [72.629041, 23.187511]
+        ]
+      },
+      "properties": {
+        "id": "HorCEP_Walkway_to_LAB_Walkway",
+        "name": "HorCEP Walkway to LAB walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "LAB_Walkway_To_LT_Walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.629041, 23.187511],
+          [72.629111, 23.187381],
+          [72.629161, 23.187235],
+          [72.629196, 23.187082],
+          [72.629199, 23.186929],
+          [72.629186, 23.186759]
+        ]
+      },
+      "properties": {
+        "id": "LAB_Walkway_To_LT_Walkway",
+        "name": "LAB Walkway to LT walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "LT_Walkway_to_LT_Parking",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.629186, 23.186759],
+          [72.629167, 23.186644],
+          [72.629108, 23.186466],
+          [72.629017, 23.186348],
+          [72.628853, 23.186247],
+          [72.628716, 23.186180]
+
+        ]
+      },
+      "properties": {
+        "id": "LT_Walkway_to_LT_Parking",
+        "name": "LT Walkway to LT Parking",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "LT_Parking_to_LT1_Walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628716, 23.186180],
+          [72.628558, 23.186141],
+          [72.628421, 23.186131],
+          [72.628306, 23.186141]
+
+        ]
+      },
+      "properties": {
+        "id": "LT_Parking_to_LT1_Walkway",
+        "name": "LT Parking to LT1 Walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "LT1_Walkway_to_NewHOR",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628306, 23.186141],
+          [72.628134, 23.186178]
+        ]
+      },
+      "properties": {
+        "id": "LT1_Walkway_to_NewHOR",
+        "name": "LT1 Walkway to NewHOR",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "NewHOR_to_LAB_walkway1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628134, 23.186178],
+          [72.628013, 23.186229]
+        ]
+      },
+      "properties": {
+        "id": "NewHOR_to_LAB_walkway1",
+        "name": "NewHOR to LAB walkway1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "LAB_walkway1_to_LAB_walkway2",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628013, 23.186229],
+          [72.627869, 23.186326],
+          [72.627764, 23.186434],
+          [72.627662, 23.186565],
+          [72.627600, 23.186713]
+        ]
+      },
+      "properties": {
+        "id": "LAB_walkway1_to_LAB_walkway2",
+        "name": "LAB walkway1 to LAB walkway2",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "LAB_walkway2_to_HORMen_Walkway1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627600, 23.186713],
+          [72.627587, 23.186806],
+          [72.627590, 23.186915]
+        ]
+      },
+      "properties": {
+        "id": "LAB_walkway2_to_HORMen_Walkway1",
+        "name": "LAB walkway2 to HORMen Walkway1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HORMen_Walkway1_LAB_walkway3",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627590, 23.186915],
+          [72.627630, 23.187080],
+          [72.627673, 23.187267],
+          [72.627686, 23.187413]
+        ]
+      },
+      "properties": {
+        "id": "HORMen_Walkway1_LAB_walkway3",
+        "name": "HORMen Walkway1 LAB walkway3",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "LAB_walkway3_to_HORMen_Walkway2",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627686, 23.187413],
+          [72.627694, 23.187608],
+          [72.627678, 23.187785]
+        ]
+      },
+      "properties": {
+        "id": "LAB_walkway3_to_HORMen_Walkway2",
+        "name": "LAB walkway3 to HORMen Walkway2",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HORMen_Walkway2_to_CEPLAB_walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627678, 23.187785],
+          [72.627654, 23.187980]
+        ]
+      },
+      "properties": {
+        "id": "HORMen_Walkway2_to_CEPLAB_walkway",
+        "name": "HORMen Walkway2 to CEPLAB walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "CEPLAB_walkway_to_CEP1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627654, 23.187980],
+          [72.627646, 23.188032],
+          [72.627608, 23.188118],
+          [72.627549, 23.188199],
+          [72.627507, 23.188241]
+        ]
+      },
+      "properties": {
+        "id": "CEPLAB_walkway_to_CEP",
+        "name": "CEPLAB walkway to CEP",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "CEP1_to_CEP2",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627507, 23.188241],
+          [72.627402, 23.188350],
+          [72.627391, 23.188478]
+        ]
+      },
+      "properties": {
+        "id": "CEP1_to_CEP2",
+        "name": "CEP1 to CEP2",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "CEP2_to_HORMen_Road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627391, 23.188478],
+          [72.627380, 23.188520]
+        ]
+      },
+      "properties": {
+        "id": "CEP2_to_HORMen_Road",
+        "name": "CEP2 to HORMen Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HORMen_Road_to_Admin_Road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627380, 23.188520],
+          [72.627380, 23.188609]
+
+        ]
+      },
+      "properties": {
+        "id": "HORMen_Road_to_Admin_Road",
+        "name": "HORMen Road to Admin Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Admin_Road_to_Cafeteria_Entry1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627380, 23.188609],
+          [72.627359, 23.188789]
+
+        ]
+      },
+      "properties": {
+        "id": "Admin_Road_to_Cafeteria_Entry",
+        "name": "Admin Road to Cafeteria Entry",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Cafeteria_Entry1_to_OAT_Entry",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627359, 23.188789],
+          [72.627340, 23.189048]
+        ]
+      },
+      "properties": {
+        "id": "Cafeteria_Entry1_to_OAT_Entry",
+        "name": "Cafeteria Entry1 to OAT Entry",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "OAT_Entry_to_MainRoad_StaffParkingRoad_Intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627340, 23.189048],
+          [72.627338, 23.189109]
+        ]
+      },
+      "properties": {
+        "id": "OAT_Entry_to_MainRoad_StaffParkingRoad_Intersection",
+        "name": "OAT Entry to MainRoad StaffParking Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Intersection_to_SAC1_Walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627338, 23.189109],
+          [72.627332, 23.189171],
+          [72.627367, 23.189299],
+          [72.627407, 23.189385]
+        ]
+      },
+      "properties": {
+        "id": "Intersection_to_SAC1_Walkway",
+        "name": "Intersection to SAC1 Walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "SAC1_Walkway_to_HorWomen_Road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627407, 23.189385],
+          [72.627512, 23.189533],
+          [72.627654, 23.189659],
+          [72.627812, 23.189745],
+          [72.628005, 23.189802],
+          [72.628201, 23.189817],
+          [72.628405, 23.189790]
+        ]
+      },
+      "properties": {
+        "id": "SAC1_Walkway_to_HorWomen_Road",
+        "name": "SAC1 Walkway to HorWomen Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HorWomen_Road_to_Faculty_Residence_Road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628405, 23.189790],
+          [72.628587, 23.189713],
+          [72.628730, 23.189629]
+
+        ]
+      },
+      "properties": {
+        "id": "HorWomen_Road_to_Faculty_Residence_Road",
+        "name": "HorWomen Road to Faculty Residence Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Faculty_Residence_Road_to_Faculty_Parking_Road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628730, 23.189629],
+          [72.628802, 23.189560],
+          [72.628861, 23.189484]
+
+        ]
+      },
+      "properties": {
+        "id": "Faculty_Residence_Road_to_Faculty_Parking_Road",
+        "name": "Faculty Residence Road to Faculty Parking Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Faculty_Parking_Road_to_RC_walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628861, 23.189484],
+          [72.628939, 23.189371],
+          [72.628992, 23.189245],
+          [72.629025, 23.189116],
+          [72.629035, 23.188978],
+          [72.629030, 23.188895],
+          [72.629014, 23.188803]
+        ]
+      },
+      "properties": {
+        "id": "Faculty_Parking_Road_to_RC_walkway",
+        "name": "Faculty Parking Road to RC walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "RC_walkway_to_LP",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.629014, 23.188803],
+          [72.629019, 23.188818],
+          [72.629003, 23.188759],
+          [72.628990, 23.188715]
+        ]
+      },
+      "properties": {
+        "id": "RC_walkway_to_LP",
+        "name": "RC walkway to LP",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Cafeteria_to_Admin_Road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627380, 23.188609],
+          [72.627469, 23.188729], 
+          [72.627592, 23.188808],
+          [72.627665, 23.188833],
+          [72.627729, 23.188848],
+          [72.627794, 23.188882],
+          [72.627828, 23.188912],
+          [72.627858, 23.188969],
+          [72.627871, 23.189030]
+        ]
+      },
+      "properties": {
+        "id": "Cafeteria_to_Admin_Road",
+        "name": "Cafeteria to Admin Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Staff_Parking_Road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627338, 23.189109],
+          [72.627445, 23.189198],
+          [72.627504, 23.189348],
+          [72.627592, 23.189479],
+          [72.627702, 23.189580],
+          [72.627812, 23.189642],
+          [72.627933, 23.189691],
+          [72.628062, 23.189713],
+          [72.628201, 23.189721],
+          [72.628311, 23.189703],
+          [72.628394, 23.189684],
+          [72.628496, 23.189639], 
+          [72.628585, 23.189587],
+          [72.628660, 23.189518],
+          [72.628716, 23.189474],
+          [72.628861, 23.189484]
+        ]
+      },
+      "properties": {
+        "id": "Staff_Parking_Road",
+        "name": "Staff Parking Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HORWomen_Road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628405, 23.189790],
+          [72.628494, 23.189854],
+          [72.628606, 23.189967],
+          [72.628679, 23.190108],
+          [72.628697, 23.190263],
+          [72.628687, 23.190428]
+
+        ]
+      },
+      "properties": {
+        "id": "HORWomen_Road",
+        "name": "HORWomen Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HORWomen_Entrance_Walkway_to_HoRWomenParking",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628687, 23.190428],
+          [72.628697, 23.190505]
+        ]
+      },
+      "properties": {
+        "id": "HORWomen_Entrance_Walkway_to_HoRWomenParking",
+        "name": "HORWomen Entrance Walkway to HoRWomen Parking",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HoRWomenParking_to_GroundBackRoad",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628697, 23.190505],
+          [72.628743, 23.190615],
+          [72.628842, 23.190748]
+
+        ]
+      },
+      "properties": {
+        "id": "HoRWomenParking_to_GroundBackRoad",
+        "name": "HoRWomenParking to GroundBackRoad",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "FacultyResidence_Road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628730, 23.189629],
+          [72.629009, 23.189827],
+          [72.629164, 23.189915],
+          [72.629261, 23.189999],
+          [72.629328, 23.190125],
+          [72.629336, 23.190216],
+          [72.629306, 23.190369],
+          [72.629288, 23.190475],
+          [72.629325, 23.190588]
+        ]
+      },
+      "properties": {
+        "id": "FacultyResidence_Road",
+        "name": "FacultyResidence Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "FacultyResidence_to_GroundBackRoad",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.629325, 23.190588],
+          [72.629349, 23.190665]
+
+        ]
+      },
+      "properties": {
+        "id": "FacultyResidence_to_GroundBackRoad",
+        "name": "FacultyResidence to GroundBackRoad",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HORMenRoad",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627380, 23.188520],
+          [72.627254, 23.188487],
+          [72.627169, 23.188436],
+          [72.627093, 23.188364],
+          [72.627008, 23.188303],
+          [72.626925, 23.188273],
+          [72.626847, 23.188261],
+          [72.626764, 23.188271],
+          [72.626656, 23.188310],
+          [72.626584, 23.188360],
+          [72.626554, 23.188394]
+        ]
+      },
+      "properties": {
+        "id": "HORMenRoad",
+        "name": "HORMen Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HORMenRoad_To_Ground_Boundary_Road",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626554, 23.188394],
+          [72.626455, 23.188498],
+          [72.626351, 23.188567],
+          [72.626289, 23.188594],
+          [72.626286, 23.188759],
+          [72.626308, 23.188865],
+          [72.626356, 23.188937],
+          [72.626401, 23.188978],
+          [72.626426, 23.189018],
+          [72.626436, 23.189057],
+          [72.626423, 23.189114],
+          [72.626396, 23.189156],
+          [72.626324, 23.189213],
+          [72.626246, 23.189311],
+          [72.626211, 23.189407],
+
+          [72.626171, 23.190818],
+          [72.626222, 23.190944],
+          [72.626289, 23.191015],
+          [72.626385, 23.191069],
+          [72.626460, 23.191089],
+          [72.626533, 23.191094],
+
+          [72.628842, 23.190748],
+          [72.629349, 23.190665],
+          [72.630068, 23.190561]
+
+        ]
+      },
+      "properties": {
+        "id": "HORMenRoad_To_Ground_Boundary_Road",
+        "name": "HORMenRoad To Ground Boundary Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HORMen_BackRoad",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626289, 23.188594],
+          [72.626243, 23.188523],
+          [72.626267, 23.187736],
+          [72.626329, 23.185624]
+        ]
+      },
+      "properties": {
+        "id": "HORMen_BackRoad",
+        "name": "HORMen_Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "SAC1_Gate_to_OAT_to_MainRoad_Walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626643, 23.188988],
+          [72.626613, 23.189013],
+          [72.626589, 23.189030],
+          [72.626517, 23.189055],
+          [72.626436, 23.189057],
+          [72.626466, 23.189057],
+          [72.626436, 23.189057]
+        ]
+      },
+      "properties": {
+        "id": "SAC1_Gate_to_OAT_to_MainRoad_Walkway",
+        "name": "SAC1 Gate to GOAT to MainRoad Walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "OAT_GroundSideMainRoad_to_Canteen_GroundSideMainRoad_Walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626568, 23.189038],
+          [72.626517, 23.189006],
+          [72.626487, 23.188956],
+          [72.626474, 23.188900],
+          [72.626442, 23.188860],
+          [72.626391, 23.188840],
+          [72.626345, 23.188813],
+          [72.626326, 23.188784],
+          [72.626324, 23.188757]
+        ]
+      },
+      "properties": {
+        "id": "SAC1_Gate_to_OAT_to_MainRoad_Walkway",
+        "name": "SAC1 Gate to GOAT to MainRoad Walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "GroundSideMainRoad_to_Canteen_walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626286, 23.188759],
+          [72.626324, 23.188757],
+          [72.626396, 23.188747],
+          [72.626450, 23.188742],
+          [72.626485, 23.188742],
+          [72.626552, 23.188761],
+          [72.626624, 23.188791],
+          [72.626691, 23.188831]
+        ]
+      },
+      "properties": {
+        "id": "SAC1_Gate_to_OAT_to_MainRoad_Walkway",
+        "name": "SAC1 Gate to GOAT to MainRoad Walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "OAT_to_GroundSide_Road_Walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626691, 23.189226],
+          [72.626683, 23.189171],
+          [72.626654, 23.189158],
+          [72.626621, 23.189139],
+          [72.626587, 23.189092],
+          [72.626560, 23.189045]
+        ]
+      },
+      "properties": {
+        "id": "HORMen_BackRoad",
+        "name": "HORMen_Road",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "CR_MainRoad_to_Inside_Canteen",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627340, 23.189048],
+          [72.627262, 23.189055],
+          [72.627212, 23.189040],
+          [72.627171, 23.189010],
+          [72.627150, 23.188991],
+          [72.627134, 23.188976],
+          [72.627091, 23.188949],
+          [72.627053, 23.188929]
+        ]
+      },
+      "properties": {
+        "id": "CR_MainRoad_to_Inside_Canteen",
+        "name": "CR MainRoad to Inside Canteen",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Canteen_Entrance_To_Ground",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627295, 23.188774],
+          [72.627289, 23.188806],
+          [72.627273, 23.188833],
+          [72.627228, 23.188875],
+          [72.627182, 23.188900],
+          [72.627147, 23.188939],
+          [72.627134, 23.188976],
+          [72.627096, 23.189020],
+          [72.627053, 23.189057],
+          [72.627010, 23.189084],
+          [72.626989, 23.189109],
+          [72.627000, 23.189168],
+          [72.627018, 23.189267],
+          [72.627016, 23.189319]
+
+        ]
+      },
+      "properties": {
+        "id": "CR_MainRoad_to_Inside_Canteen",
+        "name": "CR MainRoad to Inside Canteen",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Canteen_Entrance_To_Canteen",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627359, 23.188789],
+          [72.627321, 23.188781],
+          [72.627295, 23.188774],
+          [72.627241, 23.188757],
+          [72.627222, 23.188749],
+          [72.627179, 23.188720],
+          [72.627139, 23.188705],
+          [72.627064, 23.188697],
+          [72.627024, 23.188715],
+          [72.626984, 23.188737],
+          [72.626954, 23.188769],
+          [72.626935, 23.188806]
+
+        ]
+      },
+      "properties": {
+        "id": "Canteen_Entrance_To_Canteen",
+        "name": "Canteen Entrance To Canteen",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Canteen_Center_Walkway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627134, 23.188976],
+          [72.627134, 23.188663],
+          [72.627104, 23.188636],
+          [72.627067, 23.188614],
+          [72.627034, 23.188609],
+          [72.626989, 23.188621],
+          [72.626949, 23.188638],
+          [72.626906, 23.188648],
+          [72.626874, 23.188646],
+          [72.626844, 23.188633],
+          [72.626804, 23.188633],
+          [72.626766, 23.188636],
+          [72.626721, 23.188646],
+          [72.626691, 23.188643],
+          [72.626640, 23.188618],
+          [72.626600, 23.188609],
+          [72.626562, 23.188618],
+          [72.626533, 23.188638],
+          [72.626506, 23.188688],
+          [72.626490, 23.188725],
+          [72.626485, 23.188742]
+
+        ]
+      },
+      "properties": {
+        "id": "Canteen_Center_Walkway",
+        "name": "Canteen Center Walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Cafteria_Building_toMainRoad",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626823, 23.188488],
+          [72.626804, 23.188406],
+          [72.626788, 23.188355],
+          [72.626777, 23.188315],
+          [72.626772, 23.188295],
+          [72.626764, 23.188271]
+
+        ]
+      },
+      "properties": {
+        "id": "Canteen_Center_Walkway",
+        "name": "Canteen Center Walkway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "MainRoad_to_HORMen",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626847, 23.188261],
+          [72.626852, 23.187879]
+
+        ]
+      },
+      "properties": {
+        "id": "MainRoad_to_HORMen",
+        "name": "MainRoad to HORMen",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HORMenRoad_to_Hwing",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626554, 23.188394],
+          [72.626482, 23.188377],
+          [72.626431, 23.188350],
+          [72.626391, 23.188313],
+          [72.626367, 23.188276],
+          [72.626348, 23.188231],
+          [72.626337, 23.188184],
+          [72.626340, 23.188145],
+          [72.626353, 23.188101],
+          [72.626375, 23.188059],
+          [72.626388, 23.188039],
+          [72.626407, 23.188019],
+          [72.626420, 23.187992],
+          [72.626436, 23.187963]
+
+        ]
+      },
+      "properties": {
+        "id": "HORMenRoad_to_Hwing",
+        "name": "HORMenRoad to Hwing",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "MainRoad_to_Gwing",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627678, 23.187785],
+          [72.627606, 23.187773],
+          [72.627547, 23.187758],
+          [72.627466, 23.187756],
+          [72.627394, 23.187758],
+          [72.627335, 23.187770]
+
+        ]
+      },
+      "properties": {
+        "id": "MainRoad_to_Gwing",
+        "name": "MainRoad to Gwing",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Gwing_to_Hostel_Supervisior",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627198, 23.187842],
+          [72.627144, 23.187867],
+          [72.627093, 23.187874],
+          [72.627056, 23.187866],
+          [72.627018, 23.187847],
+          [72.627000, 23.187834],
+          [72.626984, 23.187815],
+          [72.626970, 23.187790]
+
+        ]
+      },
+      "properties": {
+        "id": "Gwing_to_Hostel_Supervisior",
+        "name": "Gwing to Hostel Supervisior",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Hostel_Supervisior_to_Hwing",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626699, 23.187731],
+          [72.626651, 23.187723],
+          [72.626600, 23.187728],
+          [72.626560, 23.187741],
+          [72.626530, 23.187756]
+
+        ]
+      },
+      "properties": {
+        "id": "Hostel_Supervisior_to_Hwing",
+        "name": "Hostel Supervisior to Hwing",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Hwing_to_MainRoad",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626447, 23.187484],
+          [72.626420, 23.187440],
+          [72.626401, 23.187391],
+          [72.626388, 23.187356],
+          [72.626380, 23.187317],
+          [72.626377, 23.187277],
+          [72.626377, 23.187223],
+          [72.626383, 23.187171],
+          [72.626396, 23.187129],
+          [72.626415, 23.187080],
+          [72.626431, 23.187043],
+          [72.626458, 23.187004],
+          [72.626490, 23.186964],
+          [72.626522, 23.186934],
+          [72.626557, 23.186905],
+          [72.626595, 23.186880],
+          [72.626635, 23.186858],
+          [72.626680, 23.186836],
+          [72.626721, 23.186824],
+          [72.626761, 23.186811],
+          [72.626812, 23.186804],
+          [72.626866, 23.186804],
+          [72.626911, 23.186804],
+          [72.626949, 23.186814],
+          [72.626994, 23.186821],
+          [72.627037, 23.186838],
+          [72.627088, 23.186856],
+          [72.627131, 23.186883],
+          [72.627177, 23.186917],
+          [72.627222, 23.186954],
+          [72.627249, 23.186981],
+          [72.627262, 23.186999],
+          [72.627308, 23.186974],
+          [72.627351, 23.186952],
+          [72.627407, 23.186932],
+          [72.627458, 23.186922],
+          [72.627517, 23.186915],
+          [72.627555, 23.186915],
+          [72.627590, 23.186915]
+
+        ]
+      },
+      "properties": {
+        "id": "Hwing_to_MainRoad",
+        "name": "Hwing to MainRoad",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "GardenRoad_HorMen_Path1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626876, 23.187499],
+          [72.626871, 23.187324]
+        ]
+      },
+      "properties": {
+        "id": "GardenRoad_HorMen_Path1",
+        "name": "GardenRoad HorMen Path1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "GardenRoad_HorMen_Circle",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626871, 23.187324],
+          [72.626844, 23.187314],
+          [72.626825, 23.187294],
+          [72.626812, 23.187275],
+          [72.626809, 23.187248],
+          [72.626812, 23.187225],
+          [72.626823, 23.187198],
+          [72.626847, 23.187184],
+          [72.626863, 23.187174],
+          [72.626882, 23.187174],
+          [72.626898, 23.187179],
+          [72.626911, 23.187189],
+          [72.626933, 23.187218],
+          [72.626935, 23.187253],
+          [72.626925, 23.187290],
+          [72.626900, 23.187309],
+          [72.626887, 23.187317],
+          [72.626871, 23.187324]
+        ]
+      },
+      "properties": {
+        "id": "GardenRoad_HorMen_Circle",
+        "name": "GardenRoad HorMen Circle",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "GardenRoad_HorMen_Path2",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626882, 23.187174],
+          [72.626887, 23.187001]
+        ]
+      },
+      "properties": {
+        "id": "GardenRoad_HorMen_Path2",
+        "name": "GardenRoad HorMen Path2",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "MainRoad_to_SAC1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627407, 23.189385],
+          [72.627198, 23.189514],
+          [72.627308, 23.189578],
+          [72.627399, 23.189649],
+          [72.627456, 23.189703],
+          [72.627533, 23.189800],
+          [72.627590, 23.189896],
+          [72.627611, 23.189952],
+          [72.627635, 23.190088],
+          [72.627635, 23.190172],
+          [72.627638, 23.190290],
+          [72.627729, 23.190357]
+        ]
+      },
+      "properties": {
+        "id": "MainRoad_to_SAC1",
+        "name": "MainRoad to SAC1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "SAC1_Entrance_Path1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627729, 23.190357],
+          [72.627786, 23.190445]
+        ]
+      },
+      "properties": {
+        "id": "SAC1_Entrance_Path1",
+        "name": "SAC1 Entrance Path1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "SAC1_Entrance_Path2",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627729, 23.190357],
+          [72.627807, 23.190322]
+        ]
+      },
+      "properties": {
+        "id": "SAC1_Entrance_Path2",
+        "name": "SAC1 Entrance Path2",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "MainRoad_to_LabBuilding",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627600, 23.186713],
+          [72.627812, 23.186713],
+          [72.627850, 23.186705],
+          [72.627890, 23.186683],
+          [72.627941, 23.186666],
+          [72.627995, 23.186663],
+          [72.628054, 23.186666],
+          [72.628110, 23.186678],
+          [72.628145, 23.186703],
+          [72.628158, 23.186747],
+          [72.628188, 23.186792],
+          [72.628223, 23.186819],
+          [72.628137,23.186900]
+        ]
+      },
+      "properties": {
+        "id": "SAC1_Entrance_Path2",
+        "name": "SAC1 Entrance Path2",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "LTFoyer_Halfway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628054, 23.186666],
+          [72.628064, 23.186624],
+          [72.628081, 23.186602],
+          [72.628118, 23.186582],
+          [72.628153, 23.186572],
+          [72.628201, 23.186560],
+          [72.628233, 23.186542],
+          [72.628287, 23.186515],
+          [72.628333, 23.186498],
+          [72.628351, 23.186501],
+          [72.628370, 23.186513],
+          [72.628400, 23.186540],
+          [72.628437, 23.186562],
+          [72.628486, 23.186562],
+          [72.628526, 23.186565],
+          [72.628561, 23.186575],
+          [72.628585, 23.186592],
+          [72.628601, 23.186604],
+          [72.628628, 23.186700],
+          [72.628630, 23.186717],
+          [72.628633, 23.186739]
+        ]
+      },
+      "properties": {
+        "id": "LTFoyer_Halfway",
+        "name": "LT Foyer Halfway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Lab_Building_Walkway1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628013, 23.186229],
+          [72.628019, 23.186301],
+          [72.628030, 23.186348],
+          [72.628038, 23.186395],
+          [72.628048, 23.186427],
+          [72.628067, 23.186473],
+          [72.628081, 23.186543],
+          [72.628081, 23.186575],
+          [72.628081, 23.186602]
+        ]
+      },
+      "properties": {
+        "id": "Lab_Building_Walkway1",
+        "name": "Lab Building Walkway1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+
+    {
+      "type": "Feature",
+      "id": "Lab_Building_Walkway1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628306, 23.186141],
+          [72.628300, 23.186274],
+          [72.628370, 23.186365],
+          [72.628370, 23.186513]
+        ]
+      },
+      "properties": {
+        "id": "Lab_Building_Walkway1",
+        "name": "Lab Building Walkway1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "LTFoyer_Walkway_to_LT2_BackDoor",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628601, 23.186604],
+          [72.628598, 23.186414],
+          [72.628663, 23.186415]
+        ]
+      },
+      "properties": {
+        "id": "Lab_Building_Walkway1",
+        "name": "Lab Building Walkway1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "CEP_Halfway",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627507, 23.188241],
+          [72.627525, 23.188283],
+          [72.627528, 23.188323],
+          [72.627523, 23.188355],
+          [72.627515, 23.188379],
+          [72.627504, 23.188404],
+          [72.627485, 23.188424],
+          [72.627458, 23.188453],
+          [72.627426, 23.188473],
+          [72.627410, 23.188478],
+          [72.627391, 23.188478]
+        ]
+      },
+      "properties": {
+        "id": "CEP_Halfway",
+        "name": "CEP Halfway",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "CEP_Halfway_to_CEPGate",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627504, 23.188404],
+          [72.627517, 23.188426],
+          [72.627533, 23.188436],
+          [72.627560, 23.188439]
+        ]
+      },
+      "properties": {
+        "id": "CEP_Halfway_to_CEPGate",
+        "name": "CEP Halfway to CEPGate",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting library and administrative building"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "faculty_2_and_3_between",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628394, 23.189684],
+          [72.628364,23.189667],
+          [72.628330,23.189635],
+          [72.628303,23.189593],
+          [72.628295,23.189566],
+          [72.628292,23.189532],
+          [72.628287,23.189502],
+          [72.628290,23.189482],
+          [72.628287,23.189450],
+          [72.628279,23.189413],
+          [72.628263,23.189386],
+          [72.628233,23.189366]
+        ]
+      },
+      "properties": {
+        "id": "faculty_2_and_3_between",
+        "name": "Faculty 2 and 3 Between",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_2_3_intersection_to_faculty_2_intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628233,23.189366],
+          [72.628252,23.189352],
+          [72.628276,23.189332],
+          [72.628295,23.189310],
+          [72.628314,23.189288],
+          [72.628335,23.189263],
+          [72.628362,23.189248],
+          [72.628389,23.189236],
+          [72.628419,23.189231],
+          [72.628464,23.189231],
+          [72.628494,23.189236]
+        ]
+      },
+      "properties": {
+        "id": "faculty_2_3_intersection_to_faculty_2_intersection",
+        "name": "Faculty 2 and 3 Intersection to Faculty 2 Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_2_intersection_to_faculty_2",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628494,23.189236],
+          [72.628494,23.189251],
+          [72.628488,23.189275],
+          [72.628491,23.189305]
+        ]
+      },
+      "properties": {
+        "id": "faculty_2_intersection_to_faculty_2_intersection",
+        "name": "Faculty 2 Intersection to Faculty 2 Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_2_intersection_to_faculty_1_intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628494,23.189236],
+          [72.628534,23.189238],
+          [72.628547,23.189233],
+          [72.628563,23.189231],
+          [72.628579,23.189221],
+          [72.628593,23.189216],
+          [72.628604,23.189206]
+        ]
+      },
+      "properties": {
+        "id": "faculty_2_intersection_to_faculty_1_intersection",
+        "name": "Faculty 2 Intersection to Faculty 1 Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_1_intersection_to_resource_center",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628604,23.189206],
+          [72.628614,23.189189],
+          [72.628622,23.189167],
+          [72.628625,23.189147],
+          [72.628622,23.189127],
+          [72.628620,23.189112],
+          [72.628612,23.189098],
+          [72.628604,23.189085],
+          [72.628598,23.189071],
+          [72.628590,23.189056],
+          [72.628587,23.189041],
+          [72.628590,23.189031],
+          [72.628593,23.189016],
+          [72.628593,23.189002],
+          [72.628596,23.188994],
+          [72.628598,23.188984],
+          [72.628601,23.188960],
+          [72.628598,23.188905]
+        ]
+      },
+      "properties": {
+        "id": "faculty_1_intersection_to_resource_center",
+        "name": "Faculty 1 Intersection to Resource Center",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+     {
+      "type": "Feature",
+      "id": "faculty_1_intersection_to_faculty_1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628604,23.189206],
+          [72.628638,23.189221],
+          [72.628657,23.189228],
+          [72.628697, 23.189240]
+        ]
+      },
+      "properties": {
+        "id": "faculty_1_intersection_to_resource_center",
+        "name": "Faculty 1 Intersection to Resource Center",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_2_3_intersection_to_faculty_3_intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628233,23.189366],
+          [72.628217,23.189379],
+          [72.628180,23.189398],
+          [72.628153,23.189406],
+          [72.628126,23.189408]
+        ]
+      },
+      "properties": {
+        "id": "faculty_2_3_intersection_to_faculty_3_intersection",
+        "name": "Faculty 2 and 3 Intersection to Faculty 3 Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_3_intersection_faculty_3_4_intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628126,23.189408],
+          [72.628078,23.189401],
+          [72.628046,23.189391],
+          [72.628013,23.189381],
+          [72.627987,23.189362]
+        ]
+      },
+      "properties": {
+        "id": "faculty_3_intersection_faculty_3_4_intersection",
+        "name": "Faculty 3 Intersection to Faculty 3-4 Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_3_4_intersection_to_admin_block",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627987,23.189362],
+          [72.627971,23.189347],
+          [72.627960,23.189327],
+          [72.627944,23.189300],
+          [72.627941,23.189278],
+          [72.627938,23.189253],
+          [72.627941,23.189231],
+          [72.627938,23.189206],
+          [72.627936,23.189179],
+          [72.627920,23.189147],
+          [72.627901,23.189125],
+          [72.627890,23.189098],
+          [72.627871,23.189076],
+          [72.627871,23.189046],
+          [72.627810,23.189058],
+          [72.627761, 23.189120]
+        ]
+      },
+      "properties": {
+        "id": "faculty_3_4_intersection_to_admin_block",
+        "name": "Faculty 3-4 Intersection to Admin Block",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_3_4_intersection_to_faculty_4",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627987,23.189362],
+          [72.627971,23.189349],
+          [72.627936,23.189357],
+          [72.627893,23.189361]
+        ]
+      },
+      "properties": {
+        "id": "faculty_3_4_intersection_to_faculty_4",
+        "name": "Faculty 3-4 Intersection to Faculty 4",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_walk_side_1_to_faculty_3_4_intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627812, 23.189642],
+          [72.627836,23.189628],
+          [72.627866,23.189613],
+          [72.627890,23.189601],
+          [72.627906,23.189581],
+          [72.627920,23.189561],
+          [72.627930,23.189541],
+          [72.627936,23.189524],
+          [72.627938,23.189512],
+          [72.627938,23.189490],
+          [72.627938,23.189470],
+          [72.627941,23.189455],
+          [72.627944,23.189435],
+          [72.627952,23.189413],
+          [72.627963,23.189389],
+          [72.627987,23.189362]
+         
+        ]
+      },
+      "properties": {
+        "id": "faculty_3_4_intersection_to_admin_block",
+        "name": "Faculty 3-4 Intersection to Admin Block",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "resource_center_to_cep_gate_3_behind_intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628598,23.188905],
+          [72.628601,23.188883],
+          [72.628598,23.188849],
+          [72.628593,23.188831],
+          [72.628587,23.188809],
+          [72.628571,23.188780],
+          [72.628553,23.188748],
+          [72.628528,23.188728],
+          [72.628502,23.188716],
+          [72.628464,23.188706],
+          [72.628421,23.188711],
+          [72.628376,23.188716],
+          [72.628338,23.188711],
+          [72.628314,23.188693],
+          [72.628279,23.188661]
+        ]
+      },
+      "properties": {
+        "id": "resource_center_to_cep_gate_3_behind_intersection",
+        "name": "Resource Center to CEP Gate 3 Behind Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cep_gate_3_behind_intersection_side1_to_cep_gate_3_side_2_intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628279,23.188661],
+          [72.628287,23.188639],
+          [72.628300,23.188610],
+          [72.628311,23.188570],
+          [72.628322,23.188541],
+          [72.628330,23.188501],
+          [72.628341,23.188452]
+        ]
+      },
+      "properties": {
+        "id": "cep_gate_3_behind_intersection_side1_to_cep_gate_3_side_2_intersection",
+        "name": "CEP Gate 3 Behind Intersection Side 1 to CEP Gate 3 Side 2 Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cep_gate_3_side_2_intersection_to_cep_gate_3",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628341,23.188452],
+          [72.628292,23.188447],
+          [72.628231,23.188444],
+          [72.628174,23.188449],
+          [72.628113,23.188449],
+          [72.628051,23.188442]
+        ]
+      },
+      "properties": {
+        "id": "cep_gate_3_side_2_intersection_to_cep_gate_3",
+        "name": "CEP Gate 3 Side 2 Intersection to CEP Gate 3",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cep_gate_3_side_2_intersection_to_cep_gate_3_side_3_intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628341,23.188452],
+          [72.628346,23.188409],
+          [72.628349,23.188378],
+          [72.628351,23.188338],
+          [72.628354,23.188304],
+          [72.628351,23.188269],
+          [72.628346,23.188225],
+          [72.628335,23.188173],
+          [72.628322,23.188124],
+          [72.628306,23.188070],
+          [72.628292,23.188008]
+        ]
+      },
+      "properties": {
+        "id": "cep_gate_3_side_2_intersection_to_cep_gate_3_side_3_intersection",
+        "name": "CEP Gate 3 Side 2 Intersection to CEP Gate 3 Side 3 Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cep_gate_3_side_3_intersection_road_side",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628292,23.188008],
+          [72.628343,23.187998],
+          [72.628381,23.187996],
+          [72.628408,23.187996],
+          [72.628456,23.188005],
+          [72.628502,23.188023],
+          [72.628545,23.188035],
+          [72.628593,23.188033],
+          [72.628636,23.188038],
+          [72.628671,23.188028],
+          [72.628708,23.188023],
+          [72.628743,23.188005],
+          [72.628767,23.187988],
+          [72.628789,23.187985]
+        ]
+      },
+      "properties": {
+        "id": "cep_gate_3_side_3_intersection_road_side",
+        "name": "CEP Gate 3 Side 3 Intersection to Road Side",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cep_gate_3_side_3_intersection_to_road_side_g_wing",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628292,23.188008],
+          [72.628250,23.188018],
+          [72.628207,23.188028],
+          [72.628156,23.188045],
+          [72.628107,23.188050],
+          [72.628067,23.188045],
+          [72.628024,23.188038],
+          [72.627987,23.188018],
+          [72.627946,23.188001],
+          [72.627914,23.187976],
+          [72.627874,23.187961],
+          [72.627826,23.187961],
+          [72.627772,23.187971],
+          [72.627735,23.187981],
+          [72.627697,23.187991],
+          [72.627662,23.187988],
+          [72.627654,23.187980]
+        ]
+      },
+      "properties": {
+        "id": "cep_gate_3_side_3_intersection_to_road_side_g_wing",
+        "name": "CEP Gate 3 Side 3 Intersection to Road Side G Wing",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cep_gate_3_side_3_intersection_to_lt_side_intersection_1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628292,23.188008],
+          [72.628287,23.187964],
+          [72.628282,23.187932],
+          [72.628282,23.187895],
+          [72.628279,23.187850],
+          [72.628282,23.187811],
+          [72.628287,23.187761],
+          [72.628298,23.187717],
+          [72.628309,23.187680],
+          [72.628319,23.187638]
+        ]
+      },
+      "properties": {
+        "id": "cep_gate_3_side_3_intersection_to_lt_side_intersection_1",
+        "name": "CEP Gate 3 Side 3 Intersection to LT Side Intersection 1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lt_side_intersection_1_to_lt_side_intersection_2",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628319,23.187638],
+          [72.628335,23.187609],
+          [72.628349,23.187572],
+          [72.628357,23.187549],
+          [72.628370,23.187522],
+          [72.628389,23.187483],
+          [72.628408,23.187448],
+          [72.628419,23.187429],
+          [72.628424,23.187406],
+          [72.628429,23.187377],
+          [72.628432,23.187347],
+          [72.628432,23.187320],
+          [72.628435,23.187288],
+          [72.628435,23.187268],
+          [72.628429,23.187231]
+        ]
+      },
+      "properties": {
+        "id": "lt_side_intersection_1_to_lt_side_intersection_2",
+        "name": "LT Side Intersection 1 to LT Side Intersection 2",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lt_side_intersection_2_to_lt3_side_circle_road_intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628429,23.187231],
+          [72.628421,23.187204],
+          [72.628416,23.187172],
+          [72.628405,23.187135],
+          [72.628389,23.187096],
+          [72.628373,23.187056],
+          [72.628368,23.187014],
+          [72.628362,23.186963],
+          [72.628370,23.186926],
+          [72.628376,23.186884]
+        ]
+      },
+      "properties": {
+        "id": "lt_side_intersection_2_to_lt3_side_circle_road_intersection",
+        "name": "LT Side Intersection 2 to LT 3 Side Circle Road Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lt3_side_circle_road_intersection_to_lt3_gate",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628376,23.186884],
+          [72.628421,23.186886],
+          [72.628472,23.186879],
+          [72.628520,23.186866],
+          [72.628561,23.186844],
+          [72.628596,23.186817],
+          [72.628620,23.186788],
+          [72.628630,23.186746],
+          [72.628657,23.186733],
+          [72.628692,23.186733],
+          [72.628727,23.186728],
+          [72.628743,23.186699],
+          [72.628762,23.186677]
+        ]
+      },
+      "properties": {
+        "id": "lt3_side_circle_road_intersection_to_lt3_gate",
+        "name": "LT 3 Side Circle Road Intersection to LT 3 Gate",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lab_to_main_gate_roadside_intersection_1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628429,23.187231],
+          [72.628475,23.187226],
+          [72.628491,23.187216],
+          [72.628499,23.187196],
+          [72.628502,23.187174],
+          [72.628510,23.187157],
+          [72.628523,23.187142],
+          [72.628547,23.187132],
+          [72.628563,23.187127]
+        ]
+      },
+      "properties": {
+        "id": "lab_to_main_gate_roadside_intersection_1",
+        "name": "Lab to Main Gate Roadside Intersection 1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lab_to_main_gate_roadside_intersection_1_to_main_gate_roadside",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628563,23.187127],
+          [72.628596,23.187120],
+          [72.628620,23.187110],
+          [72.628655,23.187125],
+          [72.628689,23.187145],
+          [72.628820,23.187434],
+          [72.628839,23.187463],
+          [72.628885,23.187495],
+          [72.628933,23.187510],
+          [72.628981,23.187513],
+          [72.629035,23.187517]
+        ]
+      },
+      "properties": {
+        "id": "lab_to_main_gate_roadside_intersection_1_to_main_gate_roadside",
+        "name": "Lab to Main Gate Roadside Intersection 1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lab_to_lab_gate_1_intersection",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628429,23.187231],
+          [72.628383,23.187224],
+          [72.628343,23.187229],
+          [72.628300,23.187229],
+          [72.628260,23.187236],
+          [72.628214,23.187266]
+        ]
+      },
+      "properties": {
+        "id": "lab_to_lab_gate_1_intersection",
+        "name": "Lab to Lab Gate 1 Intersection",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lab_gate_1_intersection_to_lab_gate_1",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628214,23.187266],
+          [72.628187,23.187234],
+          [72.628155,23.187190],
+          [72.628126,23.187152]
+        ]
+      },
+      "properties": {
+        "id": "lab_gate_1_intersection_to_lab_gate_1",
+        "name": "Lab Gate 1 Intersection to Lab Gate 1",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lab_gate_1_intersection_to_main_road_g_side",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628214,23.187266],
+          [72.628169,23.187304],
+          [72.628136,23.187335],
+          [72.628102,23.187374],
+          [72.628053,23.187389],
+          [72.628002,23.187406],
+          [72.627949,23.187397],
+          [72.627900,23.187379],
+          [72.627857,23.187374],
+          [72.627793,23.187384],
+          [72.627750,23.187387],
+          [72.627723,23.187397],
+          [72.627699,23.187414],
+          [72.627686,23.187413]
+        ]
+      },
+      "properties": {
+        "id": "lab_gate_1_intersection_to_main_road_g_side",
+        "name": "Lab Gate 1 Intersection to Main Road G Side",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "lt3_circle_intersection_to_lt3_front_parking_roadside",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628633,23.186739],
+          [72.628676,23.186726],
+          [72.628721,23.186728],
+          [72.628742,23.186728],
+          [72.628775,23.186731],
+          [72.628801,23.186736],
+          [72.628834,23.186736],
+          [72.628866,23.186743],
+          [72.628903,23.186751],
+          [72.628947,23.186773],
+          [72.628989,23.186785],
+          [72.629030,23.186788],
+          [72.629072,23.186790],
+          [72.629118,23.186788],
+          [72.629142,23.186780],
+          [72.629166,23.186765]
+        ]
+      },
+      "properties": {
+        "id": "lt3_circle_intersection_to_lt3_front_parking_roadside",
+        "name": "LT3 Circle Intersection to LT3 Front Parking Roadside",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Gwing_to_CEP",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.627271, 23.188007],
+          [72.627507, 23.188241]
+        ]
+      },
+      "properties": {
+        "id": "Gwing_to_CEP",
+        "name": "Gwing to CEP",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Hwing_to_GroundSide_MainRoad",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.626267, 23.187736],
+          [72.626399, 23.187741]
+        ]
+      },
+      "properties": {
+        "id": "Hwing_to_GroundSide_MainRoad",
+        "name": "Hwing to GroundSide MainRoad",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "HORWomen_Road_to_HORWomen_Gate",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628687, 23.190428],
+          [72.628512, 23.190431]
+        ]
+      },
+      "properties": {
+        "id": "HORWomen_Road_to_HORWomen_Gate",
+        "name": "HORWomen Road to HORWomen Gate",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
+      }
+    },
+    
+    {
+      "type": "Feature",
+      "id": "HORWomen_Road_to_HORWomen_Gate",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [72.628279,23.188661],
+          [72.628248,23.188719],
+          [72.628211,23.188778],
+          [72.628146,23.188842],
+          [72.628071,23.188862],
+          [72.628039,23.188867],
+          [72.627954,23.188857],
+          [72.627873,23.188857],
+          [72.627851,23.188876],
+          [72.627825,23.188906]
+        ]
+      },
+      "properties": {
+        "id": "HORWomen_Road_to_HORWomen_Gate",
+        "name": "HORWomen Road to HORWomen Gate",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": null,
+        "description": "Main pathway connecting faculty block, 2 and faculty block 3"
       }
     }
   ]

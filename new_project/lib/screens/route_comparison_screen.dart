@@ -25,6 +25,8 @@ class RouteComparisonScreen extends StatefulWidget {
 }
 
 class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
+  static const Color _brandColor = Color(0xFF0B5FFF);
+
   route_model.RouteComparison? routeComparison;
   List<CampusPath> campusPaths = [];
   late route_model.Route selectedRoute;
@@ -39,7 +41,9 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
 
   Future<void> _loadRoutes() async {
     try {
-      final loadedPaths = await GeoJsonLoader.loadPaths('assets/data/campus_paths.geojson');
+      final loadedPaths = await GeoJsonLoader.loadPaths(
+        'assets/data/campus_paths.geojson',
+      );
       final campusRoute = await PathBasedRoutingService.getPathBasedRoute(
         widget.startLocation,
         widget.endLocation,
@@ -51,7 +55,7 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
           campusPaths = loadedPaths;
           routeComparison = null;
           selectedRoute = campusRoute;
-          errorMessage = 'Using campus path routing.';
+          errorMessage = null;
           isLoading = false;
         });
         return;
@@ -67,6 +71,7 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
           campusPaths = loadedPaths;
           routeComparison = routes;
           selectedRoute = routes.shortestRoute;
+          errorMessage = null;
           isLoading = false;
         });
       } else {
@@ -101,7 +106,6 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
           endLocation: widget.endLocation,
           destinationName: widget.destinationName,
           initialRoute: route,
-          campusPaths: campusPaths,
         ),
       ),
     );
@@ -117,282 +121,365 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
     }
 
     final routes = routeComparison?.getAllRoutes() ?? [selectedRoute];
+    final topPadding = MediaQuery.of(context).padding.top;
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Choose Route'),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: Column(
+      body: Stack(
         children: [
-          // Info banner
-          if (errorMessage != null)
-            Container(
-              color: Colors.orange.shade100,
-              padding: const EdgeInsets.all(12),
-              child: Row(
-                children: [
-                  const Icon(Icons.info, color: Colors.orange),
-                  const SizedBox(width: 8),
-                  Expanded(
+          FlutterMap(
+            options: MapOptions(
+              initialCenter: widget.startLocation,
+              initialZoom: 17,
+            ),
+            children: [
+              TileLayer(
+                urlTemplate:
+                    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+                subdomains: const ['a', 'b', 'c', 'd'],
+                userAgentPackageName: 'com.example.new_project',
+              ),
+              PolylineLayer(
+                polylines: routes.map((route) {
+                  final isSelected = route == selectedRoute;
+                  return Polyline(
+                    points: route.waypoints,
+                    color: isSelected ? _brandColor : const Color(0x99FFFFFF),
+                    strokeWidth: isSelected ? 6 : 3,
+                    borderColor: isSelected
+                        ? const Color(0xFF0A3FA6)
+                        : Colors.transparent,
+                    borderStrokeWidth: isSelected ? 1.5 : 0,
+                  );
+                }).toList(),
+              ),
+              MarkerLayer(
+                markers: [
+                  Marker(
+                    width: 46,
+                    height: 46,
+                    point: widget.startLocation,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: _brandColor,
+                        border: Border.all(color: Colors.white, width: 3),
+                        boxShadow: const [
+                          BoxShadow(color: Color(0x400B5FFF), blurRadius: 10),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.near_me_rounded,
+                        color: Colors.white,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                  Marker(
+                    width: 48,
+                    height: 48,
+                    point: widget.endLocation,
+                    child: const Icon(
+                      Icons.location_on_rounded,
+                      color: Color(0xFFE11D48),
+                      size: 44,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+          Container(
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.center,
+                colors: [Color(0x800B1220), Color(0x000B1220)],
+              ),
+            ),
+          ),
+          Positioned(
+            top: topPadding + 12,
+            left: 16,
+            right: 16,
+            child: Row(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(14),
+                  ),
+                  child: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: const Icon(Icons.arrow_back_rounded),
+                    color: const Color(0xFF0F172A),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xE61E293B),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
                     child: Text(
-                      errorMessage!,
-                      style: const TextStyle(fontSize: 12),
+                      'Route to ${widget.destinationName}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          if (errorMessage != null)
+            Positioned(
+              top: topPadding + 74,
+              left: 16,
+              right: 16,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
+                decoration: BoxDecoration(
+                  color: const Color(0xE6FFF7ED),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: const Color(0xFFFCD9BD)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.info_outline,
+                      size: 18,
+                      color: Color(0xFF9A3412),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        errorMessage!,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF7C2D12),
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              constraints: const BoxConstraints(maxHeight: 380),
+              padding: const EdgeInsets.fromLTRB(14, 10, 14, 14),
+              decoration: const BoxDecoration(
+                color: Color(0xFFF8FAFF),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Color(0x33000000),
+                    blurRadius: 24,
+                    offset: Offset(0, -8),
+                  ),
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    width: 44,
+                    height: 5,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFD1D9E6),
+                      borderRadius: BorderRadius.circular(4),
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Text(
+                        'Available Routes',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const Spacer(),
+                      Text(
+                        '${routes.length} option${routes.length == 1 ? '' : 's'}',
+                        style: const TextStyle(
+                          fontSize: 12,
+                          color: Color(0xFF64748B),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Flexible(
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: routes.length,
+                      itemBuilder: (context, index) {
+                        final route = routes[index];
+                        final isSelected = route == selectedRoute;
+
+                        return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedRoute = route;
+                            });
+                          },
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 220),
+                            margin: const EdgeInsets.symmetric(vertical: 6),
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: isSelected
+                                  ? const Color(0xFFEAF1FF)
+                                  : Colors.white,
+                              borderRadius: BorderRadius.circular(18),
+                              border: Border.all(
+                                color: isSelected
+                                    ? _brandColor
+                                    : const Color(0xFFDDE5F0),
+                                width: isSelected ? 1.8 : 1,
+                              ),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    _getRouteIcon(route.routeType),
+                                    const SizedBox(width: 8),
+                                    Expanded(
+                                      child: Text(
+                                        _getRouteTitle(route.routeType),
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF0F172A),
+                                        ),
+                                      ),
+                                    ),
+                                    _buildRatingStars(route.routeQuality),
+                                  ],
+                                ),
+                                const SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    _metricBlock(
+                                      'Distance',
+                                      route.getFormattedTotalDistance(),
+                                    ),
+                                    _metricBlock(
+                                      'Time',
+                                      route.getFormattedTotalDuration(),
+                                    ),
+                                    _metricBlock(
+                                      'Steps',
+                                      '${route.steps.length}',
+                                    ),
+                                  ],
+                                ),
+                                if (route.wheelchairAccessible) ...[
+                                  const SizedBox(height: 10),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 10,
+                                      vertical: 6,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFDCFCE7),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: const Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Icon(
+                                          Icons.accessible_rounded,
+                                          size: 14,
+                                          color: Color(0xFF166534),
+                                        ),
+                                        SizedBox(width: 4),
+                                        Text(
+                                          'Wheelchair Accessible',
+                                          style: TextStyle(
+                                            fontSize: 11,
+                                            color: Color(0xFF166534),
+                                            fontWeight: FontWeight.w700,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                                if (isSelected) ...[
+                                  const SizedBox(height: 12),
+                                  SizedBox(
+                                    width: double.infinity,
+                                    child: ElevatedButton.icon(
+                                      onPressed: () => _startNavigation(route),
+                                      icon: const Icon(
+                                        Icons.navigation_rounded,
+                                      ),
+                                      label: const Text('Start Navigation'),
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: _brandColor,
+                                        foregroundColor: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ),
                 ],
               ),
             ),
-          // Map showing all routes
-          Expanded(
-            flex: 2,
-            child: FlutterMap(
-              options: MapOptions(
-                initialCenter: widget.startLocation,
-                initialZoom: 17,
-              ),
-              children: [
-                TileLayer(
-                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                  userAgentPackageName: 'com.example.new_project',
-                ),
-                if (campusPaths.isNotEmpty)
-                  PolylineLayer(
-                    polylines: campusPaths
-                        .map(
-                          (path) => Polyline(
-                            points: path.coordinates,
-                            color: Colors.blue.withOpacity(0.45),
-                            strokeWidth: 3,
-                          ),
-                        )
-                        .toList(),
-                  ),
-                PolylineLayer(
-                  polylines: routes.map((route) {
-                    final isSelected = route == selectedRoute;
-                    return Polyline(
-                      points: route.waypoints,
-                      color: isSelected ? Colors.blue : Colors.grey.shade400,
-                      strokeWidth: isSelected ? 6 : 2,
-                      borderColor: isSelected ? Colors.blue.shade900 : Colors.transparent,
-                      borderStrokeWidth: isSelected ? 1 : 0,
-                    );
-                  }).toList(),
-                ),
-                MarkerLayer(
-                  markers: [
-                    Marker(
-                      width: 40,
-                      height: 40,
-                      point: widget.startLocation,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: Colors.blue,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                        child: const Icon(
-                          Icons.navigation,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                      ),
-                    ),
-                    Marker(
-                      width: 40,
-                      height: 40,
-                      point: widget.endLocation,
-                      child: const Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 40,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _metricBlock(String label, String value) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 11,
+              color: Color(0xFF64748B),
+              fontWeight: FontWeight.w600,
             ),
           ),
-          // Route cards
-          Expanded(
-            flex: 2,
-            child: ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: routes.length,
-              itemBuilder: (context, index) {
-                final route = routes[index];
-                final isSelected = route == selectedRoute;
-
-                return GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      selectedRoute = route;
-                    });
-                  },
-                  child: Card(
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 6,
-                    ),
-                    elevation: isSelected ? 8 : 2,
-                    color: isSelected ? Colors.blue.shade50 : Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      side: isSelected
-                          ? const BorderSide(color: Colors.blue, width: 2)
-                          : BorderSide.none,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          // Route type header
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  _getRouteIcon(route.routeType),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    _getRouteTitle(route.routeType),
-                                    style: const TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              _buildRatingStars(route.routeQuality),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          // Distance and duration
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Distance',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Text(
-                                      route.getFormattedTotalDistance(),
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Time',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Text(
-                                      route.getFormattedTotalDuration(),
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      'Steps',
-                                      style: TextStyle(
-                                        fontSize: 11,
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    Text(
-                                      '${route.steps.length}',
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          // Accessibility badge
-                          if (route.wheelchairAccessible)
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 8,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: Colors.green.shade100,
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Icon(
-                                    Icons.accessible,
-                                    size: 14,
-                                    color: Colors.green.shade700,
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Text(
-                                    'Wheelchair Accessible',
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      color: Colors.green.shade700,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          if (isSelected) ...[
-                            const SizedBox(height: 12),
-                            SizedBox(
-                              width: double.infinity,
-                              child: ElevatedButton.icon(
-                                onPressed: () => _startNavigation(route),
-                                icon: const Icon(Icons.navigation),
-                                label: const Text('Start Navigation'),
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.blue,
-                                  foregroundColor: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
+          const SizedBox(height: 2),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Color(0xFF0F172A),
+              fontWeight: FontWeight.w800,
             ),
           ),
         ],
@@ -421,7 +508,7 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
       default:
         icon = Icons.route;
     }
-    return Icon(icon, color: Colors.blue, size: 20);
+    return Icon(icon, color: _brandColor, size: 20);
   }
 
   String _getRouteTitle(String routeType) {

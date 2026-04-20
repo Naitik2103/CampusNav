@@ -3,16 +3,574 @@
   "features": [
     {
       "type": "Feature",
-      "id": "G_Wing",
+      "id": "CEP",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627271, 23.188007]
+        "coordinates": [72.627753, 23.188420]
       },
       "properties": {
-        "id": "place_g_wing",
-        "name": "G Wing",
+        "id": "place_cep",
+        "name": "CEP",
         "placeType": "building",
         "department": "Academic Affairs",
+        "description": "CEP Building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "CEP_Gate_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627560,23.188439]
+      },
+      "properties": {
+        "id": "CEP_Gate_1",
+        "name": "CEP Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Main entrance gate to the CEP building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "CEP_Gate_2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627874,23.188688]
+      },
+      "properties": {
+        "id": "CEP_Gate_2",
+        "name": "CEP Gate 2",
+        "placeType": "gate",
+        "department": null,
+        "description": "Secondary entrance gate to the CEP building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "CEP_Gate_3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628048,23.188446]
+      },
+      "properties": {
+        "id": "CEP_Gate_3",
+        "name": "CEP Gate 3",
+        "placeType": "gate",
+        "department": null,
+        "description": "Tertiary entrance gate to the CEP building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Lab_Gate_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628126, 23.187152]
+      },
+      "properties": {
+        "id": "Lab_Gate_1",
+        "name": "Lab Gate 1",
+        "placeType": "gate",
+        "department": null,
+        "description": "Entrance gate to the Lab Building",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Lab_Gate_2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628137,23.186900]
+      },
+      "properties": {
+        "id": "Lab_Gate_2",
+        "name": "Lab Gate 2",
+        "placeType": "gate",
+        "department": null,
+        "description": "Secondary entrance gate to the Lab Building",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "LT3_front_gate",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628738,23.186725]
+      },
+      "properties": {
+        "id": "LT3_front_gate",
+        "name": "LT3 Front Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Tertiary entrance gate to the LT3 Building",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "LT3_back_gate",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628939,23.186696]
+      },
+      "properties": {
+        "id": "LT3_back_gate",
+        "name": "LT3 Back Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Tertiary exit or entrance gate to the LT3 Building",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "LT2_front_gate",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628644,23.186639]
+      },
+      "properties": {
+        "id": "LT2_front_gate",
+        "name": "LT2 Front Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Tertiary entrance gate to the LT2 Building",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "LT2_back_gate",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628663,23.186415]
+      },
+      "properties": {
+        "id": "LT2_back_gate",
+        "name": "LT2 Back Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Tertiary exit or entrance gate to the LT2 Building",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "LT1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628445,23.186533]
+      },
+      "properties": {
+        "id": "LT1",
+        "name": "LT1",
+        "placeType": "gate",
+        "department": null,
+        "description": "Tertiary entrance gate to the LT1 Building",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_1_entrance_gate",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628697, 23.189240]
+      },
+      "properties": {
+        "id": "faculty_block_1_entrance_gate",
+        "name": "Faculty Block 1 Entrance Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Entrance gate to Faculty Block 1 Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_2_entrance_gate",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628491,23.189304]
+      },
+      "properties": {
+        "id": "faculty_block_2_entrance_gate",
+        "name": "Faculty Block 2 Entrance Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Entrance gate to Faculty Block 2 Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_3_entrance_gate",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628121,23.189472]
+      },
+      "properties": {
+        "id": "faculty_block_3_entrance_gate",
+        "name": "Faculty Block 3 Entrance Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Entrance gate to Faculty Block 3 Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_4_entrance_gate",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627895,23.189359]
+      },
+      "properties": {
+        "id": "faculty_block_4_entrance_gate",
+        "name": "Faculty Block 4 Entrance Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Entrance gate to Faculty Block 4 Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "admin_office_entrance_gate",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627871,23.189055]
+      },
+      "properties": {
+        "id": "admin_office_entrance_gate",
+        "name": "Admin Office Entrance Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Entrance gate to Admin Office Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "resource_center",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628598,23.188905]
+      },
+      "properties": {
+        "id": "resource_center",
+        "name": "Resource Center",
+        "placeType": "building",
+        "department": "Academic Affairs",
+        "description": "Resource Center Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SAC1_Gate_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626691,23.189226]
+      },
+      "properties": {
+        "id": "SAC1_Gate_1",
+        "name": "SAC1 Gate 1",
+        "placeType": "gate",
+        "department": null,
+        "description": "Primary entrance or exit gate to the SAC1 Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SAC1_Gate_2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627012,23.189312]
+      },
+      "properties": {
+        "id": "SAC1_Gate_2",
+        "name": "SAC1 Gate 2",
+        "placeType": "gate",
+        "department": null,
+        "description": "Secondary entrance or exit gate to the SAC1 Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "OAT",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626825,23.188972]
+      },
+      "properties": {
+        "id": "OAT",
+        "name": "OAT",
+        "placeType": "gate",
+        "department": null,
+        "description": "OAT for outdoor events and activities",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Canteen",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626825,23.188674]
+      },
+      "properties": {
+        "id": "Canteen",
+        "name": "Canteen",
+        "placeType": "building",
+        "department": null,
+        "description": "Canteen for students and staff",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "canteen_gate_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627230,23.188755]
+      },
+      "properties": {
+        "id": "canteen_gate_1",
+        "name": "Canteen Gate 1",
+        "placeType": "gate",
+        "department": null,
+        "description": "Gate to the Canteen",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "canteen_gate_2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626809,23.188435]
+      },
+      "properties": {
+        "id": "canteen_gate_2",
+        "name": "Canteen Gate 2",
+        "placeType": "gate",
+        "department": null,
+        "description": "Secondary gate to the Canteen",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "clinic",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626937,23.188368]
+      },
+      "properties": {
+        "id": "clinic",
+        "name": "Clinic",
+        "placeType": "building",
+        "department": null,
+        "description": "Medical clinic for students and staff",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SAC2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627863,23.190395]
+      },
+      "properties": {
+        "id": "SAC2",
+        "name": "SAC2",
+        "placeType": "building",
+        "department": null,
+        "description": "SAC2 Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SAC2_Gate_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627723,23.190350]
+      },
+      "properties": {
+        "id": "SAC2_Gate_1",
+        "name": "SAC2 Gate 1",
+        "placeType": "gate",
+        "department": null,
+        "description": "Primary entrance or exit gate to the SAC2 Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "SAC2_Gate_2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627999,23.190400]
+      },
+      "properties": {
+        "id": "SAC2_Gate_2",
+        "name": "SAC2 Gate 2",
+        "placeType": "gate",
+        "department": null,
+        "description": "Secondary entrance or exit gate to the SAC2 Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "HOR_Women_Gate",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627863,23.190395]
+      },
+      "properties": {
+        "id": "HOR_Women_Gate",
+        "name": "HOR Women Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "Tertiary entrance or exit gate to the HOR Women Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "HOR_Women_Building",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628426,23.190422]
+      },
+      "properties": {
+        "id": "HOR_Women_Building",
+        "name": "HOR Women Building",
+        "placeType": "building",
+        "department": null,
+        "description": "HOR Women Building where girls live",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "G_wing_entrance_gate_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627324,23.187771]
+      },
+      "properties": {
+        "id": "G_wing_entrance_gate_1",
+        "name": "G Wing Entrance Gate 1",
+        "placeType": "gate",
+        "department": null,
+        "description": "Tertiary entrance or exit gate to the G Wing Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "G_wing_entrance_gate_2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627192,23.187843]
+      },
+      "properties": {
+        "id": "G_wing_entrance_gate_2",
+        "name": "G Wing Entrance Gate 2",
+        "placeType": "gate",
+        "department": null,
+        "description": "Tertiary entrance or exit gate to the G Wing Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "G_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627273,23.187794]
+      },
+      "properties": {
+        "id": "G_wing",
+        "name": "G Wing",
+        "placeType": "building",
+        "department": null,
         "description": "G Wing Building",
         "imageUrl": null,
         "floors": 4,
@@ -21,17 +579,179 @@
     },
     {
       "type": "Feature",
-      "id": "CEP",
+      "id": "F_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627558, 23.188434]
+        "coordinates": [72.627061,23.188077]
       },
       "properties": {
-        "id": "place_library_1",
-        "name": "CEP Building",
+        "id": "F_wing",
+        "name": "F Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "F Wing Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "E_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626656,23.188060]
+      },
+      "properties": {
+        "id": "E_wing",
+        "name": "E Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "E Wing Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "D_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627082,23.187067]
+      },
+      "properties": {
+        "id": "D_wing",
+        "name": "D Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "D Wing Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "C_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627047,23.187428]
+      },
+      "properties": {
+        "id": "C_wing",
+        "name": "C Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "C Wing Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "B_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626712,23.187419]
+      },
+      "properties": {
+        "id": "B_wing",
+        "name": "B Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "B Wing Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "A_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626701,23.187059]
+      },
+      "properties": {
+        "id": "A_wing",
+        "name": "A Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "A Wing Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "H_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626466,23.187729]
+      },
+      "properties": {
+        "id": "H_wing",
+        "name": "H Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "H Wing Building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "cricket_ground",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626938,23.190119]
+      },
+      "properties": {
+        "id": "cricket_ground",
+        "name": "Cricket Ground",
+        "placeType": "sports_facility",
+        "department": null,
+        "description": "Cricket Ground",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "basketball_court",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626323,23.190641]
+      },
+      "properties": {
+        "id": "basketball_court",
+        "name": "Basketball Court",
+        "placeType": "sports_facility",
+        "department": null,
+        "description": "Basketball Court",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Lab_building",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627989, 23.187059]
+      },
+      "properties": {
+        "id": "place_lab_building",
+        "name": "Lab Building",
         "placeType": "building",
         "department": "Academic Affairs",
-        "description": "Main library building with 5 floors",
+        "description": "Lab Building",
         "imageUrl": null,
         "floors": 5,
         "hasIndoorMap": true
@@ -39,129 +759,347 @@
     },
     {
       "type": "Feature",
-      "id": "Lab_Building",
+      "id": "LT2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628137, 23.187164]
+        "coordinates": [72.628759, 23.186497]
       },
       "properties": {
-        "id": "Lab_Building",
-        "name": "Lab Building",
+        "id": "place_lt2",
+        "name": "LT2",
         "placeType": "building",
-        "department": "Administration",
-        "description": "Main administrative offices",
+        "department": "Academic Affairs",
+        "description": "LT2 Building",
         "imageUrl": null,
-        "floors": 3,
-        "hasIndoorMap": false
+        "floors": 5,
+        "hasIndoorMap": true
       }
     },
     {
       "type": "Feature",
-      "id": "place_science_1",
+      "id": "LT3",
       "geometry": {
         "type": "Point",
-        "coordinates": [77.0515, 28.5370]
+        "coordinates": [72.628882, 23.186600]
       },
       "properties": {
-        "id": "place_science_1",
-        "name": "Science & Technology Complex",
+        "id": "place_lt3",
+        "name": "LT3",
         "placeType": "building",
-        "department": "Engineering & Science",
-        "description": "Modern laboratory and research facilities",
+        "department": "Academic Affairs",
+        "description": "LT3 Building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "NEW_HOR_MEN",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628064, 23.186016]
+      },
+      "properties": {
+        "id": "place_new_hor_men",
+        "name": "NEW HOR MEN",
+        "placeType": "building",
+        "department": "Academic Affairs",
+        "description": "NEW HOR MEN Building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628766, 23.189231]
+      },
+      "properties": {
+        "id": "place_faculty_block_1",
+        "name": "Faculty Block 1",
+        "placeType": "building",
+        "department": "Academic Affairs",
+        "description": "Faculty Block 1 Building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628477, 23.189366]
+      },
+      "properties": {
+        "id": "place_faculty_block_2",
+        "name": "Faculty Block 2",
+        "placeType": "building",
+        "department": "Academic Affairs",
+        "description": "Faculty Block 2 Building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_3",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628115, 23.189532]
+      },
+      "properties": {
+        "id": "place_faculty_block_3",
+        "name": "Faculty Block 3",
+        "placeType": "building",
+        "department": "Academic Affairs",
+        "description": "Faculty Block 3 Building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_4",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627828, 23.189344]
+      },
+      "properties": {
+        "id": "place_faculty_block_4",
+        "name": "Faculty Block 4",
+        "placeType": "building",
+        "department": "Academic Affairs",
+        "description": "Faculty Block 4 Building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "admin_office",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627761, 23.189120]
+      },
+      "properties": {
+        "id": "place_admin_office",
+        "name": "Admin Office",
+        "placeType": "building",
+        "department": null,
+        "description": "Admin Office Building",
+        "imageUrl": null,
+        "floors": 5,
+        "hasIndoorMap": true
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "canteen_building",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626817,23.188540]
+      },
+      "properties": {
+        "id": "place_canteen_building",
+        "name": "Canteen Building",
+        "placeType": "building",
+        "department": null,
+        "description": "Canteen Building",
         "imageUrl": null,
         "floors": 4,
-        "hasIndoorMap": true
-      }
-    },
-    {
-      "type": "Feature",
-      "id": "place_sports_1",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [77.0525, 28.5375]
-      },
-      "properties": {
-        "id": "place_sports_1",
-        "name": "Sports Complex",
-        "placeType": "building",
-        "department": "Physical Education",
-        "description": "Indoor and outdoor sports facilities",
-        "imageUrl": null,
-        "floors": 2,
-        "hasIndoorMap": true
-      }
-    },
-    {
-      "type": "Feature",
-      "id": "place_cafe_1",
-      "geometry": {
-        "type": "Point",
-        "coordinates": [77.0495, 28.5355]
-      },
-      "properties": {
-        "id": "place_cafe_1",
-        "name": "Main Cafeteria",
-        "placeType": "landmark",
-        "department": null,
-        "description": "Student cafeteria with multiple food outlets",
-        "imageUrl": null,
-        "floors": null,
         "hasIndoorMap": false
       }
     },
     {
       "type": "Feature",
-      "id": "place_parking_1",
+      "id": "sac1",
       "geometry": {
         "type": "Point",
-        "coordinates": [77.0475, 28.5340]
+        "coordinates": [72.626766,23.189320]
       },
       "properties": {
-        "id": "place_parking_1",
-        "name": "North Parking Lot",
+        "id": "place_sac1",
+        "name": "SAC 1",
+        "placeType": "building",
+        "department": null,
+        "description": "Student Activity Center 1",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_residence_1", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.629126,23.190128]
+      },
+      "properties": {
+        "id": "place_faculty_residence_1",
+        "name": "Faculty Residence 1",
+        "placeType": "building",
+        "department": null,
+        "description": "Faculty Residence 1 building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_residence_2", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.629153,23.190269]
+      },
+      "properties": {
+        "id": "place_faculty_residence_2",
+        "name": "Faculty Residence 2",
+        "placeType": "building",
+        "department": null,
+        "description": "Faculty Residence 2 building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_residence_3", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.629164,23.190409]
+      },
+      "properties": {
+        "id": "place_faculty_residence_3",
+        "name": "Faculty Residence 3",
+        "placeType": "building",
+        "department": null,
+        "description": "Faculty Residence 3 building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_residence_4", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.629177,23.190557]
+      },
+      "properties": {
+        "id": "place_faculty_residence_4",
+        "name": "Faculty Residence 4",
+        "placeType": "building",
+        "department": null,
+        "description": "Faculty Residence 4 building",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "HOR_WOMEN_PARKING", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628794,23.190491]
+      },
+      "properties": {
+        "id": "place_HOR_WOMEN_PARKING",
+        "name": "HOR Women Parking",
         "placeType": "parking",
         "department": null,
-        "description": "Parking area with 500+ spaces",
+        "description": "HOR Women Parking",
         "imageUrl": null,
-        "floors": null,
+        "floors": 4,
         "hasIndoorMap": false
       }
     },
     {
       "type": "Feature",
-      "id": "place_restroom_1",
+      "id": "faculty_and_staff_parking", 
       "geometry": {
         "type": "Point",
-        "coordinates": [77.0505, 28.5352]
+        "coordinates": [72.627555,23.189497]
       },
       "properties": {
-        "id": "place_restroom_1",
-        "name": "Public Restroom",
-        "placeType": "restroom",
+        "id": "place_faculty_and_staff_parking",
+        "name": "Faculty and Staff Parking",
+        "placeType": "parking",
         "department": null,
-        "description": "Accessible public facilities",
+        "description": "Faculty and Staff Parking",
         "imageUrl": null,
-        "floors": null,
+        "floors": 4,
         "hasIndoorMap": false
       }
     },
     {
       "type": "Feature",
-      "id": "place_garden_1",
+      "id": "HOR_MEN_PARKING", 
       "geometry": {
         "type": "Point",
-        "coordinates": [77.0485, 28.5350]
+        "coordinates": [72.627412,23.187811]
       },
       "properties": {
-        "id": "place_garden_1",
-        "name": "Botanical Garden",
-        "placeType": "landmark",
+        "id": "place_HOR_MEN_PARKING",
+        "name": "HOR Men Parking",
+        "placeType": "parking",
         "department": null,
-        "description": "Campus botanical garden for relaxation",
+        "description": "HOR Men Parking",
         "imageUrl": null,
-        "floors": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "LT_Back_Parking", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628796,23.185959]
+      },
+      "properties": {
+        "id": "place_LT_Back_Parking",
+        "name": "LT Back Parking",
+        "placeType": "parking",
+        "department": null,
+        "description": "LT Back Parking",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "LT_front_Parking", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.629048,23.186830]
+      },
+      "properties": {
+        "id": "place_LT_front_Parking",
+        "name": "LT Front Parking",
+        "placeType": "parking",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 4,
         "hasIndoorMap": false
       }
     }
   ]
 }
+
+

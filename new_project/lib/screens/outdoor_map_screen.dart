@@ -23,6 +23,13 @@ class OutdoorMapScreen extends StatefulWidget {
 }
 
 class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
+  static const Color _brandColor = Color(0xFF0B5FFF);
+  static const Color _textStrong = Color(0xFF162033);
+  static const double _maxLiveAccuracyMeters = 45;
+  static const int _maxFixAgeSeconds = 15;
+  static const double _maxWalkingSpeedMps = 8;
+  static const double _positionSmoothingFactor = 0.35;
+
   late MapController _mapController;
   List<CampusPath> _paths = [];
   List<CampusPlace> _places = [];
@@ -34,7 +41,12 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
   String _searchQuery = '';
   StreamSubscription<Position>? _positionSubscription;
   bool _hasCenteredOnUser = false;
-  
+  Position? _lastAcceptedPosition;
+  DateTime? _lastAcceptedAt;
+  double? _lastAccuracyMeters;
+  CampusPlace? _lastPlannerFrom;
+  CampusPlace? _lastPlannerTo;
+
   // New: Track current active route for display
   List<LatLng>? _activeRoutePath;
 
@@ -72,7 +84,9 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         if (mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
-              content: Text('Location permanently denied. Enable it in app settings.'),
+              content: Text(
+                'Location permanently denied. Enable it in app settings.',
+              ),
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -106,28 +120,41 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
 
   void _startLiveLocationTracking() {
     _positionSubscription?.cancel();
-    _positionSubscription = Geolocator.getPositionStream(
-      locationSettings: _buildLocationSettings(),
-    ).listen((Position position) {
-      if (!mounted) return;
+    _positionSubscription =
+        Geolocator.getPositionStream(
+          locationSettings: _buildLocationSettings(),
+        ).listen(
+          (Position position) {
+            if (!mounted) return;
 
-      // Ignore very noisy fixes once a reasonable position is already available.
-      if (position.accuracy > 80 && _userLocation != null) {
-        return;
-      }
+            if (!_isReliableFix(
+              position,
+              allowInitialRelaxation: _userLocation == null,
+            )) {
+              return;
+            }
 
-      final nextLocation = LatLng(position.latitude, position.longitude);
-      setState(() {
-        _userLocation = nextLocation;
-      });
+            final nextLocation = _smoothedLocation(
+              LatLng(position.latitude, position.longitude),
+            );
 
-      if (!_hasCenteredOnUser) {
-        _mapController.move(nextLocation, 18.0);
-        _hasCenteredOnUser = true;
-      }
-    }, onError: (error) {
-      print('Live location stream error: $error');
-    });
+            setState(() {
+              _userLocation = nextLocation;
+              _lastAccuracyMeters = position.accuracy;
+            });
+
+            _lastAcceptedPosition = position;
+            _lastAcceptedAt = DateTime.now();
+
+            if (!_hasCenteredOnUser) {
+              _mapController.move(nextLocation, 18.0);
+              _hasCenteredOnUser = true;
+            }
+          },
+          onError: (error) {
+            print('Live location stream error: $error');
+          },
+        );
   }
 
   Future<void> _getUserLocation() async {
@@ -137,17 +164,29 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         desiredAccuracy: LocationAccuracy.bestForNavigation,
         timeLimit: const Duration(seconds: 10),
       );
-      
+
+      if (!_isReliableFix(position, allowInitialRelaxation: true)) {
+        throw Exception('Low-quality GPS fix, trying again');
+      }
+
+      final smoothed = _smoothedLocation(
+        LatLng(position.latitude, position.longitude),
+      );
+
       if (mounted) {
         setState(() {
-          _userLocation = LatLng(position.latitude, position.longitude);
+          _userLocation = smoothed;
           _gettingLocation = false;
+          _lastAccuracyMeters = position.accuracy;
         });
-        
+
+        _lastAcceptedPosition = position;
+        _lastAcceptedAt = DateTime.now();
+
         // Automatically center on location after getting it
-        _mapController.move(_userLocation!, 18.0);
+        _mapController.move(smoothed, 18.0);
         _hasCenteredOnUser = true;
-        
+
         // Show a snackbar when location is obtained
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -172,19 +211,97 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
     }
   }
 
+  bool _isReliableFix(
+    Position position, {
+    bool allowInitialRelaxation = false,
+  }) {
+    final now = DateTime.now();
+    final fixTime = position.timestamp ?? now;
+    final ageSeconds = now.difference(fixTime).inSeconds;
+
+    final maxAllowedAccuracy = allowInitialRelaxation
+        ? 70.0
+        : _maxLiveAccuracyMeters;
+    if (position.accuracy <= 0 || position.accuracy > maxAllowedAccuracy) {
+      return false;
+    }
+
+    if (ageSeconds > _maxFixAgeSeconds) {
+      return false;
+    }
+
+    if (_lastAcceptedPosition != null) {
+      const distanceCalc = Distance();
+      final previousPoint = LatLng(
+        _lastAcceptedPosition!.latitude,
+        _lastAcceptedPosition!.longitude,
+      );
+      final currentPoint = LatLng(position.latitude, position.longitude);
+      final deltaMeters = distanceCalc(previousPoint, currentPoint);
+
+      final previousTime =
+          _lastAcceptedPosition!.timestamp ?? _lastAcceptedAt ?? now;
+      final dtMillis =
+          (fixTime.millisecondsSinceEpoch - previousTime.millisecondsSinceEpoch)
+              .abs();
+
+      if (dtMillis > 0) {
+        final speedMps = deltaMeters / (dtMillis / 1000.0);
+        if (speedMps > _maxWalkingSpeedMps && position.accuracy > 18) {
+          return false;
+        }
+      }
+    }
+
+    return true;
+  }
+
+  LatLng _smoothedLocation(LatLng raw) {
+    if (_userLocation == null) return raw;
+
+    final lat =
+        _userLocation!.latitude +
+        (raw.latitude - _userLocation!.latitude) * _positionSmoothingFactor;
+    final lng =
+        _userLocation!.longitude +
+        (raw.longitude - _userLocation!.longitude) * _positionSmoothingFactor;
+
+    return LatLng(lat, lng);
+  }
+
+  String _accuracyLabel(double meters) {
+    if (meters <= 8) return 'High';
+    if (meters <= 20) return 'Medium';
+    return 'Low';
+  }
+
+  Color _accuracyColor(double meters) {
+    if (meters <= 8) return const Color(0xFF16A34A);
+    if (meters <= 20) return const Color(0xFFD97706);
+    return const Color(0xFFDC2626);
+  }
+
   Future<void> _loadCampusData() async {
     try {
       print('\n===== LOADING CAMPUS DATA =====');
-      final paths = await GeoJsonLoader.loadPaths('assets/data/campus_paths.geojson');
+      final paths = await GeoJsonLoader.loadPaths(
+        'assets/data/campus_paths.geojson',
+      );
       print('✓ Loaded ${paths.length} paths from GeoJSON');
       for (var path in paths) {
-        print('  - ${path.id}: "${path.name}" (${path.coordinates.length} coords, walkable: ${path.walkable})');
+        print(
+          '  - ${path.id}: "${path.name}" (${path.coordinates.length} coords, walkable: ${path.walkable})',
+        );
       }
-      
-      final places = await GeoJsonLoader.loadPlaces('assets/data/campus_places.geojson');
+
+      final places = await GeoJsonLoader.loadPlaces(
+        'assets/data/campus_places.geojson',
+      );
       print('✓ Loaded ${places.length} places from GeoJSON');
       for (var place in places) {
-        print('  - ${place.id}: "${place.name}" at [${place.location.latitude.toStringAsFixed(6)}, ${place.location.longitude.toStringAsFixed(6)}]');
+        print(
+          '  - ${place.id}: "${place.name}" at [${place.location.latitude.toStringAsFixed(6)}, ${place.location.longitude.toStringAsFixed(6)}]',
+        );
       }
       print('===============================\n');
 
@@ -209,7 +326,10 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         // Use the location search service for better filtering
         _filteredPlaces = LocationSearchService.searchPlaces(query, _places);
         // Rank results by relevance
-        _filteredPlaces = LocationSearchService.rankResults(query, _filteredPlaces);
+        _filteredPlaces = LocationSearchService.rankResults(
+          query,
+          _filteredPlaces,
+        );
       }
     });
   }
@@ -285,53 +405,28 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+
     return Scaffold(
       appBar: AppBar(
-        title: null,
-        centerTitle: true,
-        elevation: 0,
-        toolbarHeight: 70,
+        title: const Text('Campus Navigator'),
+        toolbarHeight: 72,
         backgroundColor: Colors.white,
         actions: [
           IconButton(
-            icon: const Icon(Icons.layers, color: Colors.blue),
+            icon: const Icon(Icons.alt_route_rounded, color: _brandColor),
+            onPressed: _showRoutePlannerPanel,
+            tooltip: 'Plan Route (From/To)',
+          ),
+          IconButton(
+            icon: const Icon(Icons.layers_outlined, color: _brandColor),
             onPressed: () => _showLayerPanel(context),
             tooltip: 'Toggle Layers',
           ),
         ],
-        flexibleSpace: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          alignment: Alignment.bottomCenter,
-          child: TextField(
-            onChanged: _searchPlaces,
-            decoration: InputDecoration(
-              hintText: 'Search places...',
-              prefixIcon: const Icon(Icons.search, size: 20),
-              suffixIcon: _searchQuery.isNotEmpty
-                  ? IconButton(
-                      icon: const Icon(Icons.clear, size: 20),
-                      onPressed: () {
-                        _searchPlaces('');
-                      },
-                    )
-                  : null,
-              filled: true,
-              fillColor: Colors.white,
-              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: Colors.grey),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
-                borderSide: const BorderSide(color: Colors.blue, width: 2),
-              ),
-            ),
-          ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(2),
+          child: Divider(height: 2, thickness: 1, color: colors.outlineVariant),
         ),
       ),
       body: _isLoading
@@ -349,7 +444,8 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                   children: [
                     TileLayer(
                       urlTemplate:
-                          'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
+                          'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+                      subdomains: const ['a', 'b', 'c', 'd'],
                       userAgentPackageName: 'com.example.new_project',
                     ),
                     // Render paths
@@ -367,7 +463,8 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                             .toList(),
                       ),
                     // Render active route path (from user to destination)
-                    if (_activeRoutePath != null && _activeRoutePath!.isNotEmpty)
+                    if (_activeRoutePath != null &&
+                        _activeRoutePath!.isNotEmpty)
                       PolylineLayer(
                         polylines: [
                           Polyline(
@@ -414,42 +511,78 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                               ),
                             ),
                           // Place markers
-                          ..._filteredPlaces
-                              .map(
-                                (place) => Marker(
-                                  point: place.location,
-                                  width: 40,
-                                  height: 40,
-                                  child: GestureDetector(
-                                    onTap: () => _showPlaceInfo(place),
-                                    child: Container(
-                                      decoration: BoxDecoration(
-                                        color: _getPlaceColor(place),
-                                        shape: BoxShape.circle,
-                                        border: Border.all(
-                                          color: Colors.white,
-                                          width: 2,
-                                        ),
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color: Colors.black26,
-                                            blurRadius: 4,
-                                          ),
-                                        ],
-                                      ),
-                                      child: Icon(
-                                        _getPlaceIcon(place),
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
+                          ..._filteredPlaces.map(
+                            (place) => Marker(
+                              point: place.location,
+                              width: 40,
+                              height: 40,
+                              child: GestureDetector(
+                                onTap: () => _showPlaceInfo(place),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: _getPlaceColor(place),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 2,
                                     ),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 4,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Icon(
+                                    _getPlaceIcon(place),
+                                    color: Colors.white,
+                                    size: 20,
                                   ),
                                 ),
-                              )
-                              ,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                   ],
+                ),
+                Positioned(
+                  top: 12,
+                  left: 12,
+                  right: 12,
+                  child: Material(
+                    elevation: 4,
+                    borderRadius: BorderRadius.circular(18),
+                    color: Colors.white,
+                    child: TextField(
+                      onChanged: _searchPlaces,
+                      decoration: InputDecoration(
+                        hintText: 'Search buildings, gates, parking...',
+                        prefixIcon: const Icon(Icons.search_rounded, size: 22),
+                        suffixIcon: _searchQuery.isNotEmpty
+                            ? IconButton(
+                                icon: const Icon(Icons.clear_rounded, size: 20),
+                                onPressed: () => _searchPlaces(''),
+                              )
+                            : null,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide: BorderSide.none,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(18),
+                          borderSide: const BorderSide(
+                            color: _brandColor,
+                            width: 1.5,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 // Legend
                 Positioned(
@@ -458,12 +591,14 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                   child: Container(
                     padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.white.withOpacity(0.95),
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(color: colors.outlineVariant),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
+                          color: Colors.black.withOpacity(0.08),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
@@ -473,7 +608,10 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                       children: [
                         const Text(
                           'Path Difficulty',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: _textStrong,
+                          ),
                         ),
                         const SizedBox(height: 8),
                         _buildLegendItem('Easy', Colors.blue),
@@ -486,17 +624,19 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                 // Search Results Panel
                 if (_searchQuery.isNotEmpty && _filteredPlaces.isNotEmpty)
                   Positioned(
-                    top: 90,
+                    top: 78,
                     left: 16,
                     right: 16,
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: colors.outlineVariant),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 8,
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 16,
+                            offset: const Offset(0, 4),
                           ),
                         ],
                       ),
@@ -513,14 +653,29 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                                 color: _getPlaceColor(place),
                               ),
                               title: Text(place.name),
-                              subtitle: Text(place.placeType),
+                              subtitle: Text(
+                                place.placeType.toUpperCase(),
+                                style: TextStyle(
+                                  letterSpacing: 0.4,
+                                  color: colors.onSurfaceVariant,
+                                  fontSize: 11,
+                                ),
+                              ),
                               trailing: IconButton(
                                 icon: const Icon(
                                   Icons.directions,
-                                  color: Colors.blue,
+                                  color: _brandColor,
                                 ),
                                 tooltip: 'Get Route',
-                                onPressed: () => _navigateToRoutingScreen(place),
+                                onPressed: () {
+                                  if (_userLocation != null) {
+                                    _navigateToRoutingScreen(place);
+                                  } else {
+                                    _showRoutePlannerPanel(
+                                      prefilledDestination: place,
+                                    );
+                                  }
+                                },
                               ),
                               onTap: () => _showPlaceInfo(place),
                             );
@@ -530,29 +685,73 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                     ),
                   ),
                 // Location button - combined get location and center
+                if (_lastAccuracyMeters != null)
+                  Positioned(
+                    bottom: 86,
+                    right: 16,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 6,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.95),
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: colors.outlineVariant),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.gps_fixed_rounded,
+                            size: 14,
+                            color: _accuracyColor(_lastAccuracyMeters!),
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            'GPS ${_accuracyLabel(_lastAccuracyMeters!)} (${_lastAccuracyMeters!.toStringAsFixed(0)}m)',
+                            style: const TextStyle(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 Positioned(
                   bottom: 16,
                   right: 16,
-                  child: FloatingActionButton(
-                    onPressed: _gettingLocation ? null : () async {
-                      if (_userLocation == null) {
-                        await _getUserLocation();
-                      } else {
-                        _centerOnCampus();
-                      }
-                    },
-                    tooltip: _userLocation == null ? 'Get My Location' : 'Center on My Location',
-                    backgroundColor: _gettingLocation ? Colors.grey : Colors.blue,
-                    child: _gettingLocation
+                  child: FloatingActionButton.extended(
+                    onPressed: _gettingLocation
+                        ? null
+                        : () async {
+                            if (_userLocation == null) {
+                              await _getUserLocation();
+                            } else {
+                              _centerOnCampus();
+                            }
+                          },
+                    tooltip: _userLocation == null
+                        ? 'Get My Location'
+                        : 'Center on My Location',
+                    backgroundColor: _gettingLocation
+                        ? Colors.grey
+                        : _brandColor,
+                    icon: _gettingLocation
                         ? const SizedBox(
                             width: 24,
                             height: 24,
                             child: CircularProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
                             ),
                           )
-                        : const Icon(Icons.my_location),
+                        : const Icon(Icons.my_location_rounded),
+                    label: Text(
+                      _userLocation == null ? 'Locate Me' : 'Recenter',
+                    ),
                   ),
                 ),
               ],
@@ -567,9 +766,12 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            width: 16,
-            height: 4,
-            color: color,
+            width: 20,
+            height: 6,
+            decoration: BoxDecoration(
+              color: color,
+              borderRadius: BorderRadius.circular(8),
+            ),
           ),
           const SizedBox(width: 8),
           Text(label, style: const TextStyle(fontSize: 12)),
@@ -635,7 +837,9 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('Indoor map for ${place.name} coming soon!'),
+                      content: Text(
+                        'Indoor map for ${place.name} coming soon!',
+                      ),
                     ),
                   );
                 },
@@ -643,33 +847,217 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                 label: const Text('View Indoor Map'),
               ),
             ],
-            // Get Route button - only show if we have user location
-            if (_userLocation != null) ...[
-              const SizedBox(height: 12),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    Navigator.pop(context);
+            const SizedBox(height: 12),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.pop(context);
+                  if (_userLocation != null) {
                     _navigateToRoutingScreen(place);
-                  },
-                  icon: const Icon(Icons.directions),
-                  label: const Text('Get Route'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.blue,
-                    foregroundColor: Colors.white,
-                  ),
+                  } else {
+                    _showRoutePlannerPanel(prefilledDestination: place);
+                  }
+                },
+                icon: const Icon(Icons.directions),
+                label: Text(
+                  _userLocation != null
+                      ? 'Get Route from My Location'
+                      : 'Plan Route Between Places',
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _brandColor,
+                  foregroundColor: Colors.white,
                 ),
               ),
-            ],
+            ),
           ],
         ),
       ),
     );
   }
 
+  Future<void> _showRoutePlannerPanel({
+    CampusPlace? prefilledDestination,
+  }) async {
+    if (_places.length < 2) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Not enough places loaded to plan a route.'),
+        ),
+      );
+      return;
+    }
+
+    CampusPlace? selectedFrom = _lastPlannerFrom;
+    CampusPlace? selectedTo = prefilledDestination ?? _lastPlannerTo;
+
+    final result = await showModalBottomSheet<Map<String, CampusPlace>>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Padding(
+              padding: EdgeInsets.fromLTRB(
+                16,
+                8,
+                16,
+                MediaQuery.of(context).viewInsets.bottom + 16,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Plan Route Between Places',
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(height: 6),
+                  const Text(
+                    'Example: Canteen to LT1 (even if you are currently at G Wing)',
+                    style: TextStyle(color: Colors.black54),
+                  ),
+                  const SizedBox(height: 14),
+                  DropdownMenu<CampusPlace>(
+                    width: double.infinity,
+                    enableFilter: true,
+                    requestFocusOnTap: true,
+                    initialSelection: selectedFrom,
+                    leadingIcon: const Icon(Icons.trip_origin_rounded),
+                    label: const Text('From'),
+                    dropdownMenuEntries: _places
+                        .map(
+                          (place) => DropdownMenuEntry<CampusPlace>(
+                            value: place,
+                            label: place.name,
+                          ),
+                        )
+                        .toList(),
+                    onSelected: (place) {
+                      setModalState(() {
+                        selectedFrom = place;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  Center(
+                    child: IconButton.filledTonal(
+                      onPressed: selectedFrom != null && selectedTo != null
+                          ? () {
+                              setModalState(() {
+                                final tmp = selectedFrom;
+                                selectedFrom = selectedTo;
+                                selectedTo = tmp;
+                              });
+                            }
+                          : null,
+                      icon: const Icon(Icons.swap_vert_rounded),
+                      tooltip: 'Swap from and to',
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  DropdownMenu<CampusPlace>(
+                    width: double.infinity,
+                    enableFilter: true,
+                    requestFocusOnTap: true,
+                    initialSelection: selectedTo,
+                    leadingIcon: const Icon(Icons.location_on_rounded),
+                    label: const Text('To'),
+                    dropdownMenuEntries: _places
+                        .map(
+                          (place) => DropdownMenuEntry<CampusPlace>(
+                            value: place,
+                            label: place.name,
+                          ),
+                        )
+                        .toList(),
+                    onSelected: (place) {
+                      setModalState(() {
+                        selectedTo = place;
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: OutlinedButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: const Text('Cancel'),
+                        ),
+                      ),
+                      const SizedBox(width: 10),
+                      Expanded(
+                        child: ElevatedButton.icon(
+                          onPressed: selectedFrom != null && selectedTo != null
+                              ? () {
+                                  Navigator.pop(context, {
+                                    'from': selectedFrom!,
+                                    'to': selectedTo!,
+                                  });
+                                }
+                              : null,
+                          icon: const Icon(Icons.alt_route_rounded),
+                          label: const Text('Show Route'),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+
+    if (!mounted || result == null) {
+      return;
+    }
+
+    setState(() {
+      _lastPlannerFrom = result['from'];
+      _lastPlannerTo = result['to'];
+    });
+
+    await _navigateBetweenPlaces(result['from']!, result['to']!);
+  }
+
+  Future<void> _navigateBetweenPlaces(
+    CampusPlace start,
+    CampusPlace end,
+  ) async {
+    if (start.id == end.id) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Start and destination cannot be same.')),
+      );
+      return;
+    }
+
+    await _fetchAndDisplayRoute(start.location, end.location);
+
+    if (!mounted) return;
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RouteComparisonScreen(
+          startLocation: start.location,
+          endLocation: end.location,
+          destinationName: end.name,
+        ),
+      ),
+    ).then((_) {
+      setState(() {
+        _activeRoutePath = null;
+      });
+    });
+  }
+
   void _navigateToRoutingScreen(CampusPlace destination) {
-    // Route FROM the destination's location back to current location  
+    // Route FROM the destination's location back to current location
     // This allows routing between campus places, not just from current GPS
     if (_userLocation == null) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -703,10 +1091,14 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
     try {
       print('════════════════════════════════════════');
       print('🧭 FETCHING ROUTE REQUEST');
-      print('Start: [${ start.latitude.toStringAsFixed(6)}, ${start.longitude.toStringAsFixed(6)}]');
-      print('Destination: [${destination.latitude.toStringAsFixed(6)}, ${destination.longitude.toStringAsFixed(6)}]');
+      print(
+        'Start: [${start.latitude.toStringAsFixed(6)}, ${start.longitude.toStringAsFixed(6)}]',
+      );
+      print(
+        'Destination: [${destination.latitude.toStringAsFixed(6)}, ${destination.longitude.toStringAsFixed(6)}]',
+      );
       print('Available paths in system: ${_paths.length}');
-      
+
       // Always ensure paths are visible
       if (!_visibleLayers.contains('paths')) {
         setState(() {
@@ -714,13 +1106,17 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
           print('✓ Re-enabled paths visibility');
         });
       }
-      
+
       // Step 1: Try path-based routing first (uses campus paths from GeoJSON)
       print('\n📍 Step 1: Attempting PATH-BASED ROUTING...');
       print('   Passing ${_paths.length} campus paths to routing service');
-      
-      final route = await PathBasedRoutingService.getPathBasedRoute(start, destination, _paths);
-      
+
+      final route = await PathBasedRoutingService.getPathBasedRoute(
+        start,
+        destination,
+        _paths,
+      );
+
       if (route != null) {
         print('   ✅ SUCCESS! Path-based route found');
         print('   Waypoints: ${route.waypoints.length}');
@@ -737,8 +1133,12 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
 
       // Step 2: Fallback to campus-constrained routing
       print('📍 Step 2: Attempting CAMPUS-CONSTRAINED ROUTING...');
-      final campusRoute = await CampusRoutingService.getCampusRoute(start, destination, _paths);
-      
+      final campusRoute = await CampusRoutingService.getCampusRoute(
+        start,
+        destination,
+        _paths,
+      );
+
       if (campusRoute != null) {
         print('   ✅ SUCCESS! Campus-constrained route found');
         print('   Waypoints: ${campusRoute.waypoints.length}');
@@ -755,7 +1155,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
       // Step 3: Fallback to standard OSRM route
       print('📍 Step 3: Attempting STANDARD OSRM ROUTING...');
       final standardRoute = await RoutingService.getRoute(start, destination);
-      
+
       if (standardRoute != null) {
         print('   ⚠️  FALLBACK: OSRM route found (may go outside campus)');
         print('   Waypoints: ${standardRoute.waypoints.length}');
@@ -778,21 +1178,20 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
       _zoomToFitRoute(demoRoute.waypoints);
       print('✓ Demo route displayed\n');
       print('════════════════════════════════════════\n');
-      
     } catch (e, stacktrace) {
       print('════════════════════════════════════════');
       print('❌ ERROR FETCHING ROUTE: $e');
       print('Stack trace: $stacktrace');
       print('════════════════════════════════════════\n');
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error loading route: $e')),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('Error loading route: $e')));
     }
   }
 
   void _zoomToFitRoute(List<LatLng> waypoints) {
     if (waypoints.isEmpty) return;
-    
+
     try {
       // Calculate bounds for all waypoints
       double minLat = waypoints.first.latitude;
@@ -809,7 +1208,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
 
       // Create center point and zoom to fit
       final center = LatLng((minLat + maxLat) / 2, (minLng + maxLng) / 2);
-      
+
       _mapController.move(center, 16.0);
     } catch (e) {
       print('Error zooming to route: $e');
@@ -833,11 +1232,13 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
             CheckboxListTile(
               title: const Text('Campus Paths'),
               value: _visibleLayers.contains('paths'),
+              activeColor: _brandColor,
               onChanged: (_) => _toggleLayer('paths'),
             ),
             CheckboxListTile(
               title: const Text('Places & Buildings'),
               value: _visibleLayers.contains('places'),
+              activeColor: _brandColor,
               onChanged: (_) => _toggleLayer('places'),
             ),
           ],
