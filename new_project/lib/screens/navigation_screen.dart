@@ -7,6 +7,7 @@ import 'dart:async';
 import 'dart:math' as math;
 import '../models/path_model.dart';
 import '../models/route_model.dart' as route_model;
+import '../services/path_based_routing_service.dart';
 import '../services/routing_service.dart';
 
 class NavigationScreen extends StatefulWidget {
@@ -148,8 +149,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   Future<void> _initializeRoute() async {
     if (widget.initialRoute != null) {
+      final resolvedRoute = await _resolveInitialRoute(widget.initialRoute!);
       setState(() {
-        currentRoute = widget.initialRoute;
+        currentRoute = resolvedRoute;
         isLoading = false;
       });
       _speakCurrentStep();
@@ -170,6 +172,59 @@ class _NavigationScreenState extends State<NavigationScreen> {
       isLoading = false;
     });
     _speakCurrentStep();
+  }
+
+  Future<route_model.Route> _resolveInitialRoute(
+    route_model.Route candidate,
+  ) async {
+    if (!_isLikelyStraightFallback(candidate)) {
+      return candidate;
+    }
+
+    final paths = widget.campusPaths;
+    if (paths == null || paths.isEmpty) {
+      return candidate;
+    }
+
+    final upgradedRoute = await PathBasedRoutingService.getPathBasedRoute(
+      widget.startLocation,
+      widget.endLocation,
+      paths,
+    );
+
+    if (upgradedRoute == null) {
+      return candidate;
+    }
+
+    if (_isLikelyStraightFallback(upgradedRoute)) {
+      return candidate;
+    }
+
+    return upgradedRoute;
+  }
+
+  bool _isLikelyStraightFallback(route_model.Route route) {
+    final points = route.waypoints;
+    if (points.length <= 2) {
+      return true;
+    }
+
+    if (route.steps.length <= 2) {
+      const distanceCalc = Distance();
+      final directDistance = distanceCalc(points.first, points.last);
+      final traveledDistance = route.totalDistance;
+
+      if (directDistance <= 0) {
+        return false;
+      }
+
+      // If path distance is almost the same as straight-line distance and
+      // turn instructions are minimal, treat as fallback straight routing.
+      final straightnessRatio = traveledDistance / directDistance;
+      return straightnessRatio < 1.03;
+    }
+
+    return false;
   }
 
   Future<void> _initializeVoice() async {
@@ -681,9 +736,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
               ),
               children: [
                 TileLayer(
-                  urlTemplate:
-                      'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-                  subdomains: const ['a', 'b', 'c', 'd'],
+                  urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                   userAgentPackageName: 'com.example.new_project',
                 ),
                 PolylineLayer(
@@ -859,7 +912,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
           ),
           // Next Steps Preview
           Expanded(
-            flex: 2,
+            flex: 1,
             child: Container(
               color: const Color(0xFFF8FAFD),
               child: Column(

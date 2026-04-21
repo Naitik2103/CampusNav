@@ -44,6 +44,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
   Position? _lastAcceptedPosition;
   DateTime? _lastAcceptedAt;
   double? _lastAccuracyMeters;
+  double _currentZoom = 15.0;
   CampusPlace? _lastPlannerFrom;
   CampusPlace? _lastPlannerTo;
 
@@ -440,12 +441,16 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                     initialZoom: 15.0,
                     minZoom: 10.0,
                     maxZoom: 20.0,
+                    onPositionChanged: (position, _) {
+                      final zoom = position.zoom;
+                      if (zoom != null && (zoom - _currentZoom).abs() > 0.05) {
+                        setState(() => _currentZoom = zoom);
+                      }
+                    },
                   ),
                   children: [
                     TileLayer(
-                      urlTemplate:
-                          'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-                      subdomains: const ['a', 'b', 'c', 'd'],
+                      urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                       userAgentPackageName: 'com.example.new_project',
                     ),
                     // Render paths
@@ -512,35 +517,40 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                             ),
                           // Place markers
                           ..._filteredPlaces.map(
-                            (place) => Marker(
-                              point: place.location,
-                              width: 40,
-                              height: 40,
-                              child: GestureDetector(
-                                onTap: () => _showPlaceInfo(place),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: _getPlaceColor(place),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 2,
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        blurRadius: 4,
+                            (place) {
+                              final markerSize = _placeMarkerSizeForZoom();
+                              final iconSize = _placeIconSizeForZoom();
+
+                              return Marker(
+                                point: place.location,
+                                width: markerSize,
+                                height: markerSize,
+                                child: GestureDetector(
+                                  onTap: () => _showPlaceInfo(place),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: _getPlaceColor(place),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: markerSize >= 36 ? 2 : 1.6,
                                       ),
-                                    ],
-                                  ),
-                                  child: Icon(
-                                    _getPlaceIcon(place),
-                                    color: Colors.white,
-                                    size: 20,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: markerSize >= 36 ? 4 : 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: Icon(
+                                      _getPlaceIcon(place),
+                                      color: Colors.white,
+                                      size: iconSize,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -778,6 +788,23 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         ],
       ),
     );
+  }
+
+  double _placeMarkerSizeForZoom() {
+    // Keep existing visual size for zoomed-in levels, shrink gradually when zooming out.
+    if (_currentZoom >= 15.0) return 30.0;
+    if (_currentZoom <= 10.0) return 18.0;
+
+    final t = (_currentZoom - 10.0) / 5.0;
+    return 18.0 + (22.0 * t);
+  }
+
+  double _placeIconSizeForZoom() {
+    if (_currentZoom >= 15.0) return 20.0;
+    if (_currentZoom <= 10.0) return 10.0;
+
+    final t = (_currentZoom - 10.0) / 5.0;
+    return 10.0 + (10.0 * t);
   }
 
   void _showPlaceInfo(CampusPlace place) {

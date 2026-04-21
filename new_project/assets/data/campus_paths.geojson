@@ -1183,11 +1183,11 @@
 
     {
       "type": "Feature",
-      "id": "Canteen_Center_Walkway",
+      "id": "Canteen_Walkway",
       "geometry": {
         "type": "LineString",
         "coordinates": [
-          [72.627134, 23.188976],
+          [72.627139, 23.188705],
           [72.627134, 23.188663],
           [72.627104, 23.188636],
           [72.627067, 23.188614],

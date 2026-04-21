@@ -277,6 +277,40 @@ class PathBasedRoutingService {
     return nearest;
   }
 
+  static PathNode? _findClosestReachableNodeToTarget(
+    PathNode start,
+    LatLng target,
+  ) {
+    const Distance distanceCalc = Distance();
+    final List<PathNode> queue = <PathNode>[];
+    final Set<PathNode> visited = <PathNode>{};
+
+    queue.add(start);
+    visited.add(start);
+
+    PathNode best = start;
+    double bestDistance = distanceCalc(start.location, target);
+
+    while (queue.isNotEmpty) {
+      final current = queue.removeAt(0);
+      final d = distanceCalc(current.location, target);
+
+      if (d < bestDistance) {
+        bestDistance = d;
+        best = current;
+      }
+
+      for (final neighbor in current.neighbors) {
+        if (!visited.contains(neighbor)) {
+          visited.add(neighbor);
+          queue.add(neighbor);
+        }
+      }
+    }
+
+    return best;
+  }
+
   /// Dijkstra's algorithm to find shortest path through campus paths
   static List<PathNode>? _dijkstraShortestPath(PathNode start, PathNode end) {
     final Map<PathNode, double> distances = {};
@@ -338,7 +372,7 @@ class PathBasedRoutingService {
     }
 
     // Reconstruct path
-    if (distances[end] == double.infinity) {
+    if (!distances.containsKey(end) || distances[end] == double.infinity) {
       print('❌ No path found from ${start.id} to ${end.id}');
       print(
         '   Start node reachability: ${distances[start] != null ? "reachable" : "unreachable"}',
@@ -416,7 +450,49 @@ class PathBasedRoutingService {
       );
 
       // Step 3: Find shortest path through campus paths
-      final pathNodes = _dijkstraShortestPath(startNode, endNode);
+      List<PathNode>? pathNodes = _dijkstraShortestPath(startNode, endNode);
+
+      if (pathNodes == null || pathNodes.isEmpty) {
+        print('⚠️ Direct snapped-node routing failed, trying nearest-node fallback...');
+
+        // Fallback: connect start/end to nearest existing graph nodes.
+        // This helps when live location/destination is off-path or snapped to a
+        // disconnected micro-segment.
+        final fallbackStart = _findNearestNode(start, graph.nodes);
+        final fallbackEnd = _findNearestNode(end, graph.nodes);
+
+        if (fallbackStart != null && fallbackEnd != null) {
+          pathNodes = _dijkstraShortestPath(fallbackStart, fallbackEnd);
+          if (pathNodes != null && pathNodes.isNotEmpty) {
+            print(
+              '✅ Fallback routing succeeded via nearest graph nodes (${fallbackStart.id} → ${fallbackEnd.id})',
+            );
+          }
+
+          if (pathNodes == null || pathNodes.isEmpty) {
+            // Last-resort campus fallback:
+            // route as far as possible on connected walkable graph from start,
+            // then connect to destination.
+            final closestReachableToEnd = _findClosestReachableNodeToTarget(
+              fallbackStart,
+              end,
+            );
+
+            if (closestReachableToEnd != null) {
+              pathNodes = _dijkstraShortestPath(
+                fallbackStart,
+                closestReachableToEnd,
+              );
+              if (pathNodes != null && pathNodes.isNotEmpty) {
+                print(
+                  '✅ Last-resort fallback succeeded via reachable node ${closestReachableToEnd.id}',
+                );
+              }
+            }
+          }
+        }
+      }
+
       if (pathNodes == null || pathNodes.isEmpty) {
         print('❌ No route found through campus paths');
         return null;
@@ -425,12 +501,24 @@ class PathBasedRoutingService {
       // Step 4: Convert node path to waypoints and include exact source/destination
       final waypoints = <LatLng>[];
       waypoints.add(start);
+
+      // Ensure there is an explicit connector from live location to path.
+      if (distanceCalc(waypoints.last, startNode.location) > 0.8) {
+        waypoints.add(startNode.location);
+      }
+
       for (final node in pathNodes) {
         if (waypoints.isEmpty ||
-            distanceCalc(waypoints.last, node.location) > 2.0) {
+            distanceCalc(waypoints.last, node.location) > 0.8) {
           waypoints.add(node.location);
         }
       }
+
+      // Ensure connector from path network to destination side.
+      if (distanceCalc(waypoints.last, endNode.location) > 0.8) {
+        waypoints.add(endNode.location);
+      }
+
       if (distanceCalc(waypoints.last, end) > 2.0) {
         waypoints.add(end);
       }

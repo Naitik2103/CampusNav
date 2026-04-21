@@ -492,7 +492,7 @@
       "id": "HOR_Women_Gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627863,23.190395]
+        "coordinates": [72.628512,23.190433]
       },
       "properties": {
         "id": "HOR_Women_Gate",
@@ -1074,6 +1074,42 @@
         "id": "place_LT_Back_Parking",
         "name": "LT Back Parking",
         "placeType": "parking",
+        "department": null,
+        "description": "LT Back Parking",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Main_LP", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628893,23.188579]
+      },
+      "properties": {
+        "id": "Main_LP",
+        "name": "LT Back Parking",
+        "placeType": "pond",
+        "department": null,
+        "description": "LT Back Parking",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Main_Gate", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.629915,23.188569]
+      },
+      "properties": {
+        "id": "Main_Gate",
+        "name": "LT Back Parking",
+        "placeType": "pond",
         "department": null,
         "description": "LT Back Parking",
         "imageUrl": null,

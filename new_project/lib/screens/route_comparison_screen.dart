@@ -5,6 +5,7 @@ import '../models/path_model.dart';
 import '../models/route_model.dart' as route_model;
 import '../services/geojson_loader.dart';
 import '../services/path_based_routing_service.dart';
+import '../services/campus_routing_service.dart';
 import '../services/routing_service.dart';
 import 'navigation_screen.dart';
 
@@ -50,12 +51,31 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
         loadedPaths,
       );
 
-      if (campusRoute != null) {
+      if (campusRoute != null && campusRoute.waypoints.length > 2) {
         setState(() {
           campusPaths = loadedPaths;
           routeComparison = null;
           selectedRoute = campusRoute;
           errorMessage = null;
+          isLoading = false;
+        });
+        return;
+      }
+
+      final campusConstrainedRoute = await CampusRoutingService.getCampusRoute(
+        widget.startLocation,
+        widget.endLocation,
+        loadedPaths,
+      );
+
+      if (campusConstrainedRoute != null &&
+          campusConstrainedRoute.waypoints.length > 2) {
+        setState(() {
+          campusPaths = loadedPaths;
+          routeComparison = null;
+          selectedRoute = campusConstrainedRoute;
+          errorMessage =
+              'Using campus-constrained route because path graph route was unavailable.';
           isLoading = false;
         });
         return;
@@ -106,6 +126,7 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
           endLocation: widget.endLocation,
           destinationName: widget.destinationName,
           initialRoute: route,
+          campusPaths: campusPaths,
         ),
       ),
     );
@@ -133,9 +154,7 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
             ),
             children: [
               TileLayer(
-                urlTemplate:
-                    'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-                subdomains: const ['a', 'b', 'c', 'd'],
+                urlTemplate: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
                 userAgentPackageName: 'com.example.new_project',
               ),
               PolylineLayer(
