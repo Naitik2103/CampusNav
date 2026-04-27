@@ -1,0 +1,85 @@
+{
+  "rooms": [
+    {
+      "id": "cep_110",
+      "buildingId": "cep",
+      "name": "CEP 110",
+      "floor": 1,
+      "category": "classroom",
+      "description": "1st floor classroom",
+      "coordinate": { "lat": 23.188347, "lng": 72.628048 }
+    },
+    {
+      "id": "cep_109",
+      "buildingId": "cep",
+      "name": "CEP 109",
+      "floor": 1,
+      "category": "classroom",
+      "description": "1st floor classroom",
+      "coordinate": { "lat": 23.188209, "lng": 72.627973 }
+    },
+    {
+      "id": "cep_108",
+      "buildingId": "cep",
+      "name": "CEP 108",
+      "floor": 1,
+      "category": "classroom",
+      "description": "1st floor classroom",
+      "coordinate": { "lat": 23.188194, "lng": 72.627890 }
+    },
+    {
+      "id": "cep_107",
+      "buildingId": "cep",
+      "name": "CEP 107",
+      "floor": 1,
+      "category": "classroom",
+      "description": "Ground floor laboratory",
+      "coordinate": { "lat": 23.188204, "lng": 72.627815 }
+    },
+    {
+      "id": "cep_106",
+      "buildingId": "cep",
+      "name": "CEP 106",
+      "floor": 1,
+      "category": "classroom",
+      "description": "First floor classroom",
+      "coordinate": { "lat": 23.188259, "lng": 72.627772 }
+    },
+    {
+      "id": "cep_105",
+      "buildingId": "cep",
+      "name": "CEP 105",
+      "floor": 1,
+      "category": "classroom",
+      "description": "First floor office",
+      "coordinate": { "lat": 23.188367, "lng": 72.627772 }
+    },
+    {
+      "id": "cep_104",
+      "buildingId": "cep",
+      "name": "CEP 104",
+      "floor": 1,
+      "category": "classroom",
+      "description": "First floor classroom",
+      "coordinate": { "lat": 23.188508, "lng": 72.627767 }
+    },
+    {
+      "id": "cep_103",
+      "buildingId": "cep",
+      "name": "CEP 103",
+      "floor": 1,
+      "category": "classroom",
+      "description": "Third floor laboratory",
+      "coordinate": { "lat": 23.188582, "lng": 72.627764 }
+    },
+    {
+      "id": "cep_102",
+      "buildingId": "cep",
+      "name": "CEP 102",
+      "floor": 1,
+      "category": "seminar",
+      "description": "Top floor seminar room",
+      "coordinate": { "lat": 23.188515, "lng": 72.628046 }
+    }
+  ]
+}

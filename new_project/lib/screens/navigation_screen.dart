@@ -6,6 +6,7 @@ import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:async';
 import 'dart:math' as math;
 import '../models/path_model.dart';
+import '../models/place_model.dart';
 import '../models/route_model.dart' as route_model;
 import '../services/path_based_routing_service.dart';
 import '../services/routing_service.dart';
@@ -16,6 +17,7 @@ class NavigationScreen extends StatefulWidget {
   final String destinationName;
   final route_model.Route? initialRoute;
   final List<CampusPath>? campusPaths;
+  final List<CampusPlace>? routePlaces;
 
   const NavigationScreen({
     Key? key,
@@ -24,6 +26,7 @@ class NavigationScreen extends StatefulWidget {
     required this.destinationName,
     this.initialRoute,
     this.campusPaths,
+    this.routePlaces,
   }) : super(key: key);
 
   @override
@@ -57,6 +60,69 @@ class _NavigationScreenState extends State<NavigationScreen> {
   LatLng? _currentDisplayLocation;
   Position? _lastAcceptedPosition;
   DateTime? _lastAcceptedAt;
+  bool _didShowRouteOverview = false;
+  int _nextRouteStopIndex = 1;
+  bool _finalArrivalAnnounced = false;
+  final List<String> _arrivedStopMessages = <String>[];
+
+  bool get _isLockedMultiStopRoute {
+    final places = widget.routePlaces;
+    return widget.initialRoute != null && places != null && places.length >= 2;
+  }
+
+  IconData _getPlaceIcon(CampusPlace place) {
+    if (place.id == '__live_source__') {
+      return Icons.my_location_rounded;
+    }
+
+    switch (place.placeType) {
+      case 'building':
+        return Icons.apartment;
+      case 'parking':
+        return Icons.local_parking;
+      case 'restroom':
+        return Icons.wc;
+      case 'landmark':
+        return Icons.place;
+      default:
+        return Icons.location_on;
+    }
+  }
+
+  Color _getPlaceColor(CampusPlace place) {
+    if (place.id == '__live_source__') {
+      return Colors.blue;
+    }
+
+    switch (place.placeType) {
+      case 'building':
+        return Colors.purple;
+      case 'parking':
+        return Colors.blue;
+      case 'restroom':
+        return Colors.green;
+      case 'landmark':
+        return Colors.amber;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  void _showPlaceNamePopup(CampusPlace place) {
+    showDialog<void>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(place.name),
+        content: Text(place.placeType.toUpperCase()),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text('Close'),
+          ),
+        ],
+      ),
+    );
+  }
 
   LatLng _projectPointOnSegment(LatLng p, LatLng a, LatLng b) {
     final latRef = (a.latitude + b.latitude + p.latitude) / 3.0;
@@ -149,11 +215,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
   Future<void> _initializeRoute() async {
     if (widget.initialRoute != null) {
-      final resolvedRoute = await _resolveInitialRoute(widget.initialRoute!);
+      final resolvedRoute = _isLockedMultiStopRoute
+          ? widget.initialRoute!
+          : await _resolveInitialRoute(widget.initialRoute!);
       setState(() {
         currentRoute = resolvedRoute;
         isLoading = false;
       });
+      _showInitialRouteOverview();
       _speakCurrentStep();
       return;
     }
@@ -171,7 +240,81 @@ class _NavigationScreenState extends State<NavigationScreen> {
           RoutingService.getDemoRoute(widget.startLocation, widget.endLocation);
       isLoading = false;
     });
+    _showInitialRouteOverview();
     _speakCurrentStep();
+  }
+
+  void _checkMultiStopArrivals(LatLng currentLocation) {
+    final routePlaces = widget.routePlaces;
+    if (routePlaces == null || routePlaces.length < 2) return;
+    if (_nextRouteStopIndex >= routePlaces.length) return;
+
+    final nextStop = routePlaces[_nextRouteStopIndex];
+    final distance = const Distance()(currentLocation, nextStop.location);
+    if (distance > 12) return;
+
+    final isFinalStop = _nextRouteStopIndex == routePlaces.length - 1;
+
+    if (!isFinalStop) {
+      final arrivalMessage = 'You have arrived at ${nextStop.name}.';
+      _speakInstruction(arrivalMessage);
+
+      final upcomingStop = routePlaces[_nextRouteStopIndex + 1];
+      _speakInstruction('Continuing to ${upcomingStop.name}.');
+
+      setState(() {
+        _arrivedStopMessages.add(arrivalMessage);
+        _nextRouteStopIndex++;
+      });
+      return;
+    }
+
+    if (_finalArrivalAnnounced) return;
+    _finalArrivalAnnounced = true;
+    _showArrivalDialog();
+  }
+
+  void _showInitialRouteOverview() {
+    if (_didShowRouteOverview || currentRoute == null) return;
+
+    final waypoints = currentRoute!.waypoints;
+    if (waypoints.length < 2) return;
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_mapReady || _didShowRouteOverview) return;
+
+      double minLat = waypoints.first.latitude;
+      double maxLat = waypoints.first.latitude;
+      double minLng = waypoints.first.longitude;
+      double maxLng = waypoints.first.longitude;
+
+      for (final p in waypoints) {
+        minLat = math.min(minLat, p.latitude);
+        maxLat = math.max(maxLat, p.latitude);
+        minLng = math.min(minLng, p.longitude);
+        maxLng = math.max(maxLng, p.longitude);
+      }
+
+      final center = LatLng((minLat + maxLat) / 2, (minLng + maxLng) / 2);
+      final span = math.max(maxLat - minLat, maxLng - minLng);
+
+      double targetZoom;
+      if (span > 0.02) {
+        targetZoom = 13.0;
+      } else if (span > 0.01) {
+        targetZoom = 14.0;
+      } else if (span > 0.005) {
+        targetZoom = 15.0;
+      } else if (span > 0.002) {
+        targetZoom = 16.0;
+      } else {
+        targetZoom = 17.0;
+      }
+
+      mapController.move(center, targetZoom);
+      _currentZoom = targetZoom;
+      _didShowRouteOverview = true;
+    });
   }
 
   Future<route_model.Route> _resolveInitialRoute(
@@ -476,11 +619,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
 
           // Auto-advance step if close to waypoint
           if (currentRoute != null) {
+            _checkMultiStopArrivals(smoothed);
             _checkStepProximity(smoothed);
           }
 
           // Center map on user only after map controller is attached.
-          if (_mapReady) {
+          if (_mapReady && _didShowRouteOverview) {
             mapController.move(smoothed, _currentZoom);
           }
         });
@@ -580,7 +724,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
     }
 
     // Arrival message
-    if (distanceToStep < 10 &&
+    if (!_isLockedMultiStopRoute &&
+        distanceToStep < 10 &&
         currentStepIndex == currentRoute!.steps.length - 1) {
       _showArrivalDialog();
     }
@@ -612,23 +757,25 @@ class _NavigationScreenState extends State<NavigationScreen> {
   void _showArrivalDialog() {
     if (!isNavigating) return;
 
+    _finalArrivalAnnounced = true;
+
     setState(() {
       isNavigating = false;
     });
 
     _speakInstruction(
       _voiceLanguage == _hindiCode
-          ? 'आप ${widget.destinationName} पहुँच गए हैं।'
+          ? 'आप अपने गंतव्य पर पहुँच गए हैं।'
           : _voiceLanguage == _gujaratiCode
-          ? 'તમે ${widget.destinationName} પર પહોંચી ગયા છો.'
-          : 'You have arrived at ${widget.destinationName}.',
+          ? 'તમે તમારા ગંતવ્ય પર પહોંચી ગયા છો.'
+          : 'You have arrived at your destination.',
     );
 
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Arrived'),
-        content: Text('You have arrived at ${widget.destinationName}'),
+        content: const Text('You have arrived at your destination.'),
         actions: [
           TextButton(
             onPressed: () {
@@ -669,7 +816,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
     final currentStep = currentRoute!.steps.isNotEmpty
         ? currentRoute!.steps[currentStepIndex]
         : null;
-    final displayedRoutePoints = _currentDisplayLocation != null
+    final displayedRoutePoints =
+      _isLockedMultiStopRoute
+      ? currentRoute!.waypoints
+      : _currentDisplayLocation != null
         ? _buildRemainingRoutePath(
             currentRoute!.waypoints,
             _currentDisplayLocation!,
@@ -729,6 +879,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                 initialZoom: 18,
                 onMapReady: () {
                   _mapReady = true;
+                  _showInitialRouteOverview();
                 },
                 onPositionChanged: (position, _) {
                   _currentZoom = position.zoom ?? _currentZoom;
@@ -750,38 +901,87 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     ),
                   ],
                 ),
+                if (widget.routePlaces != null && widget.routePlaces!.length > 1)
+                  MarkerLayer(
+                    markers: widget.routePlaces!.asMap().entries
+                        .where((entry) {
+                          final isFirst = entry.key == 0;
+                          final isLiveSource =
+                              entry.value.id == '__live_source__';
+                          // For live source, keep only the existing live marker.
+                          return !(isFirst && isLiveSource);
+                        })
+                        .map((entry) {
+                          final index = entry.key;
+                          final place = entry.value;
+                          final isFirst = index == 0;
+                          final isLast =
+                              index == widget.routePlaces!.length - 1;
+                          final isLiveSource = place.id == '__live_source__';
+                          final showGreenSourcePin = isFirst && !isLiveSource;
+                          final showRedDestinationPin = isLast;
+
+                      return Marker(
+                        width: (showGreenSourcePin || showRedDestinationPin)
+                            ? 44
+                            : 36,
+                        height: (showGreenSourcePin || showRedDestinationPin)
+                            ? 44
+                            : 36,
+                        point: place.location,
+                        child: GestureDetector(
+                          onTap: () => _showPlaceNamePopup(place),
+                          child: showGreenSourcePin
+                              ? const Icon(
+                                  Icons.location_pin,
+                                  color: Colors.green,
+                                  size: 42,
+                                )
+                              : showRedDestinationPin
+                              ? const Icon(
+                                  Icons.location_pin,
+                                  color: Colors.red,
+                                  size: 42,
+                                )
+                              : Container(
+                                  decoration: BoxDecoration(
+                                    color: _getPlaceColor(place),
+                                    shape: BoxShape.circle,
+                                    border: Border.all(
+                                      color: Colors.white,
+                                      width: 1.8,
+                                    ),
+                                    boxShadow: const [
+                                      BoxShadow(
+                                        color: Colors.black26,
+                                        blurRadius: 3,
+                                      ),
+                                    ],
+                                  ),
+                                  child: Icon(
+                                    _getPlaceIcon(place),
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
+                                ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
                 MarkerLayer(
                   markers: [
-                    // Source marker fallback before live GPS is available
-                    if (currentPosition == null)
+                    // End marker
+                    if (widget.routePlaces == null || widget.routePlaces!.isEmpty)
                       Marker(
                         width: 40,
                         height: 40,
-                        point: widget.startLocation,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.blue,
-                            border: Border.all(color: Colors.white, width: 2),
-                          ),
-                          child: const Icon(
-                            Icons.navigation,
-                            color: Colors.white,
-                            size: 24,
-                          ),
+                        point: widget.endLocation,
+                        child: const Icon(
+                          Icons.location_on,
+                          color: Colors.red,
+                          size: 40,
                         ),
                       ),
-                    // End marker
-                    Marker(
-                      width: 40,
-                      height: 40,
-                      point: widget.endLocation,
-                      child: const Icon(
-                        Icons.location_on,
-                        color: Colors.red,
-                        size: 40,
-                      ),
-                    ),
                     // Live current position marker (single blue arrow)
                     if (currentPosition != null)
                       Marker(
@@ -926,22 +1126,65 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     ),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                      itemCount:
-                          currentRoute!.steps.length - currentStepIndex - 1,
-                      itemBuilder: (context, index) {
-                        final step =
-                            currentRoute!.steps[currentStepIndex + 1 + index];
-                        return ListTile(
-                          leading: CircleAvatar(
-                            backgroundColor: const Color(0xFFE5EDFF),
-                            foregroundColor: _brandColor,
-                            child: Text('${currentStepIndex + 2 + index}'),
-                          ),
-                          title: Text(_localizeInstruction(step.instruction)),
-                          subtitle: Text(
-                            '${step.getFormattedDistance()} • ${step.getFormattedDuration()}',
-                          ),
+                    child: Builder(
+                      builder: (context) {
+                        final panelItems = <Map<String, dynamic>>[];
+
+                        for (final message in _arrivedStopMessages) {
+                          panelItems.add({
+                            'type': 'arrival',
+                            'message': message,
+                          });
+                        }
+
+                        final remainingCount =
+                            currentRoute!.steps.length - currentStepIndex - 1;
+                        for (int i = 0; i < remainingCount; i++) {
+                          final step = currentRoute!.steps[currentStepIndex + 1 + i];
+                          panelItems.add({
+                            'type': 'step',
+                            'step': step,
+                            'label': currentStepIndex + 2 + i,
+                          });
+                        }
+
+                        return ListView.builder(
+                          itemCount: panelItems.length,
+                          itemBuilder: (context, index) {
+                            final item = panelItems[index];
+
+                            if (item['type'] == 'arrival') {
+                              return ListTile(
+                                leading: const CircleAvatar(
+                                  backgroundColor: Color(0xFFD1FAE5),
+                                  foregroundColor: Color(0xFF047857),
+                                  child: Icon(Icons.check_rounded),
+                                ),
+                                title: Text(
+                                  item['message'] as String,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF065F46),
+                                  ),
+                                ),
+                                subtitle: const Text('Intermediate stop reached'),
+                              );
+                            }
+
+                            final step = item['step'] as route_model.NavigationStep;
+                            final label = item['label'] as int;
+                            return ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: const Color(0xFFE5EDFF),
+                                foregroundColor: _brandColor,
+                                child: Text('$label'),
+                              ),
+                              title: Text(_localizeInstruction(step.instruction)),
+                              subtitle: Text(
+                                '${step.getFormattedDistance()} • ${step.getFormattedDuration()}',
+                              ),
+                            );
+                          },
                         );
                       },
                     ),

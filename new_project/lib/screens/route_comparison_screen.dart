@@ -6,7 +6,6 @@ import '../models/route_model.dart' as route_model;
 import '../services/geojson_loader.dart';
 import '../services/path_based_routing_service.dart';
 import '../services/campus_routing_service.dart';
-import '../services/routing_service.dart';
 import 'navigation_screen.dart';
 
 class RouteComparisonScreen extends StatefulWidget {
@@ -81,36 +80,36 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
         return;
       }
 
-      final routes = await RoutingService.getMultipleRoutes(
-        widget.startLocation,
-        widget.endLocation,
-      );
-
-      if (routes != null) {
-        setState(() {
-          campusPaths = loadedPaths;
-          routeComparison = routes;
-          selectedRoute = routes.shortestRoute;
-          errorMessage = null;
-          isLoading = false;
-        });
-      } else {
-        setState(() {
-          campusPaths = loadedPaths;
-          errorMessage = 'Could not load routes. Using demo route.';
-          selectedRoute = RoutingService.getDemoRoute(
-            widget.startLocation,
-            widget.endLocation,
-          );
-          isLoading = false;
-        });
-      }
+      setState(() {
+        campusPaths = loadedPaths;
+        errorMessage =
+            'No valid campus-only route found. Update campus_paths.geojson to connect these locations.';
+        selectedRoute = route_model.Route(
+          id: 'unavailable_campus_route',
+          name: 'Campus Route Unavailable',
+          steps: const [],
+          totalDistance: 0,
+          totalDuration: 0,
+          routeQuality: 1,
+          routeType: 'campus_only',
+          wheelchairAccessible: true,
+          waypoints: [widget.startLocation, widget.endLocation],
+        );
+        isLoading = false;
+      });
     } catch (e) {
       setState(() {
         errorMessage = 'Error: ${e.toString()}';
-        selectedRoute = RoutingService.getDemoRoute(
-          widget.startLocation,
-          widget.endLocation,
+        selectedRoute = route_model.Route(
+          id: 'error_campus_route',
+          name: 'Campus Route Unavailable',
+          steps: const [],
+          totalDistance: 0,
+          totalDuration: 0,
+          routeQuality: 1,
+          routeType: 'campus_only',
+          wheelchairAccessible: true,
+          waypoints: [widget.startLocation, widget.endLocation],
         );
         isLoading = false;
       });

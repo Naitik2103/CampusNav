@@ -11,6 +11,7 @@ class AppShellScreen extends StatefulWidget {
 
 class _AppShellScreenState extends State<AppShellScreen> {
   int _selectedIndex = 0;
+  OutdoorMapQuickAction _pendingMapAction = OutdoorMapQuickAction.none;
 
   @override
   Widget build(BuildContext context) {
@@ -21,8 +22,30 @@ class _AppShellScreenState extends State<AppShellScreen> {
             _selectedIndex = 1;
           });
         },
+        onPlanRoute: () {
+          setState(() {
+            _selectedIndex = 1;
+            _pendingMapAction = OutdoorMapQuickAction.planRoute;
+          });
+        },
+        onPlanMultiStopRoute: () {
+          setState(() {
+            _selectedIndex = 1;
+            _pendingMapAction = OutdoorMapQuickAction.planMultiStopRoute;
+          });
+        },
       ),
-      const OutdoorMapScreen(),
+      OutdoorMapScreen(
+        initialQuickAction: _pendingMapAction,
+        onQuickActionHandled: () {
+          if (!mounted || _pendingMapAction == OutdoorMapQuickAction.none) {
+            return;
+          }
+          setState(() {
+            _pendingMapAction = OutdoorMapQuickAction.none;
+          });
+        },
+      ),
       const _AccessibilityHub(),
     ];
 
@@ -72,8 +95,14 @@ class _AppShellScreenState extends State<AppShellScreen> {
 
 class _HomeHub extends StatelessWidget {
   final VoidCallback onOpenMap;
+  final VoidCallback onPlanRoute;
+  final VoidCallback onPlanMultiStopRoute;
 
-  const _HomeHub({required this.onOpenMap});
+  const _HomeHub({
+    required this.onOpenMap,
+    required this.onPlanRoute,
+    required this.onPlanMultiStopRoute,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -222,10 +251,19 @@ class _HomeHub extends StatelessWidget {
                       icon: Icons.alt_route_rounded,
                       title: 'Plan Route',
                       subtitle: 'Pick From and To places',
-                      onTap: onOpenMap,
+                      onTap: onPlanRoute,
                     ),
                   ),
                 ],
+              ),
+              const SizedBox(height: 12),
+              _QuickCard(
+                icon: Icons.route_rounded,
+                title: 'Multi-Stop Route',
+                subtitle:
+                    'Choose multiple places and get shortest visit order.',
+                onTap: onPlanMultiStopRoute,
+                fullWidth: true,
               ),
               const SizedBox(height: 12),
               _QuickCard(

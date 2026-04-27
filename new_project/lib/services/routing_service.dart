@@ -29,6 +29,190 @@ class RoutingService {
     return total;
   }
 
+  static double _pathDistanceForOrder(
+    List<LatLng> points,
+    List<int> order,
+  ) {
+    if (order.length < 2) return 0;
+    const distanceCalc = Distance();
+    double total = 0;
+
+    for (int i = 0; i < order.length - 1; i++) {
+      total += distanceCalc(points[order[i]], points[order[i + 1]]);
+    }
+
+    return total;
+  }
+
+  static List<int> _nearestNeighborOrder(
+    List<LatLng> points,
+    List<int> candidates,
+    int? fixedStart,
+  ) {
+    if (candidates.isEmpty) return [];
+
+    const distanceCalc = Distance();
+    final remaining = List<int>.from(candidates);
+    final sequence = <int>[];
+
+    int current = fixedStart ?? remaining.first;
+    if (fixedStart == null) {
+      sequence.add(current);
+      remaining.remove(current);
+    }
+
+    while (remaining.isNotEmpty) {
+      int bestIndex = remaining.first;
+      double bestDistance = double.infinity;
+
+      for (final idx in remaining) {
+        final d = distanceCalc(points[current], points[idx]);
+        if (d < bestDistance) {
+          bestDistance = d;
+          bestIndex = idx;
+        }
+      }
+
+      sequence.add(bestIndex);
+      remaining.remove(bestIndex);
+      current = bestIndex;
+    }
+
+    return sequence;
+  }
+
+  static List<int> _twoOptImprove(
+    List<LatLng> points,
+    List<int> sequence, {
+    int? fixedStart,
+    int? fixedEnd,
+  }) {
+    if (sequence.length < 4) return sequence;
+
+    var improved = true;
+    var current = List<int>.from(sequence);
+    final startLock = fixedStart != null ? 1 : 0;
+    final endLock = fixedEnd != null ? 1 : 0;
+
+    while (improved) {
+      improved = false;
+
+      final iStart = startLock;
+      final iEnd = current.length - 2 - endLock;
+
+      for (int i = iStart; i <= iEnd; i++) {
+        for (int k = i + 1; k < current.length - endLock; k++) {
+          if (k - i < 1) continue;
+
+          final candidate = <int>[
+            ...current.sublist(0, i),
+            ...current.sublist(i, k + 1).reversed,
+            ...current.sublist(k + 1),
+          ];
+
+          final currentDistance = _pathDistanceForOrder(points, current);
+          final candidateDistance = _pathDistanceForOrder(points, candidate);
+
+          if (candidateDistance + 0.1 < currentDistance) {
+            current = candidate;
+            improved = true;
+          }
+        }
+      }
+    }
+
+    return current;
+  }
+
+  /// Returns optimized visit indices for a multi-stop trip.
+  ///
+  /// By default, the first point is treated as fixed start and the last point
+  /// as fixed destination. Intermediate points are re-ordered to minimize the
+  /// total path distance.
+  static List<int> optimizeVisitOrder(
+    List<LatLng> points, {
+    bool keepFirst = true,
+    bool keepLast = true,
+    int bruteForceThreshold = 8,
+  }) {
+    final n = points.length;
+    if (n <= 2) {
+      return List<int>.generate(n, (i) => i);
+    }
+
+    final fixedStart = keepFirst ? 0 : null;
+    final fixedEnd = keepLast ? n - 1 : null;
+
+    final flexible = <int>[];
+    for (int i = 0; i < n; i++) {
+      if (i == fixedStart || i == fixedEnd) continue;
+      flexible.add(i);
+    }
+
+    if (flexible.length <= 1) {
+      return <int>[
+        if (fixedStart != null) fixedStart,
+        ...flexible,
+        if (fixedEnd != null) fixedEnd,
+      ];
+    }
+
+    List<int> bestOrder = [];
+    double bestDistance = double.infinity;
+
+    void evaluatePermutation(List<int> candidateMiddle) {
+      final candidate = <int>[
+        if (fixedStart != null) fixedStart,
+        ...candidateMiddle,
+        if (fixedEnd != null) fixedEnd,
+      ];
+
+      final distance = _pathDistanceForOrder(points, candidate);
+      if (distance < bestDistance) {
+        bestDistance = distance;
+        bestOrder = candidate;
+      }
+    }
+
+    if (flexible.length <= bruteForceThreshold) {
+      final used = List<bool>.filled(flexible.length, false);
+      final current = <int>[];
+
+      void backtrack() {
+        if (current.length == flexible.length) {
+          evaluatePermutation(current);
+          return;
+        }
+
+        for (int i = 0; i < flexible.length; i++) {
+          if (used[i]) continue;
+          used[i] = true;
+          current.add(flexible[i]);
+          backtrack();
+          current.removeLast();
+          used[i] = false;
+        }
+      }
+
+      backtrack();
+      return bestOrder;
+    }
+
+    final middleSequence = _nearestNeighborOrder(points, flexible, fixedStart);
+    final seeded = <int>[
+      if (fixedStart != null) fixedStart,
+      ...middleSequence,
+      if (fixedEnd != null) fixedEnd,
+    ];
+
+    return _twoOptImprove(
+      points,
+      seeded,
+      fixedStart: fixedStart,
+      fixedEnd: fixedEnd,
+    );
+  }
+
   static double _estimateWalkingDurationSeconds(double distanceMeters) {
     if (distanceMeters <= 0) return 0;
     return distanceMeters / 1.4;
@@ -598,10 +782,12 @@ class RoutingService {
 
         final computedDistance = _computePathDistanceMeters(waypoints);
 
+        final steps = buildTurnAwareSteps(waypoints);
+
         return route_model.Route(
           id: 'waypoint_route_${DateTime.now().millisecondsSinceEpoch}',
           name: 'Multi-waypoint Route',
-          steps: [],
+          steps: steps,
           totalDistance: computedDistance,
           totalDuration: _estimateWalkingDurationSeconds(computedDistance),
           routeQuality: 4,
