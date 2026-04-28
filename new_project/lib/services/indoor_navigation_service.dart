@@ -13,6 +13,7 @@ class IndoorNavigationService {
 
   final List<IndoorBuilding> _buildings = [];
   final List<IndoorRoom> _rooms = [];
+  final Map<String, _IndoorPathBuilding> _indoorPathGraphs = {};
 
   bool _isLoaded = false;
 
@@ -25,6 +26,8 @@ class IndoorNavigationService {
   Future<void> loadIndoorConfigs({
     String boundariesAsset = 'assets/data/indoor_building_boundaries.json',
     String roomsAsset = 'assets/data/indoor_rooms.json',
+    String pathsAsset = 'assets/data/indoor_paths.json',
+    String stairsAsset = 'assets/data/indoor_stairs.json',
   }) async {
     if (_isLoaded) {
       return;
@@ -33,12 +36,95 @@ class IndoorNavigationService {
     try {
       final boundaryJson = await rootBundle.loadString(boundariesAsset);
       final roomsJson = await rootBundle.loadString(roomsAsset);
+      final pathsJson = await rootBundle.loadString(pathsAsset);
 
       final boundaryMap = jsonDecode(boundaryJson) as Map<String, dynamic>;
       final roomsMap = jsonDecode(roomsJson) as Map<String, dynamic>;
+      final pathsMap = jsonDecode(pathsJson) as Map<String, dynamic>;
+
+      // Try to load optional stairs file and merge into pathsMap
+      try {
+        final stairsJson = await rootBundle.loadString(stairsAsset);
+        final stairsMap = jsonDecode(stairsJson) as Map<String, dynamic>;
+
+        if (stairsMap.isNotEmpty) {
+          final buildingsList = (pathsMap['buildings'] as List<dynamic>?) ?? [];
+
+          // Determine target building index by buildingId if provided in stairs file
+          final stairsBuildingId = (stairsMap['buildingId'] as String?)
+              ?.toLowerCase();
+          int targetIndex = 0;
+          if (stairsBuildingId != null && buildingsList.isNotEmpty) {
+            for (var i = 0; i < buildingsList.length; i++) {
+              final b = buildingsList[i] as Map<String, dynamic>;
+              if ((b['buildingId'] as String?)?.toLowerCase() ==
+                  stairsBuildingId) {
+                targetIndex = i;
+                break;
+              }
+            }
+          }
+
+          // merge nodes
+          final targetBuilding = buildingsList.isNotEmpty
+              ? buildingsList[targetIndex] as Map<String, dynamic>
+              : null;
+          if (targetBuilding != null) {
+            targetBuilding['nodes'] =
+                (targetBuilding['nodes'] as List<dynamic>?) ?? [];
+            targetBuilding['edges'] =
+                (targetBuilding['edges'] as List<dynamic>?) ?? [];
+            targetBuilding['entrances'] =
+                (targetBuilding['entrances'] as List<dynamic>?) ?? [];
+
+            final stairsNodes = stairsMap['nodes'] as List<dynamic>?;
+            final stairsEdges = stairsMap['edges'] as List<dynamic>?;
+            final stairsEntrances = stairsMap['entrances'] as List<dynamic>?;
+
+            if (stairsNodes != null) {
+              for (final n in stairsNodes) {
+                (targetBuilding['nodes'] as List).add(n);
+              }
+            }
+            if (stairsEdges != null) {
+              for (final e in stairsEdges) {
+                (targetBuilding['edges'] as List).add(e);
+              }
+            }
+            if (stairsEntrances != null) {
+              for (final ent in stairsEntrances) {
+                if (!(targetBuilding['entrances'] as List).contains(ent)) {
+                  (targetBuilding['entrances'] as List).add(ent);
+                }
+              }
+            }
+          } else {
+            // If no building entries exist yet, merge top-level nodes/edges into pathsMap directly
+            pathsMap['nodes'] = (pathsMap['nodes'] as List<dynamic>?) ?? [];
+            pathsMap['edges'] = (pathsMap['edges'] as List<dynamic>?) ?? [];
+            pathsMap['entrances'] =
+                (pathsMap['entrances'] as List<dynamic>?) ?? [];
+            final stairsNodes = stairsMap['nodes'] as List<dynamic>?;
+            final stairsEdges = stairsMap['edges'] as List<dynamic>?;
+            final stairsEntrances = stairsMap['entrances'] as List<dynamic>?;
+            if (stairsNodes != null) pathsMap['nodes'].addAll(stairsNodes);
+            if (stairsEdges != null) pathsMap['edges'].addAll(stairsEdges);
+            if (stairsEntrances != null) {
+              for (final ent in stairsEntrances) {
+                if (!(pathsMap['entrances'] as List).contains(ent)) {
+                  (pathsMap['entrances'] as List).add(ent);
+                }
+              }
+            }
+          }
+        }
+      } catch (e) {
+        // optional stairs file absent or parse error — continue without merging
+      }
 
       final parsedBuildings = _parseBuildings(boundaryMap);
       final parsedRooms = _parseRooms(roomsMap);
+      final parsedPathGraphs = _parseIndoorPathGraphs(pathsMap);
 
       _buildings
         ..clear()
@@ -46,12 +132,134 @@ class IndoorNavigationService {
       _rooms
         ..clear()
         ..addAll(parsedRooms);
+      _indoorPathGraphs
+        ..clear()
+        ..addAll(parsedPathGraphs);
       _isLoaded = true;
     } catch (_) {
       _buildings.clear();
       _rooms.clear();
+      _indoorPathGraphs.clear();
       _isLoaded = false;
     }
+  }
+
+  List<LatLng> getIndoorRoutePolyline({
+    required IndoorBuilding building,
+    required IndoorRoom destinationRoom,
+    int? fromFloor,
+  }) {
+    if (!_isLoaded) {
+      return [];
+    }
+
+    final buildingKey = _normalizeKey(building.buildingId);
+    final graph = _indoorPathGraphs[buildingKey];
+    if (graph == null) {
+      return [];
+    }
+
+    final destinationNodeId =
+        graph.roomNodeMap[destinationRoom.id] ??
+        graph.nodes.values
+            .where((node) => node.roomId == destinationRoom.id)
+            .map((node) => node.id)
+            .cast<String?>()
+            .firstWhere((_) => true, orElse: () => null);
+
+    if (destinationNodeId == null ||
+        !graph.nodes.containsKey(destinationNodeId)) {
+      return [];
+    }
+
+    final sourceFloor = fromFloor ?? destinationRoom.floor;
+    final startNodeId = _pickBestStartNode(
+      graph: graph,
+      targetFloor: sourceFloor,
+      fallbackFloor: destinationRoom.floor,
+    );
+
+    if (startNodeId == null || !graph.nodes.containsKey(startNodeId)) {
+      return [];
+    }
+
+    final pathNodeIds = _dijkstraPathNodeIds(
+      graph: graph,
+      startId: startNodeId,
+      endId: destinationNodeId,
+    );
+
+    if (pathNodeIds.isEmpty) {
+      return [];
+    }
+
+    return pathNodeIds
+        .map((id) => graph.nodes[id])
+        .whereType<_IndoorPathNode>()
+        .map((node) => node.coordinate)
+        .toList();
+  }
+
+  List<LatLng> getIndoorRoutePolylineFromLocation({
+    required IndoorBuilding building,
+    required LatLng startLocation,
+    required IndoorRoom destinationRoom,
+    int? fromFloor,
+  }) {
+    if (!_isLoaded) {
+      return [];
+    }
+
+    final buildingKey = _normalizeKey(building.buildingId);
+    final graph = _indoorPathGraphs[buildingKey];
+    if (graph == null) {
+      return [];
+    }
+
+    final destinationNodeId =
+        graph.roomNodeMap[destinationRoom.id] ??
+        graph.nodes.values
+            .where((node) => node.roomId == destinationRoom.id)
+            .map((node) => node.id)
+            .cast<String?>()
+            .firstWhere((_) => true, orElse: () => null);
+
+    if (destinationNodeId == null || !graph.nodes.containsKey(destinationNodeId)) {
+      return [];
+    }
+
+    final targetFloor = fromFloor ?? destinationRoom.floor;
+    final nearestNodeId = _findNearestNodeOnFloor(
+      graph: graph,
+      location: startLocation,
+      floor: targetFloor,
+    );
+
+    final startNodeId = nearestNodeId ?? _pickBestStartNode(
+      graph: graph,
+      targetFloor: targetFloor,
+      fallbackFloor: destinationRoom.floor,
+    );
+
+    if (startNodeId == null || !graph.nodes.containsKey(startNodeId)) {
+      return [];
+    }
+
+    final pathNodeIds = _dijkstraPathNodeIds(
+      graph: graph,
+      startId: startNodeId,
+      endId: destinationNodeId,
+    );
+
+    if (pathNodeIds.isEmpty) {
+      return [];
+    }
+
+    return pathNodeIds
+        .map((id) => graph.nodes[id])
+        .whereType<_IndoorPathNode>()
+        .map((node) => node.coordinate)
+        .toList();
   }
 
   IndoorBuilding? findBuildingByGps(LatLng location) {
@@ -232,6 +440,236 @@ class IndoorNavigationService {
     }).toList();
   }
 
+  Map<String, _IndoorPathBuilding> _parseIndoorPathGraphs(
+    Map<String, dynamic> jsonMap,
+  ) {
+    final data = jsonMap['buildings'];
+    if (data is! List) {
+      return {};
+    }
+
+    final Map<String, _IndoorPathBuilding> parsed = {};
+
+    for (final raw in data.whereType<Map<String, dynamic>>()) {
+      final buildingId = (raw['buildingId'] ?? '').toString();
+      if (buildingId.isEmpty) {
+        continue;
+      }
+
+      final nodesData = raw['nodes'] as List<dynamic>? ?? const [];
+      final edgesData = raw['edges'] as List<dynamic>? ?? const [];
+      final roomNodeData =
+          raw['roomNodeMap'] as Map<String, dynamic>? ??
+          const <String, dynamic>{};
+      final entrancesData = raw['entrances'] as List<dynamic>? ?? const [];
+
+      final Map<String, _IndoorPathNode> nodes = {};
+      for (final nodeRaw in nodesData.whereType<Map<String, dynamic>>()) {
+        final id = (nodeRaw['id'] ?? '').toString();
+        if (id.isEmpty) {
+          continue;
+        }
+
+        nodes[id] = _IndoorPathNode(
+          id: id,
+          floor: (nodeRaw['floor'] as num?)?.toInt() ?? 0,
+          coordinate: _latLngFromMap(nodeRaw['coordinate']),
+          roomId: nodeRaw['roomId']?.toString(),
+        );
+      }
+
+      final List<_IndoorPathEdge> edges = [];
+      for (final edgeRaw in edgesData.whereType<Map<String, dynamic>>()) {
+        final from = (edgeRaw['from'] ?? '').toString();
+        final to = (edgeRaw['to'] ?? '').toString();
+        if (from.isEmpty || to.isEmpty) {
+          continue;
+        }
+
+        edges.add(
+          _IndoorPathEdge(
+            from: from,
+            to: to,
+            bidirectional: edgeRaw['bidirectional'] != false,
+          ),
+        );
+      }
+
+      final roomNodeMap = <String, String>{};
+      roomNodeData.forEach((key, value) {
+        roomNodeMap[key.toString()] = value.toString();
+      });
+
+      final entrances = entrancesData
+          .map((e) => e.toString())
+          .where((e) => e.isNotEmpty)
+          .toList();
+
+      final normalizedKey = _normalizeKey(buildingId);
+      parsed[normalizedKey] = _IndoorPathBuilding(
+        buildingId: buildingId,
+        nodes: nodes,
+        edges: edges,
+        roomNodeMap: roomNodeMap,
+        entrances: entrances,
+      );
+    }
+
+    return parsed;
+  }
+
+  String? _pickBestStartNode({
+    required _IndoorPathBuilding graph,
+    required int targetFloor,
+    required int fallbackFloor,
+  }) {
+    for (final entranceId in graph.entrances) {
+      final node = graph.nodes[entranceId];
+      if (node != null && node.floor == targetFloor) {
+        return entranceId;
+      }
+    }
+
+    for (final entranceId in graph.entrances) {
+      final node = graph.nodes[entranceId];
+      if (node != null && node.floor == fallbackFloor) {
+        return entranceId;
+      }
+    }
+
+    if (graph.entrances.isNotEmpty &&
+        graph.nodes.containsKey(graph.entrances.first)) {
+      return graph.entrances.first;
+    }
+
+    final sameFloorNode = graph.nodes.values
+        .where((node) => node.floor == fallbackFloor)
+        .map((node) => node.id)
+        .cast<String?>()
+        .firstWhere((_) => true, orElse: () => null);
+
+    return sameFloorNode ??
+        (graph.nodes.isNotEmpty ? graph.nodes.keys.first : null);
+  }
+
+  String? _findNearestNodeOnFloor({
+    required _IndoorPathBuilding graph,
+    required LatLng location,
+    required int floor,
+  }) {
+    final distanceCalc = Distance();
+    String? bestId;
+    double bestDistance = double.infinity;
+
+    for (final node in graph.nodes.values) {
+      if (node.floor != floor) {
+        continue;
+      }
+
+      final currentDistance = distanceCalc(location, node.coordinate);
+      if (currentDistance < bestDistance) {
+        bestDistance = currentDistance;
+        bestId = node.id;
+      }
+    }
+
+    return bestId;
+  }
+
+  List<String> _dijkstraPathNodeIds({
+    required _IndoorPathBuilding graph,
+    required String startId,
+    required String endId,
+  }) {
+    if (!graph.nodes.containsKey(startId) || !graph.nodes.containsKey(endId)) {
+      return [];
+    }
+
+    final adjacency = <String, List<_IndoorEdgeNeighbor>>{};
+    const distanceCalc = Distance();
+
+    void addDirectedEdge(String from, String to) {
+      final fromNode = graph.nodes[from];
+      final toNode = graph.nodes[to];
+      if (fromNode == null || toNode == null) {
+        return;
+      }
+
+      adjacency.putIfAbsent(from, () => []);
+      adjacency[from]!.add(
+        _IndoorEdgeNeighbor(
+          to: to,
+          weight: distanceCalc(fromNode.coordinate, toNode.coordinate),
+        ),
+      );
+    }
+
+    for (final edge in graph.edges) {
+      addDirectedEdge(edge.from, edge.to);
+      if (edge.bidirectional) {
+        addDirectedEdge(edge.to, edge.from);
+      }
+    }
+
+    final distances = <String, double>{};
+    final previous = <String, String?>{};
+    final unvisited = <String>{...graph.nodes.keys};
+
+    for (final nodeId in graph.nodes.keys) {
+      distances[nodeId] = double.infinity;
+      previous[nodeId] = null;
+    }
+    distances[startId] = 0;
+
+    while (unvisited.isNotEmpty) {
+      String? current;
+      var bestDistance = double.infinity;
+
+      for (final nodeId in unvisited) {
+        final nodeDistance = distances[nodeId] ?? double.infinity;
+        if (nodeDistance < bestDistance) {
+          bestDistance = nodeDistance;
+          current = nodeId;
+        }
+      }
+
+      if (current == null || bestDistance == double.infinity) {
+        break;
+      }
+
+      if (current == endId) {
+        break;
+      }
+
+      unvisited.remove(current);
+      for (final neighbor
+          in adjacency[current] ?? const <_IndoorEdgeNeighbor>[]) {
+        if (!unvisited.contains(neighbor.to)) {
+          continue;
+        }
+
+        final alt = bestDistance + neighbor.weight;
+        if (alt < (distances[neighbor.to] ?? double.infinity)) {
+          distances[neighbor.to] = alt;
+          previous[neighbor.to] = current;
+        }
+      }
+    }
+
+    if ((distances[endId] ?? double.infinity) == double.infinity) {
+      return [];
+    }
+
+    final path = <String>[];
+    String? cursor = endId;
+    while (cursor != null) {
+      path.add(cursor);
+      cursor = previous[cursor];
+    }
+
+    return path.reversed.toList();
+  }
+
   LatLng _latLngFromMap(dynamic value) {
     if (value is! Map<String, dynamic>) {
       return const LatLng(0, 0);
@@ -274,4 +712,53 @@ class IndoorNavigationService {
   String _normalizeKey(String value) {
     return value.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
   }
+}
+
+class _IndoorPathBuilding {
+  final String buildingId;
+  final Map<String, _IndoorPathNode> nodes;
+  final List<_IndoorPathEdge> edges;
+  final Map<String, String> roomNodeMap;
+  final List<String> entrances;
+
+  _IndoorPathBuilding({
+    required this.buildingId,
+    required this.nodes,
+    required this.edges,
+    required this.roomNodeMap,
+    required this.entrances,
+  });
+}
+
+class _IndoorPathNode {
+  final String id;
+  final int floor;
+  final LatLng coordinate;
+  final String? roomId;
+
+  _IndoorPathNode({
+    required this.id,
+    required this.floor,
+    required this.coordinate,
+    required this.roomId,
+  });
+}
+
+class _IndoorPathEdge {
+  final String from;
+  final String to;
+  final bool bidirectional;
+
+  _IndoorPathEdge({
+    required this.from,
+    required this.to,
+    required this.bidirectional,
+  });
+}
+
+class _IndoorEdgeNeighbor {
+  final String to;
+  final double weight;
+
+  const _IndoorEdgeNeighbor({required this.to, required this.weight});
 }

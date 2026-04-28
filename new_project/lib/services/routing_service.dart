@@ -151,9 +151,9 @@ class RoutingService {
 
     if (flexible.length <= 1) {
       return <int>[
-        if (fixedStart != null) fixedStart,
+        ?fixedStart,
         ...flexible,
-        if (fixedEnd != null) fixedEnd,
+        ?fixedEnd,
       ];
     }
 
@@ -162,9 +162,9 @@ class RoutingService {
 
     void evaluatePermutation(List<int> candidateMiddle) {
       final candidate = <int>[
-        if (fixedStart != null) fixedStart,
+        ?fixedStart,
         ...candidateMiddle,
-        if (fixedEnd != null) fixedEnd,
+        ?fixedEnd,
       ];
 
       final distance = _pathDistanceForOrder(points, candidate);
@@ -200,9 +200,9 @@ class RoutingService {
 
     final middleSequence = _nearestNeighborOrder(points, flexible, fixedStart);
     final seeded = <int>[
-      if (fixedStart != null) fixedStart,
+      ?fixedStart,
       ...middleSequence,
-      if (fixedEnd != null) fixedEnd,
+      ?fixedEnd,
     ];
 
     return _twoOptImprove(
@@ -276,8 +276,9 @@ class RoutingService {
     if (modifier.contains('right')) return 'right';
     if (fallback.contains('left')) return 'left';
     if (fallback.contains('right')) return 'right';
-    if (fallback.contains('u-turn') || fallback.contains('uturn'))
+    if (fallback.contains('u-turn') || fallback.contains('uturn')) {
       return 'uturn';
+    }
     return 'straight';
   }
 

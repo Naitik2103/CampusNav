@@ -20,14 +20,14 @@ class NavigationScreen extends StatefulWidget {
   final List<CampusPlace>? routePlaces;
 
   const NavigationScreen({
-    Key? key,
+    super.key,
     required this.startLocation,
     required this.endLocation,
     required this.destinationName,
     this.initialRoute,
     this.campusPaths,
     this.routePlaces,
-  }) : super(key: key);
+  });
 
   @override
   State<NavigationScreen> createState() => _NavigationScreenState();
@@ -189,20 +189,36 @@ class _NavigationScreenState extends State<NavigationScreen> {
     return remaining;
   }
 
-  double _getNavigationHeadingRadians(route_model.NavigationStep? currentStep) {
+  double _getNavigationHeadingRadians(
+    route_model.NavigationStep? currentStep,
+    LatLng referencePoint,
+  ) {
     if (currentPosition != null && currentPosition!.heading >= 0) {
       return currentPosition!.heading * math.pi / 180;
     }
 
-    if (currentStep != null && currentPosition != null) {
+    if (currentStep != null) {
       final bearing = const Distance().bearing(
-        LatLng(currentPosition!.latitude, currentPosition!.longitude),
+        referencePoint,
         currentStep.location,
       );
       return bearing * math.pi / 180;
     }
 
-    return 0;
+    final bearing = const Distance().bearing(referencePoint, widget.endLocation);
+    return bearing * math.pi / 180;
+  }
+
+  LatLng _getCurrentMarkerPoint() {
+    if (_currentDisplayLocation != null) {
+      return _currentDisplayLocation!;
+    }
+
+    if (currentPosition != null) {
+      return LatLng(currentPosition!.latitude, currentPosition!.longitude);
+    }
+
+    return widget.startLocation;
   }
 
   @override
@@ -550,7 +566,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       if (meters <= 10) {
         return 'अभी $localizedAction';
       }
-      return '${meters} मीटर बाद $localizedAction';
+      return '$meters मीटर बाद $localizedAction';
     }
 
     if (_voiceLanguage == _gujaratiCode) {
@@ -558,7 +574,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
       if (meters <= 10) {
         return 'હવે $localizedAction';
       }
-      return '${meters} મીટર પછી $localizedAction';
+      return '$meters મીટર પછી $localizedAction';
     }
 
     if (meters <= 10) {
@@ -816,6 +832,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
     final currentStep = currentRoute!.steps.isNotEmpty
         ? currentRoute!.steps[currentStepIndex]
         : null;
+    final currentMarkerPoint = _getCurrentMarkerPoint();
     final displayedRoutePoints =
       _isLockedMultiStopRoute
       ? currentRoute!.waypoints
@@ -983,38 +1000,35 @@ class _NavigationScreenState extends State<NavigationScreen> {
                         ),
                       ),
                     // Live current position marker (single blue arrow)
-                    if (currentPosition != null)
-                      Marker(
-                        width: 40,
-                        height: 40,
-                        point:
-                            _currentDisplayLocation ??
-                            LatLng(
-                              currentPosition!.latitude,
-                              currentPosition!.longitude,
-                            ),
-                        child: Transform.rotate(
-                          angle: _getNavigationHeadingRadians(currentStep),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.blue,
-                              border: Border.all(color: Colors.white, width: 2),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.blue.withOpacity(0.5),
-                                  blurRadius: 8,
-                                ),
-                              ],
-                            ),
-                            child: const Icon(
-                              Icons.navigation,
-                              color: Colors.white,
-                              size: 24,
-                            ),
+                    Marker(
+                      width: 44,
+                      height: 44,
+                      point: currentMarkerPoint,
+                      child: Transform.rotate(
+                        angle: _getNavigationHeadingRadians(
+                          currentStep,
+                          currentMarkerPoint,
+                        ),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Colors.blue,
+                            border: Border.all(color: Colors.white, width: 2.4),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.blue.withOpacity(0.5),
+                                blurRadius: 10,
+                              ),
+                            ],
+                          ),
+                          child: const Icon(
+                            Icons.navigation,
+                            color: Colors.white,
+                            size: 26,
                           ),
                         ),
                       ),
+                    ),
                   ],
                 ),
               ],

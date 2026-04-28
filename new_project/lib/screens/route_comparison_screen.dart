@@ -14,11 +14,11 @@ class RouteComparisonScreen extends StatefulWidget {
   final String destinationName;
 
   const RouteComparisonScreen({
-    Key? key,
+    super.key,
     required this.startLocation,
     required this.endLocation,
     required this.destinationName,
-  }) : super(key: key);
+  });
 
   @override
   State<RouteComparisonScreen> createState() => _RouteComparisonScreenState();

@@ -5,7 +5,7 @@
       "name": "CEP",
       "hasIndoorMap": true,
       "groundFloor": 0,
-      "floors": [0, 1, 2, 3, 4],
+      "floors": [0, 1, 2],
       "boundary": [
         { "lat": 23.188698, "lng": 72.628134 },
         { "lat": 23.188485, "lng": 72.628137 },

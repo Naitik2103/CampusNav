@@ -165,15 +165,23 @@ class LocationSearchService {
 
       // Starts with query
       if (aNameLower.startsWith(lowerQuery) &&
-          !bNameLower.startsWith(lowerQuery)) return -1;
+          !bNameLower.startsWith(lowerQuery)) {
+        return -1;
+      }
       if (bNameLower.startsWith(lowerQuery) &&
-          !aNameLower.startsWith(lowerQuery)) return 1;
+          !aNameLower.startsWith(lowerQuery)) {
+        return 1;
+      }
 
       // Contains query in name
       if (aNameLower.contains(lowerQuery) &&
-          !bNameLower.contains(lowerQuery)) return -1;
+          !bNameLower.contains(lowerQuery)) {
+        return -1;
+      }
       if (bNameLower.contains(lowerQuery) &&
-          !aNameLower.contains(lowerQuery)) return 1;
+          !aNameLower.contains(lowerQuery)) {
+        return 1;
+      }
 
       return 0;
     });

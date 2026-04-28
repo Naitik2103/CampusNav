@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:latlong2/latlong.dart' show LatLng;
 
@@ -24,6 +25,7 @@ class _IndoorNavigationScreenState extends State<IndoorNavigationScreen> {
   late int _selectedFloor;
   IndoorRoom? _selectedRoom;
   String? _transitionHint;
+  List<LatLng> _routePolyline = [];
 
   @override
   void initState() {
@@ -60,6 +62,7 @@ class _IndoorNavigationScreenState extends State<IndoorNavigationScreen> {
                           floor: _selectedFloor,
                           rooms: rooms,
                           selectedRoom: _selectedRoom,
+                          routePolyline: _routePolyline,
                           onRoomTap: _onRoomSelected,
                         ),
                       ),
@@ -140,6 +143,7 @@ class _IndoorNavigationScreenState extends State<IndoorNavigationScreen> {
                     _selectedFloor = value;
                     _selectedRoom = null;
                     _transitionHint = null;
+                    _routePolyline = [];
                   });
                 },
               ),
@@ -156,6 +160,19 @@ class _IndoorNavigationScreenState extends State<IndoorNavigationScreen> {
   }
 
   void _onRoomSelected(IndoorRoom room) {
+    final routePolyline = widget.currentGpsLocation != null
+        ? IndoorNavigationService.instance.getIndoorRoutePolylineFromLocation(
+            building: widget.building,
+            startLocation: widget.currentGpsLocation!,
+            destinationRoom: room,
+            fromFloor: _selectedFloor,
+          )
+        : IndoorNavigationService.instance.getIndoorRoutePolyline(
+            building: widget.building,
+            destinationRoom: room,
+            fromFloor: _selectedFloor,
+          );
+
     final suggestion = IndoorNavigationService.instance.suggestRouteToRoom(
       building: widget.building,
       fromFloor: _selectedFloor,
@@ -166,7 +183,9 @@ class _IndoorNavigationScreenState extends State<IndoorNavigationScreen> {
       return;
     }
 
-    var nextHint = 'Room ${room.name} is on Floor ${room.floor}';
+    var nextHint = widget.currentGpsLocation != null
+      ? 'Routing from your current location to ${room.name}'
+      : 'Room ${room.name} is on Floor ${room.floor}';
     var nextFloor = _selectedFloor;
 
     if (suggestion.requiresFloorTransition) {
@@ -181,6 +200,7 @@ class _IndoorNavigationScreenState extends State<IndoorNavigationScreen> {
       _selectedRoom = room;
       _selectedFloor = nextFloor;
       _transitionHint = nextHint;
+      _routePolyline = routePolyline;
     });
   }
 }
@@ -190,6 +210,7 @@ class IndoorFloorPlanCanvas extends StatelessWidget {
   final int floor;
   final List<IndoorRoom> rooms;
   final IndoorRoom? selectedRoom;
+  final List<LatLng> routePolyline;
   final ValueChanged<IndoorRoom> onRoomTap;
 
   const IndoorFloorPlanCanvas({
@@ -198,6 +219,7 @@ class IndoorFloorPlanCanvas extends StatelessWidget {
     required this.floor,
     required this.rooms,
     required this.selectedRoom,
+    required this.routePolyline,
     required this.onRoomTap,
   });
 
@@ -219,6 +241,7 @@ class IndoorFloorPlanCanvas extends StatelessWidget {
                 rooms: rooms,
                 transitions: transitions.toList(),
                 selectedRoom: selectedRoom,
+                routePolyline: routePolyline,
                 bounds: bounds,
               ),
             ),
@@ -266,9 +289,9 @@ class IndoorFloorPlanCanvas extends StatelessWidget {
     final safeWidth = (bounds.width).abs() < 1e-8 ? 1e-8 : bounds.width;
     final safeHeight = (bounds.height).abs() < 1e-8 ? 1e-8 : bounds.height;
 
-    // Mirror across vertical axis (left-right flip).
-    final x = 1 - ((coordinate.longitude - bounds.left) / safeWidth);
-    final y = (coordinate.latitude - bounds.top) / safeHeight;
+    // Keep map orientation natural: east on right, north on top.
+    final x = (coordinate.longitude - bounds.left) / safeWidth;
+    final y = 1 - ((coordinate.latitude - bounds.top) / safeHeight);
 
     const pad = 18.0;
     return Offset(
@@ -283,6 +306,7 @@ class _FloorPlanPainter extends CustomPainter {
   final List<IndoorRoom> rooms;
   final List<IndoorTransitionPoint> transitions;
   final IndoorRoom? selectedRoom;
+  final List<LatLng> routePolyline;
   final Rect bounds;
 
   _FloorPlanPainter({
@@ -290,6 +314,7 @@ class _FloorPlanPainter extends CustomPainter {
     required this.rooms,
     required this.transitions,
     required this.selectedRoom,
+    required this.routePolyline,
     required this.bounds,
   });
 
@@ -316,6 +341,13 @@ class _FloorPlanPainter extends CustomPainter {
       ..color = const Color(0xFFEA580C)
       ..style = PaintingStyle.fill;
 
+    final routePaint = Paint()
+      ..color = const Color(0xFF16A34A)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 3
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
     final path = Path();
     for (var i = 0; i < boundary.length; i++) {
       final point = _project(boundary[i], size);
@@ -329,6 +361,19 @@ class _FloorPlanPainter extends CustomPainter {
 
     canvas.drawPath(path, fillBoundary);
     canvas.drawPath(path, paintBoundary);
+
+    if (routePolyline.length >= 2) {
+      final routePath = Path();
+      for (var i = 0; i < routePolyline.length; i++) {
+        final point = _project(routePolyline[i], size);
+        if (i == 0) {
+          routePath.moveTo(point.dx, point.dy);
+        } else {
+          routePath.lineTo(point.dx, point.dy);
+        }
+      }
+      canvas.drawPath(routePath, routePaint);
+    }
 
     for (final room in rooms) {
       final center = _project(room.coordinate, size);
@@ -353,16 +398,17 @@ class _FloorPlanPainter extends CustomPainter {
   bool shouldRepaint(covariant _FloorPlanPainter oldDelegate) {
     return oldDelegate.rooms != rooms ||
         oldDelegate.selectedRoom?.id != selectedRoom?.id ||
-        oldDelegate.transitions.length != transitions.length;
+      oldDelegate.transitions.length != transitions.length ||
+      !listEquals(oldDelegate.routePolyline, routePolyline);
   }
 
   Offset _project(LatLng coordinate, Size size) {
     final safeWidth = (bounds.width).abs() < 1e-8 ? 1e-8 : bounds.width;
     final safeHeight = (bounds.height).abs() < 1e-8 ? 1e-8 : bounds.height;
 
-    // Mirror across vertical axis (left-right flip).
-    final x = 1 - ((coordinate.longitude - bounds.left) / safeWidth);
-    final y = (coordinate.latitude - bounds.top) / safeHeight;
+    // Keep map orientation natural: east on right, north on top.
+    final x = (coordinate.longitude - bounds.left) / safeWidth;
+    final y = 1 - ((coordinate.latitude - bounds.top) / safeHeight);
 
     const pad = 18.0;
     return Offset(

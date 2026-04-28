@@ -1,0 +1,13 @@
+{
+  "buildingId": "cep",
+  "nodes": [
+    { "id":"cep_stair_a_f0","floor":0,"coordinate":{"lat":23.188695,"lng":72.627887},"type":"stairs","stairId":"stair_A","label":"Stair A" },
+    { "id":"cep_stair_a_f1","floor":1,"coordinate":{"lat":23.188695,"lng":72.627887},"type":"stairs","stairId":"stair_A","label":"Stair A" },
+    { "id":"cep_stair_a_f2","floor":2,"coordinate":{"lat":23.188695,"lng":72.627887},"type":"stairs","stairId":"stair_A","label":"Stair A" }
+  ],
+  "edges": [
+    { "from":"cep_stair_a_f0","to":"cep_stair_a_f1","bidirectional":true,"type":"vertical" },
+    { "from":"cep_stair_a_f1","to":"cep_stair_a_f2","bidirectional":true,"type":"vertical" }
+  ],
+  "entrances": ["cep_stair_a_f0"]
+}

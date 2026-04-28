@@ -21,6 +21,7 @@
 ///   placeType: 'building',
 /// );
 /// ```
+library;
 
 import 'package:latlong2/latlong.dart';
 import '../models/path_model.dart';

@@ -222,8 +222,8 @@ class RouteComparison {
     return [
       shortestRoute,
       fastestRoute,
-      if (safestRoute != null) safestRoute!,
-      if (scenicRoute != null) scenicRoute!,
+      ?safestRoute,
+      ?scenicRoute,
     ];
   }
 }

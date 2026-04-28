@@ -1694,9 +1694,9 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
 
     final selectedStops = <CampusPlace>[
       if (useLiveSource && _userLocation != null) _liveLocationAsPlace(),
-      if (start != null) start,
+      ?start,
       ...stops,
-      if (end != null) end,
+      ?end,
     ];
 
     final uniqueSelectedStops = <CampusPlace>[];
