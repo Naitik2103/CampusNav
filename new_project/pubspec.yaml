@@ -78,6 +78,8 @@ flutter:
     - assets/data/indoor_rooms.json
     - assets/data/indoor_paths.json
     - assets/data/indoor_stairs.json
+    - assets/data/faculty_directory.json
+    - assets/data/faculty_blocks.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

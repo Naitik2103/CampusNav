@@ -1,0 +1,708 @@
+{
+  "faculty": [
+    {
+      "id": "f_yash_agrawal",
+      "name": "Prof. Yash Agrawal",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "101",
+      "keywords": ["yash", "agrawal"]
+    },
+    {
+      "id": "f_saurabh_tiwari",
+      "name": "Prof. Saurabh Tiwari",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "102",
+      "keywords": ["saurabh", "tiwari"]
+    },
+    {
+      "id": "f_anil_roy",
+      "name": "Prof. Anil Roy",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "104",
+      "keywords": ["anil", "roy"]
+    },
+    {
+      "id": "f_anish_mathuria",
+      "name": "Prof. Anish Mathuria",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "105",
+      "keywords": ["anish", "mathuria"]
+    },
+    {
+      "id": "f_umang_r_patel",
+      "name": "Umang R Patel",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "106",
+      "keywords": ["umang", "patel"]
+    },
+    {
+      "id": "f_madhukant_sharma",
+      "name": "Prof. Madhukant Sharma",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "109",
+      "keywords": ["madhukant", "sharma"]
+    },
+    {
+      "id": "f_gautam_dutta",
+      "name": "Prof. Gautam Dutta",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "110",
+      "keywords": ["gautam", "dutta"]
+    },
+    {
+      "id": "f_manish_chaturvedi",
+      "name": "Prof. Manish Chaturvedi",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "111",
+      "keywords": ["manish", "chaturvedi"]
+    },
+    {
+      "id": "f_mukesh_tiwari",
+      "name": "Prof. Mukesh Tiwari",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "112",
+      "keywords": ["mukesh", "tiwari"]
+    },
+    {
+      "id": "f_arunava_chakravarty",
+      "name": "Prof. Arunava Chakravarty",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "201",
+      "keywords": ["arunava", "chakravarty"]
+    },
+    {
+      "id": "f_rahul_muthu",
+      "name": "Prof. Rahul Muthu",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "202",
+      "keywords": ["rahul", "muthu"]
+    },
+    {
+      "id": "f_manjunath_joshi",
+      "name": "Prof. Manjunath Joshi",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "203",
+      "keywords": ["manjunath", "joshi"]
+    },
+    {
+      "id": "f_sanjay_srivastava",
+      "name": "Prof. Sanjay Srivastava",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "204",
+      "keywords": ["sanjay", "srivastava"]
+    },
+    {
+      "id": "f_aditya_tatu",
+      "name": "Prof. Aditya Tatu",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "206",
+      "keywords": ["aditya", "tatu"]
+    },
+    {
+      "id": "f_vinay_palaparthy",
+      "name": "Prof. Vinay Palaparthy",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "208",
+      "keywords": ["vinay", "palaparthy"]
+    },
+    {
+      "id": "f_minal_bhise",
+      "name": "Prof. Minal Bhise",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "209",
+      "keywords": ["minal", "bhise"]
+    },
+    {
+      "id": "f_sujay_kadam",
+      "name": "Prof. Sujay Kadam",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "210",
+      "keywords": ["sujay", "kadam"]
+    },
+    {
+      "id": "f_yash_vasavada",
+      "name": "Prof. Yash Vasavada",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "211",
+      "keywords": ["yash", "vasavada"]
+    },
+    {
+      "id": "f_v_sunitha",
+      "name": "Prof. V. Sunitha",
+      "department": "",
+      "buildingId": "faculty_block_1_entrance_gate",
+      "block": "Block 1",
+      "room": "212",
+      "keywords": ["v", "sunitha"]
+    },
+    {
+      "id": "f_puneet_bhateja",
+      "name": "Prof. Puneet Bhateja",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "101",
+      "keywords": ["puneet", "bhateja"]
+    },
+    {
+      "id": "f_bharani_kollipara",
+      "name": "Prof. Bharani Kollipara",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "102",
+      "keywords": ["bharani", "kollipara"]
+    },
+    {
+      "id": "f_manik_lal_das",
+      "name": "Prof. Manik Lal Das",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "103",
+      "keywords": ["manik", "lal", "das"]
+    },
+    {
+      "id": "f_biswajit_mishra",
+      "name": "Prof. Biswajit Mishra",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "104",
+      "keywords": ["biswajit", "mishra"]
+    },
+    {
+      "id": "f_vishwajit_pandya",
+      "name": "Prof. Vishwajit Pandya",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "105",
+      "keywords": ["vishwajit", "pandya"]
+    },
+    {
+      "id": "f_kalyan_sasidhar",
+      "name": "Prof. Kalyan Sasidhar",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "109",
+      "keywords": ["kalyan", "sasidhar"]
+    },
+    {
+      "id": "f_nandini_banerjee",
+      "name": "Prof. Nandini Banerjee",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "110",
+      "keywords": ["nandini", "banerjee"]
+    },
+    {
+      "id": "f_madhumita_mazumdar",
+      "name": "Prof. Madhumita Mazumdar",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "111",
+      "keywords": ["madhumita", "mazumdar"]
+    },
+    {
+      "id": "f_rutu_parekh",
+      "name": "Prof. Rutu Parekh",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "112",
+      "keywords": ["rutu", "parekh"]
+    },
+    {
+      "id": "f_sandip_modha",
+      "name": "Prof. Sandip Modha",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "201",
+      "keywords": ["sandip", "modha"]
+    },
+    {
+      "id": "f_ratna_bharati",
+      "name": "Prof. Ratna Bharati B.",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "202",
+      "keywords": ["ratna", "bharati"]
+    },
+    {
+      "id": "f_pokharmal_jat",
+      "name": "Prof. Pokharmal Jat",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "203",
+      "keywords": ["pokharmal", "jat"]
+    },
+    {
+      "id": "f_bhaskar_chaudhary",
+      "name": "Prof. Bhaskar Chaudhary",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "204",
+      "keywords": ["bhaskar", "chaudhary"]
+    },
+    {
+      "id": "f_supantha_pandit",
+      "name": "Prof. Supantha Pandit",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "205",
+      "keywords": ["supantha", "pandit"]
+    },
+    {
+      "id": "f_tapas_kumar_maiti",
+      "name": "Prof. Tapas Kumar Maiti",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "206",
+      "keywords": ["tapas", "maiti"]
+    },
+    {
+      "id": "f_jayanth_varma",
+      "name": "Prof. Jayanth Varma",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "208",
+      "keywords": ["jayanth", "varma"]
+    },
+    {
+      "id": "f_abhishek_tilva",
+      "name": "Prof. Abhishek Tilva",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "209",
+      "keywords": ["abhishek", "tilva"]
+    },
+    {
+      "id": "f_arnab_ray",
+      "name": "Prof. Arnab Ray",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "210",
+      "keywords": ["arnab", "ray"]
+    },
+    {
+      "id": "f_prosenjit_kundu",
+      "name": "Prof. Prosenjit Kundu",
+      "department": "",
+      "buildingId": "faculty_block_2_entrance_gate",
+      "block": "Block 2",
+      "room": "211",
+      "keywords": ["prosenjit", "kundu"]
+    }
+  ,
+    {
+      "id": "f_brajesh_dhimana",
+      "name": "Prof. Brajesh Dhimana",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "201",
+      "keywords": ["brajesh", "dhimana"]
+    },
+    {
+      "id": "f_manish_kumar",
+      "name": "Prof. Manish Kumar",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "102",
+      "keywords": ["manish", "kumar"]
+    },
+    {
+      "id": "f_pritam_anand",
+      "name": "Prof. Pritam Anand",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "103",
+      "keywords": ["pritam", "anand"]
+    },
+    {
+      "id": "f_arpita_mal",
+      "name": "Prof. Arpita Mal",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "104",
+      "keywords": ["arpita", "mal"]
+    },
+    {
+      "id": "f_arpit_rana",
+      "name": "Prof. Arpit Rana",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "105",
+      "keywords": ["arpit", "rana"]
+    },
+    {
+      "id": "f_mission_monitoring",
+      "name": "Mission Monitoring Cell",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "107",
+      "keywords": ["monitoring", "mission"]
+    },
+    {
+      "id": "f_rachit_chhaya",
+      "name": "Prof. Rachit Chhaya",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "109",
+      "keywords": ["rachit", "chhaya"]
+    },
+    {
+      "id": "f_gangeya_mukherji",
+      "name": "Prof. Gangeya Mukherji",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "110",
+      "keywords": ["gangeya", "mukherji"]
+    },
+    {
+      "id": "f_sreeja_rajendran",
+      "name": "Prof. Sreeja Rajendran",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "111",
+      "keywords": ["sreeja", "rajendran"]
+    },
+    {
+      "id": "f_shefali_jha",
+      "name": "Prof. Shefali Jha",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "112",
+      "keywords": ["shefali", "jha"]
+    },
+    {
+      "id": "f_pankaj_kumar",
+      "name": "Prof. Pankaj Kumar",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "202",
+      "keywords": ["pankaj", "kumar"]
+    },
+    {
+      "id": "f_sayantan_paul",
+      "name": "Prof. Sayantan Paul",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "203",
+      "keywords": ["sayantan", "paul"]
+    },
+    {
+      "id": "f_gopinath_panda",
+      "name": "Prof. Gopinath Panda",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "204",
+      "keywords": ["gopinath", "panda"]
+    },
+    {
+      "id": "f_satvik_gupta",
+      "name": "Prof. Satvik Gupta",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "205",
+      "keywords": ["satvik", "gupta"]
+    },
+    {
+      "id": "f_jenson_joseph",
+      "name": "Prof. Jenson Joseph",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "206",
+      "keywords": ["jenson", "joseph"]
+    },
+    {
+      "id": "f_subhasish_basak",
+      "name": "Prof. Subhasish Basak",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "207",
+      "keywords": ["subhasish", "basak"]
+    },
+    {
+      "id": "f_didm_lab",
+      "name": "DIDM LAB",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "208",
+      "keywords": ["didm", "lab"]
+    },
+    {
+      "id": "f_abhishek_gupta",
+      "name": "Prof. Abhishek Gupta",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "209",
+      "keywords": ["abhishek", "gupta"]
+    },
+    {
+      "id": "f_ankush_chander",
+      "name": "Prof. Ankush Chander",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "210",
+      "keywords": ["ankush", "chander"]
+    },
+    {
+      "id": "f_anupam_rana",
+      "name": "Prof. Anupam Rana",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "211",
+      "keywords": ["anupam", "rana"]
+    },
+    {
+      "id": "f_ajay_beniwal",
+      "name": "Prof. Ajay Beniwal",
+      "department": "",
+      "buildingId": "faculty_block_3_entrance_gate",
+      "block": "Block 3",
+      "room": "212",
+      "keywords": ["ajay", "beniwal"]
+    }
+  ,
+    {
+      "id": "f_rahul_kapoor",
+      "name": "Prof. Rahul Kapoor",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "101",
+      "keywords": ["rahul", "kapoor"]
+    },
+    {
+      "id": "f_parul_gupta",
+      "name": "Prof. Parul Gupta",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "102",
+      "keywords": ["parul", "gupta"]
+    },
+    {
+      "id": "f_hemant_patil",
+      "name": "Prof. Hemant Patil",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "103",
+      "keywords": ["hemant", "patil"]
+    },
+    {
+      "id": "f_sourish_dasgupta",
+      "name": "Prof. Sourish Dasgupta",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "104",
+      "keywords": ["sourish", "dasgupta"]
+    },
+    {
+      "id": "f_counsellor",
+      "name": "Counsellor",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "106",
+      "keywords": ["counsellor"]
+    },
+    {
+      "id": "f_pushpendra_kumar",
+      "name": "Prof. Pushpendra Kumar",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "109",
+      "keywords": ["pushpendra", "kumar"]
+    },
+    {
+      "id": "f_amishal_modi",
+      "name": "Prof. Amishal Modi",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "110",
+      "keywords": ["amishal", "modi"]
+    },
+    {
+      "id": "f_amit_mankodi",
+      "name": "Prof. Amit Mankodi",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "111",
+      "keywords": ["amit", "mankodi"]
+    },
+    {
+      "id": "f_manoj_raut",
+      "name": "Prof. Manoj Raut",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "112",
+      "keywords": ["manoj", "raut"]
+    },
+    {
+      "id": "f_sudip_bera",
+      "name": "Prof. Sudip Bera",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "201",
+      "keywords": ["sudip", "bera"]
+    },
+    {
+      "id": "f_rajib_lochan_das",
+      "name": "Prof. Rajib Lochan Das",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "202",
+      "keywords": ["rajib", "lochan", "das"]
+    },
+    {
+      "id": "f_srimanta_mandal",
+      "name": "Prof. Srimanta Mandal",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "203",
+      "keywords": ["srimanta", "mandal"]
+    },
+    {
+      "id": "f_arnab_bhabak",
+      "name": "Prof. Arnab Bhabak",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "204",
+      "keywords": ["arnab", "bhabak"]
+    },
+    {
+      "id": "f_ankit_vijayvargiya",
+      "name": "Prof. Ankit Vijayvargiya",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "205",
+      "keywords": ["ankit", "vijayvargiya"]
+    },
+    {
+      "id": "f_shruti_bhilare",
+      "name": "Prof. Shruti Bhilare",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "208",
+      "keywords": ["shruti", "bhilare"]
+    },
+    {
+      "id": "f_prasenjit_majumder",
+      "name": "Prof. Prasenjit Majumder",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "209",
+      "keywords": ["prasenjit", "majumder"]
+    },
+    {
+      "id": "f_purbasha_das",
+      "name": "Prof. Purbasha Das",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "210",
+      "keywords": ["purbasha", "das"]
+    },
+    {
+      "id": "f_pratim_roy",
+      "name": "Prof. Pratim Roy",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "211",
+      "keywords": ["pratim", "roy"]
+    },
+    {
+      "id": "f_nabin_kumar_sahu",
+      "name": "Prof. Nabin Kumar Sahu",
+      "department": "",
+      "buildingId": "faculty_block_4_entrance_gate",
+      "block": "Block 4",
+      "room": "212",
+      "keywords": ["nabin", "sahu"]
+    }
+  ]
+}
