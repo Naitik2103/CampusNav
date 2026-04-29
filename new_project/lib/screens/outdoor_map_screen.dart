@@ -407,7 +407,10 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
 
   CampusPlace? _findNearestGateForBuilding(IndoorBuilding building) {
     final buildingIdKey = _normalizeKey(building.buildingId);
-    final buildingNameKey = _normalizeKey(building.name);
+    final buildingNameKeys = <String>{
+      _normalizeKey(building.name),
+      ...building.aliases.map(_normalizeKey),
+    }..removeWhere((key) => key.isEmpty);
 
     final matchingGates = _places.where((place) {
       if (place.placeType.toLowerCase() != 'gate') {
@@ -419,8 +422,11 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
 
       return placeNameKey.contains(buildingIdKey) ||
           placeIdKey.contains(buildingIdKey) ||
-          placeNameKey.contains(buildingNameKey) ||
-          placeIdKey.contains(buildingNameKey);
+          buildingNameKeys.any(
+          (buildingNameKey) =>
+            placeNameKey.contains(buildingNameKey) ||
+            placeIdKey.contains(buildingNameKey),
+          );
     }).toList();
 
     if (matchingGates.isEmpty) {
@@ -636,17 +642,28 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
   }
 
   Widget _buildPlaceSearchTile(CampusPlace place, ColorScheme colors) {
+    final displayName = _getPlaceDisplayName(place);
+
     return ListTile(
       leading: Icon(_getPlaceIcon(place), color: _getPlaceColor(place)),
-      title: Text(place.name),
-      subtitle: Text(
-        place.placeType.toUpperCase(),
-        style: TextStyle(
-          letterSpacing: 0.4,
-          color: colors.onSurfaceVariant,
-          fontSize: 11,
-        ),
-      ),
+      title: Text(displayName),
+      subtitle: place.aliases.isNotEmpty && displayName != place.name
+          ? Text(
+              '${place.name} • ${place.placeType.toUpperCase()}',
+              style: TextStyle(
+                letterSpacing: 0.4,
+                color: colors.onSurfaceVariant,
+                fontSize: 11,
+              ),
+            )
+          : Text(
+              place.placeType.toUpperCase(),
+              style: TextStyle(
+                letterSpacing: 0.4,
+                color: colors.onSurfaceVariant,
+                fontSize: 11,
+              ),
+            ),
       trailing: IconButton(
         icon: const Icon(Icons.directions, color: _brandColor),
         tooltip: 'Get Route',
@@ -660,6 +677,34 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
       ),
       onTap: () => _showPlaceInfo(place),
     );
+  }
+
+  String _getPlaceDisplayName(CampusPlace place) {
+    final query = _normalizeKey(_searchQuery);
+    if (query.isEmpty) {
+      return place.name;
+    }
+
+    if (_normalizeKey(place.name) == query) {
+      return place.name;
+    }
+
+    for (final alias in place.aliases) {
+      if (_normalizeKey(alias) == query) {
+        return alias;
+      }
+    }
+
+    final matchingAlias = place.aliases.firstWhere(
+      (alias) => _normalizeKey(alias).contains(query),
+      orElse: () => '',
+    );
+
+    if (matchingAlias.isNotEmpty) {
+      return matchingAlias;
+    }
+
+    return place.name;
   }
 
   Widget _buildRoomSearchTile(IndoorRoom room, ColorScheme colors) {

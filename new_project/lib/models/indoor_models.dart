@@ -3,6 +3,7 @@ import 'package:latlong2/latlong.dart';
 class IndoorBuilding {
   final String buildingId;
   final String name;
+  final List<String> aliases;
   final bool hasIndoorMap;
   final int groundFloor;
   final List<int> floors;
@@ -12,6 +13,7 @@ class IndoorBuilding {
   IndoorBuilding({
     required this.buildingId,
     required this.name,
+    this.aliases = const [],
     required this.hasIndoorMap,
     required this.groundFloor,
     required this.floors,
@@ -40,6 +42,7 @@ class IndoorRoom {
   final String id;
   final String buildingId;
   final String name;
+  final List<String> aliases;
   final int floor;
   final String category;
   final String? description;
@@ -49,6 +52,7 @@ class IndoorRoom {
     required this.id,
     required this.buildingId,
     required this.name,
+    this.aliases = const [],
     required this.floor,
     required this.category,
     this.description,

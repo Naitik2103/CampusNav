@@ -280,14 +280,17 @@ class IndoorNavigationService {
     final normalizedId = _normalizeKey(place.id);
 
     for (final building in _buildings) {
-      final buildingKey = _normalizeKey(building.name);
-      final buildingIdKey = _normalizeKey(building.buildingId);
-      if (buildingKey == normalizedName ||
-          buildingIdKey == normalizedName ||
-          buildingKey == normalizedId ||
-          buildingIdKey == normalizedId ||
-          normalizedId.contains(buildingIdKey) ||
-          normalizedName.contains(buildingIdKey)) {
+      final buildingKeys = _collectNormalizedBuildingKeys(building);
+      final hasDirectMatch =
+          buildingKeys.contains(normalizedName) ||
+          buildingKeys.contains(normalizedId);
+      final hasContainsMatch = buildingKeys.any(
+        (key) =>
+            key.isNotEmpty &&
+            (normalizedName.contains(key) || normalizedId.contains(key)),
+      );
+
+      if (hasDirectMatch || hasContainsMatch) {
         return building;
       }
     }
@@ -300,7 +303,8 @@ class IndoorNavigationService {
 
     final key = _normalizeKey(buildingId);
     for (final building in _buildings) {
-      if (_normalizeKey(building.buildingId) == key) {
+      final buildingKeys = _collectNormalizedBuildingKeys(building);
+      if (buildingKeys.contains(key)) {
         return building;
       }
     }
@@ -313,23 +317,23 @@ class IndoorNavigationService {
       return [];
     }
 
-    final lowerQuery = query.toLowerCase().trim();
+    final normalizedQuery = _normalizeKey(query);
     final matches = _rooms.where((room) {
-      return room.name.toLowerCase().contains(lowerQuery) ||
-          room.id.toLowerCase().contains(lowerQuery) ||
-          room.category.toLowerCase().contains(lowerQuery);
+      final roomNameMatches = _allRoomNames(
+        room,
+      ).any((name) => _normalizeKey(name).contains(normalizedQuery));
+
+      return roomNameMatches ||
+          _normalizeKey(room.id).contains(normalizedQuery) ||
+          _normalizeKey(room.category).contains(normalizedQuery);
     }).toList();
 
     matches.sort((a, b) {
-      final aExact = a.name.toLowerCase() == lowerQuery;
-      final bExact = b.name.toLowerCase() == lowerQuery;
-      if (aExact && !bExact) return -1;
-      if (bExact && !aExact) return 1;
-
-      final aStarts = a.name.toLowerCase().startsWith(lowerQuery);
-      final bStarts = b.name.toLowerCase().startsWith(lowerQuery);
-      if (aStarts && !bStarts) return -1;
-      if (bStarts && !aStarts) return 1;
+      final aScore = _bestRoomNameMatchScore(a, normalizedQuery);
+      final bScore = _bestRoomNameMatchScore(b, normalizedQuery);
+      if (aScore != bScore) {
+        return bScore.compareTo(aScore);
+      }
 
       return a.name.compareTo(b.name);
     });
@@ -389,13 +393,19 @@ class IndoorNavigationService {
     if (data is! List) return [];
 
     return data.whereType<Map<String, dynamic>>().map((item) {
+      final names = _extractNameVariants(
+        item['name'],
+        aliasValue: item['aliases'],
+        fallback: 'Unknown Building',
+      );
       final boundaryData = item['boundary'] as List<dynamic>? ?? const [];
       final transitionData =
           item['floorTransitions'] as List<dynamic>? ?? const [];
 
       return IndoorBuilding(
         buildingId: (item['buildingId'] ?? '').toString(),
-        name: (item['name'] ?? 'Unknown Building').toString(),
+        name: names.first,
+        aliases: names.skip(1).toList(),
         hasIndoorMap: item['hasIndoorMap'] == true,
         groundFloor: (item['groundFloor'] as num?)?.toInt() ?? 0,
         floors: (item['floors'] as List<dynamic>? ?? const [])
@@ -428,10 +438,17 @@ class IndoorNavigationService {
     if (data is! List) return [];
 
     return data.whereType<Map<String, dynamic>>().map((item) {
+      final names = _extractNameVariants(
+        item['name'],
+        aliasValue: item['aliases'],
+        fallback: 'Unknown Room',
+      );
+
       return IndoorRoom(
         id: (item['id'] ?? '').toString(),
         buildingId: (item['buildingId'] ?? '').toString(),
-        name: (item['name'] ?? 'Unknown Room').toString(),
+        name: names.first,
+        aliases: names.skip(1).toList(),
         floor: (item['floor'] as num?)?.toInt() ?? 0,
         category: (item['category'] ?? 'room').toString(),
         description: item['description']?.toString(),
@@ -707,6 +724,90 @@ class IndoorNavigationService {
     }
 
     return inside;
+  }
+
+  Set<String> _collectNormalizedBuildingKeys(IndoorBuilding building) {
+    final keys = <String>{
+      _normalizeKey(building.buildingId),
+      _normalizeKey(building.name),
+    };
+
+    for (final alias in building.aliases) {
+      keys.add(_normalizeKey(alias));
+    }
+
+    keys.removeWhere((entry) => entry.isEmpty);
+    return keys;
+  }
+
+  List<String> _allRoomNames(IndoorRoom room) {
+    return <String>[room.name, ...room.aliases]
+        .where((name) => name.trim().isNotEmpty)
+        .toList();
+  }
+
+  int _bestRoomNameMatchScore(IndoorRoom room, String normalizedQuery) {
+    var bestScore = 0;
+
+    for (final rawName in _allRoomNames(room)) {
+      final name = _normalizeKey(rawName);
+      if (name == normalizedQuery) {
+        bestScore = 3;
+        break;
+      }
+      if (name.startsWith(normalizedQuery) && bestScore < 2) {
+        bestScore = 2;
+      } else if (name.contains(normalizedQuery) && bestScore < 1) {
+        bestScore = 1;
+      }
+    }
+
+    return bestScore;
+  }
+
+  List<String> _extractNameVariants(
+    dynamic nameValue, {
+    dynamic aliasValue,
+    required String fallback,
+  }) {
+    final results = <String>[];
+
+    void addName(dynamic value) {
+      if (value is String) {
+        final trimmed = value.trim();
+        if (trimmed.isNotEmpty) {
+          results.add(trimmed);
+        }
+        return;
+      }
+
+      if (value is List) {
+        for (final entry in value) {
+          addName(entry);
+        }
+      }
+    }
+
+    addName(nameValue);
+    addName(aliasValue);
+
+    if (results.isEmpty) {
+      results.add(fallback);
+      return results;
+    }
+
+    final deduped = <String>[];
+    final seen = <String>{};
+    for (final entry in results) {
+      final normalized = _normalizeKey(entry);
+      if (normalized.isEmpty || seen.contains(normalized)) {
+        continue;
+      }
+      seen.add(normalized);
+      deduped.add(entry);
+    }
+
+    return deduped.isEmpty ? <String>[fallback] : deduped;
   }
 
   String _normalizeKey(String value) {

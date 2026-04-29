@@ -4,6 +4,7 @@ import 'package:latlong2/latlong.dart';
 class CampusPlace {
   final String id;
   final String name;
+  final List<String> aliases;
   final LatLng location;
   final String placeType; // building, landmark, parking, restroom, etc.
   final String? department;
@@ -15,6 +16,7 @@ class CampusPlace {
   CampusPlace({
     required this.id,
     required this.name,
+    this.aliases = const [],
     required this.location,
     required this.placeType,
     this.department,
@@ -37,9 +39,15 @@ class CampusPlace {
       (coordinates[0] as num).toDouble(),
     );
 
+    final aliasData = properties['aliases'];
+    final aliases = aliasData is List
+        ? aliasData.map((e) => e.toString()).where((e) => e.isNotEmpty).toList()
+        : const <String>[];
+
     return CampusPlace(
       id: properties['id'] ?? 'unknown',
       name: properties['name'] ?? 'Unknown Place',
+      aliases: aliases,
       location: location,
       placeType: properties['placeType'] ?? 'landmark',
       department: properties['department'],
@@ -61,6 +69,7 @@ class CampusPlace {
       'properties': {
         'id': id,
         'name': name,
+        'aliases': aliases,
         'placeType': placeType,
         'department': department,
         'description': description,

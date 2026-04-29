@@ -443,6 +443,7 @@
       "properties": {
         "id": "SAC2",
         "name": "SAC2",
+        "aliases":["Placement Cell"],
         "placeType": "building",
         "department": null,
         "description": "SAC2 Building",
@@ -1132,6 +1133,435 @@
         "description": "LT Front Parking",
         "imageUrl": null,
         "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+
+
+
+
+
+
+
+
+
+    {
+      "type": "Feature",
+      "id": "New_Main_Gate", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628797, 23.185679]
+      },
+      "properties": {
+        "id": "New_Main_Gate",
+        "name": "New Main Gate",
+        "placeType": "gate",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Honey_One_Canteen", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627026, 23.188836]
+      },
+      "properties": {
+        "id": "Honey_One_Canteen",
+        "name": "Honey One Canteen",
+        "placeType": "canteen",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 4,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Honey_One_Canteen", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627026, 23.188836]
+      },
+      "properties": {
+        "id": "Honey_One_Canteen",
+        "name": "Honey One Canteen",
+        "placeType": "canteen",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Asha_Pura_Maa_Canteen", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626914, 23.188803]
+      },
+      "properties": {
+        "id": "Asha_Pura_Maa_Canteen",
+        "name": "Asha Pura Maa Canteen",
+        "placeType": "canteen",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Padma_Kamal_Canteen", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626817, 23.188796]
+      },
+      "properties": {
+        "id": "Padma_Kamal_Canteen",
+        "name": "Padma Kamal Canteen",
+        "placeType": "canteen",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Shine_Star_Canteen", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626697, 23.188835]
+      },
+      "properties": {
+        "id": "Shine_Star_Canteen",
+        "name": "Shine Star Canteen",
+        "placeType": "canteen",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Non_Veg_Canteen", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626632, 23.188877]
+      },
+      "properties": {
+        "id": "Non_Veg_Canteen",
+        "name": "Non Veg Canteen",
+        "placeType": "canteen",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Fruit_Shop", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627077, 23.188485]
+      },
+      "properties": {
+        "id": "Fruit_Shop",
+        "name": "Fruit Shop Canteen",
+        "placeType": "canteen",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+
+    {
+      "type": "Feature",
+      "id": "Kakas_Shop", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627040, 23.188510]
+      },
+      "properties": {
+        "id": "Kakas_Shop",
+        "name": "Kaka's Shop Canteen",
+        "placeType": "canteen",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "SBG_office", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627016, 23.188527]
+      },
+      "properties": {
+        "id": "SBG_office",
+        "name": "SBG office",
+        "placeType": "office",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Bank", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626984, 23.188549]
+      },
+      "properties": {
+        "id": "Bank",
+        "name": "Bank",
+        "placeType": "bank",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Amul", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626946, 23.188582]
+      },
+      "properties": {
+        "id": "Amul",
+        "name": "Amul Store",
+        "placeType": "canteen",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "K++", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626903, 23.188593]
+      },
+      "properties": {
+        "id": "K++",
+        "name": "K++",
+        "placeType": "canteen",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Bakery", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626705, 23.188391]
+      },
+      "properties": {
+        "id": "Bakery",
+        "name": "Bakery",
+        "placeType": "shop",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+
+    {
+      "type": "Feature",
+      "id": "Nescafe", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.627284, 23.188569]
+      },
+      "properties": {
+        "id": "Nescafe",
+        "name": "Nescafe",
+        "placeType": "coffee_shop",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "DG_Room", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628968, 23.185864]
+      },
+      "properties": {
+        "id": "DG_Room",
+        "name": "DG Room",
+        "placeType": "Power_Infrastructure",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+
+    {
+      "type": "Feature",
+      "id": "SubStation", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.629151, 23.185845]
+      },
+      "properties": {
+        "id": "SubStation",
+        "name": "Sub-Station",
+        "placeType": "Power_Infrastructure",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "NetHouse", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.629569, 23.189333]
+      },
+      "properties": {
+        "id": "NetHouse",
+        "name": "Net House",
+        "placeType": "Power_Infrastructure",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "RC_A_wing", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628539, 23.188917]
+      },
+      "properties": {
+        "id": "RC_A_wing",
+        "name": "RC A-wing",
+        "placeType": "studyplace",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "RC_B_wing", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628652, 23.188924]
+      },
+      "properties": {
+        "id": "RC_B_wing",
+        "name": "RC B-wing",
+        "placeType": "studyplace",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Hostel_Supervisior", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626973, 23.187736]
+      },
+      "properties": {
+        "id": "Hostel_Supervisior",
+        "name": "Hostel Supervisior",
+        "placeType": "office",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+     {
+      "type": "Feature",
+      "id": "LR", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.628408, 23.189787]
+      },
+      "properties": {
+        "id": "LR",
+        "name": "LR - Lakshman Rekha",
+        "placeType": "place",
+        "department": null,
+        "description": "LT Front Parking",
+        "imageUrl": null,
+        "floors": 0,
         "hasIndoorMap": false
       }
     }

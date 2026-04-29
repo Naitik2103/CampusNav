@@ -1,13 +1,172 @@
 {
   "rooms": [
     {
+      "id": "cep_013",
+      "buildingId": "cep",
+      "name": "CEP 013",
+      "floor": 0,
+      "category": "Security Room",
+      "description": "Ground floor copy of CEP 102",
+      "coordinate": {
+        "lat": 23.188358,
+        "lng": 72.628059
+      }
+    },
+    {
+      "id": "cep_012",
+      "buildingId": "cep",
+      "name": "CEP 012",
+      "floor": 0,
+      "category": "Conference Room",
+      "description": "Ground floor copy of CEP 102",
+      "coordinate": {
+        "lat": 23.188289,
+        "lng": 72.628059
+      }
+    },
+    {
+      "id": "cep_010",
+      "buildingId": "cep",
+      "name": "CEP 010",
+      "floor": 0,
+      "category": "HPC Lab & Supercomputer Facility",
+      "description": "Ground floor copy of CEP 109",
+      "coordinate": {
+        "lat": 23.188209,
+        "lng": 72.627973
+      }
+    },
+    {
+      "id": "cep_009",
+      "buildingId": "cep",
+      "name": "CEP 009",
+      "floor": 0,
+      "category": "Gallery",
+      "description": "Ground floor copy of CEP 108",
+      "coordinate": {
+        "lat": 23.188194,
+        "lng": 72.627890
+      }
+    },
+    {
+      "id": "cep_008",
+      "buildingId": "cep",
+      "name": "CEP 008",
+      "floor": 0,
+      "category": "SPARK HUB",
+      "description": "Ground floor copy of CEP 107",
+      "coordinate": {
+        "lat": 23.188181,
+        "lng": 72.627806
+      }
+    },
+    {
+      "id": "cep_006",
+      "buildingId": "cep",
+      "name": "CEP 006",
+      "floor": 0,
+      "category": "Speech Research Lab",
+      "description": "Ground floor copy of CEP 106",
+      "coordinate": {
+        "lat": 23.188367,
+        "lng": 72.627772
+      }
+    },
+    {
+      "id": "cep_005",
+      "buildingId": "cep",
+      "name": "CEP_005",
+      "floor": 0,
+      "category": "DCEI Office - 02",
+      "description": "Ground floor copy of CEP 105",
+      "coordinate": {
+        "lat": 23.188259,
+        "lng": 72.627772
+      }
+    },
+    {
+      "id": "cep_005",
+      "buildingId": "cep",
+      "name": "CEP 005",
+      "floor": 0,
+      "category": "MMD Studio - 02 ",
+      "description": "Ground floor copy of CEP 104",
+      "coordinate": {
+        "lat": 23.188508,
+        "lng": 72.627767
+      }
+    },
+    {
+      "id": "cep_004",
+      "buildingId": "cep",
+      "name": "CEP 004",
+      "floor": 0,
+      "category": "MMD Studio - 01",
+      "description": "Ground floor copy of CEP 103",
+      "coordinate": {
+        "lat": 23.188582,
+        "lng": 72.627764
+      }
+    },
+    {
+      "id": "cep_001",
+      "buildingId": "cep",
+      "name": "CEP 001",
+      "floor": 0,
+      "category": "Electrical Room",
+      "description": "Ground floor copy of CEP 102",
+      "coordinate": {
+        "lat": 23.188515,
+        "lng": 72.628046
+      }
+    },
+    {
+      "id": "cep_002",
+      "buildingId": "cep",
+      "name": "CEP 002",
+      "floor": 0,
+      "category": "MDes, IUxD Studio",
+      "description": "Ground floor copy of CEP 102",
+      "coordinate": {
+        "lat": 23.188555,
+        "lng": 72.628073
+      }
+    },
+    {
+      "id": "cep_003",
+      "buildingId": "cep",
+      "name": "CEP 003",
+      "floor": 0,
+      "category": "IRLP Lab",
+      "description": "Ground floor copy of CEP 102",
+      "coordinate": {
+        "lat": 23.188649,
+        "lng": 72.628083
+      }
+    },
+    {
+      "id": "cep_003A",
+      "buildingId": "cep",
+      "name": "CEP 003A",
+      "floor": 0,
+      "category": " EVD Lab - 1",
+      "description": "Ground floor copy of CEP 102",
+      "coordinate": {
+        "lat": 23.188656,
+        "lng": 72.627973
+      }
+    },
+    {
       "id": "cep_110",
       "buildingId": "cep",
       "name": "CEP 110",
       "floor": 1,
       "category": "classroom",
       "description": "1st floor classroom",
-      "coordinate": { "lat": 23.188347, "lng": 72.628048 }
+      "coordinate": {
+        "lat": 23.188347,
+        "lng": 72.628048
+      }
     },
     {
       "id": "cep_109",
@@ -16,7 +175,10 @@
       "floor": 1,
       "category": "classroom",
       "description": "1st floor classroom",
-      "coordinate": { "lat": 23.188209, "lng": 72.627973 }
+      "coordinate": {
+        "lat": 23.188209,
+        "lng": 72.627973
+      }
     },
     {
       "id": "cep_108",
@@ -25,7 +187,10 @@
       "floor": 1,
       "category": "classroom",
       "description": "1st floor classroom",
-      "coordinate": { "lat": 23.188194, "lng": 72.627890 }
+      "coordinate": {
+        "lat": 23.188194,
+        "lng": 72.627890
+      }
     },
     {
       "id": "cep_107",
@@ -34,7 +199,10 @@
       "floor": 1,
       "category": "classroom",
       "description": "Ground floor laboratory",
-      "coordinate": { "lat": 23.188204, "lng": 72.627815 }
+      "coordinate": {
+        "lat": 23.188204,
+        "lng": 72.627815
+      }
     },
     {
       "id": "cep_106",
@@ -43,7 +211,10 @@
       "floor": 1,
       "category": "classroom",
       "description": "First floor classroom",
-      "coordinate": { "lat": 23.188259, "lng": 72.627772 }
+      "coordinate": {
+        "lat": 23.188259,
+        "lng": 72.627772
+      }
     },
     {
       "id": "cep_105",
@@ -52,7 +223,10 @@
       "floor": 1,
       "category": "classroom",
       "description": "First floor office",
-      "coordinate": { "lat": 23.188367, "lng": 72.627772 }
+      "coordinate": {
+        "lat": 23.188367,
+        "lng": 72.627772
+      }
     },
     {
       "id": "cep_104",
@@ -61,7 +235,10 @@
       "floor": 1,
       "category": "classroom",
       "description": "First floor classroom",
-      "coordinate": { "lat": 23.188508, "lng": 72.627767 }
+      "coordinate": {
+        "lat": 23.188508,
+        "lng": 72.627767
+      }
     },
     {
       "id": "cep_103",
@@ -70,7 +247,10 @@
       "floor": 1,
       "category": "classroom",
       "description": "Third floor laboratory",
-      "coordinate": { "lat": 23.188582, "lng": 72.627764 }
+      "coordinate": {
+        "lat": 23.188582,
+        "lng": 72.627764
+      }
     },
     {
       "id": "cep_102",
@@ -79,7 +259,917 @@
       "floor": 1,
       "category": "seminar",
       "description": "Top floor seminar room",
-      "coordinate": { "lat": 23.188515, "lng": 72.628046 }
+      "coordinate": {
+        "lat": 23.188515,
+        "lng": 72.628046
+      }
+    },
+    {
+      "id": "cep_206",
+      "buildingId": "cep",
+      "name": "CEP 206",
+      "floor": 2,
+      "category": "seminar",
+      "description": "Top floor seminar room",
+      "coordinate": {
+        "lat": 23.188369,
+        "lng": 72.627796
+      }
+    },
+    {
+      "id": "cep_207",
+      "buildingId": "cep",
+      "name": "CEP 207",
+      "floor": 2,
+      "category": "seminar",
+      "description": "Top floor seminar room",
+      "coordinate": {
+        "lat": 23.188328,
+        "lng": 72.627796
+      }
+    },
+    {
+      "id": "cep_208",
+      "buildingId": "cep",
+      "name": "CEP 208",
+      "aliases": [
+        "CEP 208",
+        "System Design Lab"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "Top floor seminar room",
+      "coordinate": {
+        "lat": 23.188217,
+        "lng": 72.627810
+      }
+    },
+    {
+      "id": "cep_209",
+      "buildingId": "cep",
+      "name": "CEP 209",
+      "aliases": [
+        "CEP 209"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188214,
+        "lng": 72.627898
+      }
+    },
+    {
+      "id": "cep_210",
+      "buildingId": "cep",
+      "name": "CEP 210",
+      "aliases": [
+        "CEP 210",
+        "ICESO Lab"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188214,
+        "lng": 72.627976
+      }
+    },
+    {
+      "id": "cep_211",
+      "buildingId": "cep",
+      "name": "CEP 211",
+      "aliases": [
+        "CEP 211",
+        "AIP Computational Lab"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188268,
+        "lng": 72.627989
+      }
+    },
+    {
+      "id": "cep_212",
+      "buildingId": "cep",
+      "name": "CEP 212",
+      "aliases": [
+        "CEP 212"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188303,
+        "lng": 72.627989
+      }
+    },
+    {
+      "id": "cep_213",
+      "buildingId": "cep",
+      "name": "CEP 213",
+      "aliases": [
+        "CEP 213",
+        "Record Room"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188365,
+        "lng": 72.627995
+      }
+    },
+    {
+      "id": "cep_201",
+      "buildingId": "cep",
+      "name": "CEP 201",
+      "aliases": [
+        "CEP 201",
+        "Radio Room"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188503,
+        "lng": 72.628013
+      }
+    },
+    {
+      "id": "cep_202",
+      "buildingId": "cep",
+      "name": "CEP 202",
+      "aliases": [
+        "CEP 202"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188567,
+        "lng": 72.628019
+      }
+    },
+    {
+      "id": "cep_203",
+      "buildingId": "cep",
+      "name": "CEP 203",
+      "aliases": [
+        "CEP 203"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188633,
+        "lng": 72.628022
+      }
+    },
+    {
+      "id": "cep_204",
+      "buildingId": "cep",
+      "name": "CEP 204",
+      "aliases": [
+        "CEP 204"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188584,
+        "lng": 72.627759
+      }
+    },
+    {
+      "id": "cep_205",
+      "buildingId": "cep",
+      "name": "CEP 205",
+      "aliases": [
+        "CEP 205"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188512,
+        "lng": 72.627761
+      }
+    },
+    {
+      "id": "lab_004",
+      "buildingId": "Lab_building",
+      "name": "Lab 004",
+      "aliases": [
+        "Lab 004"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187087,
+        "lng": 72.628156
+      }
+    },
+    {
+      "id": "lab_005",
+      "buildingId": "Lab_building",
+      "name": "Lab 005",
+      "aliases": [
+        "Lab 005"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186974,
+        "lng": 72.628158
+      }
+    },
+    {
+      "id": "lab_006",
+      "buildingId": "Lab_building",
+      "name": "Lab 006",
+      "aliases": [
+        "Lab 006"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186873,
+        "lng": 72.628105
+      }
+    },
+    {
+      "id": "lab_007",
+      "buildingId": "Lab_building",
+      "name": "Lab 007",
+      "aliases": [
+        "Lab 007"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186878,
+        "lng": 72.628048
+      }
+    },
+    {
+      "id": "lab_008",
+      "buildingId": "Lab_building",
+      "name": "Lab 008",
+      "aliases": [
+        "Lab 008"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186880,
+        "lng": 72.627944
+      }
+    },
+    {
+      "id": "lab_009",
+      "buildingId": "Lab_building",
+      "name": "Lab 009",
+      "aliases": [
+        "Lab 009"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186843,
+        "lng": 72.627871
+      }
+    },
+    {
+      "id": "lab_010",
+      "buildingId": "Lab_building",
+      "name": "Lab 010",
+      "aliases": [
+        "Lab 010"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186863,
+        "lng": 72.627799
+      }
+    },
+    {
+      "id": "lab_011",
+      "buildingId": "Lab_building",
+      "name": "Lab 011",
+      "aliases": [
+        "Lab 011"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186902,
+        "lng": 72.627866
+      }
+    },
+    {
+      "id": "lab_012",
+      "buildingId": "Lab_building",
+      "name": "Lab 012",
+      "aliases": [
+        "Lab 012"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186949,
+        "lng": 72.627869
+      }
+    },
+    {
+      "id": "lab_013",
+      "buildingId": "Lab_building",
+      "name": "Lab 013",
+      "aliases": [
+        "Lab 013"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187016,
+        "lng": 72.627863
+      }
+    },
+    {
+      "id": "lab_014",
+      "buildingId": "Lab_building",
+      "name": "Lab 014",
+      "aliases": [
+        "Lab 014"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187124,
+        "lng": 72.627866
+      }
+    },
+    {
+      "id": "lab_001",
+      "buildingId": "Lab_building",
+      "name": "Lab 001",
+      "aliases": [
+        "Lab 001"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187211,
+        "lng": 72.627938
+      }
+    },
+    {
+      "id": "lab_002",
+      "buildingId": "Lab_building",
+      "name": "Lab 002",
+      "aliases": [
+        "Lab 002"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187203,
+        "lng": 72.628032
+      }
+    },
+    {
+      "id": "lab_003",
+      "buildingId": "Lab_building",
+      "name": "Lab 003",
+      "aliases": [
+        "Lab 003"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187196,
+        "lng": 72.628094
+      }
+    },
+    {
+      "id": "lab_104",
+      "buildingId": "Lab_building",
+      "name": "Lab 104",
+      "aliases": [
+        "Lab 104"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187087,
+        "lng": 72.628156
+      }
+    },
+    {
+      "id": "lab_105",
+      "buildingId": "Lab_building",
+      "name": "Lab 105",
+      "aliases": [
+        "Lab 105"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186974,
+        "lng": 72.628158
+      }
+    },
+    {
+      "id": "lab_106",
+      "buildingId": "Lab_building",
+      "name": "Lab 106",
+      "aliases": [
+        "Lab 106"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186873,
+        "lng": 72.628105
+      }
+    },
+    {
+      "id": "lab_107",
+      "buildingId": "Lab_building",
+      "name": "Lab 107",
+      "aliases": [
+        "Lab 107"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186878,
+        "lng": 72.628048
+      }
+    },
+    {
+      "id": "lab_108",
+      "buildingId": "Lab_building",
+      "name": "Lab 108",
+      "aliases": [
+        "Lab 108"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186880,
+        "lng": 72.627944
+      }
+    },
+    {
+      "id": "lab_109",
+      "buildingId": "Lab_building",
+      "name": "Lab 109",
+      "aliases": [
+        "Lab 109"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186843,
+        "lng": 72.627871
+      }
+    },
+    {
+      "id": "lab_110",
+      "buildingId": "Lab_building",
+      "name": "Lab 110",
+      "aliases": [
+        "Lab 110"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186863,
+        "lng": 72.627799
+      }
+    },
+    {
+      "id": "lab_111",
+      "buildingId": "Lab_building",
+      "name": "Lab 111",
+      "aliases": [
+        "Lab 111"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186902,
+        "lng": 72.627866
+      }
+    },
+    {
+      "id": "lab_111",
+      "buildingId": "Lab_building",
+      "name": "Lab 111",
+      "aliases": [
+        "Lab 111"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186949,
+        "lng": 72.627869
+      }
+    },
+    {
+      "id": "lab_112",
+      "buildingId": "Lab_building",
+      "name": "Lab 112",
+      "aliases": [
+        "Lab 112"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187016,
+        "lng": 72.627863
+      }
+    },
+    {
+      "id": "lab_113",
+      "buildingId": "Lab_building",
+      "name": "Lab 113",
+      "aliases": [
+        "Lab 113"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187124,
+        "lng": 72.627866
+      }
+    },
+    {
+      "id": "lab_101",
+      "buildingId": "Lab_building",
+      "name": "Lab 101",
+      "aliases": [
+        "Lab 101"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187211,
+        "lng": 72.627938
+      }
+    },
+    {
+      "id": "lab_102",
+      "buildingId": "Lab_building",
+      "name": "Lab 102",
+      "aliases": [
+        "Lab 102"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187203,
+        "lng": 72.628032
+      }
+    },
+    {
+      "id": "lab_103",
+      "buildingId": "Lab_building",
+      "name": "Lab 103",
+      "aliases": [
+        "Lab 103"
+      ],
+      "floor": 1,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187196,
+        "lng": 72.628094
+      }
+    },
+    {
+      "id": "lab_204",
+      "buildingId": "Lab_building",
+      "name": "Lab 204",
+      "aliases": [
+        "Lab 204"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187087,
+        "lng": 72.628156
+      }
+    },
+    {
+      "id": "lab_205",
+      "buildingId": "Lab_building",
+      "name": "Lab 205",
+      "aliases": [
+        "Lab 205"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186974,
+        "lng": 72.628158
+      }
+    },
+    {
+      "id": "lab_206",
+      "buildingId": "Lab_building",
+      "name": "Lab 206",
+      "aliases": [
+        "Lab 206"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186873,
+        "lng": 72.628105
+      }
+    },
+    {
+      "id": "lab_207",
+      "buildingId": "Lab_building",
+      "name": "Lab 207",
+      "aliases": [
+        "Lab 207"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186878,
+        "lng": 72.628048
+      }
+    },
+    {
+      "id": "lab_208",
+      "buildingId": "Lab_building",
+      "name": "Lab 208",
+      "aliases": [
+        "Lab 208"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186880,
+        "lng": 72.627944
+      }
+    },
+    {
+      "id": "lab_209",
+      "buildingId": "Lab_building",
+      "name": "Lab 209",
+      "aliases": [
+        "Lab 209"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186843,
+        "lng": 72.627871
+      }
+    },
+    {
+      "id": "lab_210",
+      "buildingId": "Lab_building",
+      "name": "Lab 210",
+      "aliases": [
+        "Lab 210"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186863,
+        "lng": 72.627799
+      }
+    },
+    {
+      "id": "lab_211",
+      "buildingId": "Lab_building",
+      "name": "Lab 211",
+      "aliases": [
+        "Lab 211"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186902,
+        "lng": 72.627866
+      }
+    },
+    {
+      "id": "lab_212",
+      "buildingId": "Lab_building",
+      "name": "Lab 212",
+      "aliases": [
+        "Lab 212"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.186949,
+        "lng": 72.627869
+      }
+    },
+    {
+      "id": "lab_213",
+      "buildingId": "Lab_building",
+      "name": "Lab 213",
+      "aliases": [
+        "Lab 213"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187016,
+        "lng": 72.627863
+      }
+    },
+    {
+      "id": "lab_214_&_215",
+      "buildingId": "Lab_building",
+      "name": "Lab 214 & 215",
+      "aliases": [
+        "Lab 214",
+        "Lab 215"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187124,
+        "lng": 72.627866
+      }
+    },
+    {
+      "id": "lab_201",
+      "buildingId": "Lab_building",
+      "name": "Lab 201",
+      "aliases": [
+        "Lab 201"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187211,
+        "lng": 72.627938
+      }
+    },
+    {
+      "id": "lab_202",
+      "buildingId": "Lab_building",
+      "name": "Lab 202",
+      "aliases": [
+        "Lab 202"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187203,
+        "lng": 72.628032
+      }
+    },
+    {
+      "id": "lab_203",
+      "buildingId": "Lab_building",
+      "name": "Lab 203",
+      "aliases": [
+        "Lab 203"
+      ],
+      "floor": 2,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.187196,
+        "lng": 72.628094
+      }
+    },
+    {
+      "id": "RB_001",
+      "buildingId": "RC",
+      "name": "RB 001",
+      "aliases": [
+        "RB 001",
+        "Media Centre",
+        "Preview room"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188959,
+        "lng": 72.628695
+      }
+    },
+    {
+      "id": "RB_002",
+      "buildingId": "RC",
+      "name": "RB 002",
+      "aliases": [
+        "RB 002",
+        "Digital Resources",
+        "Collab reading zone"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188954,
+        "lng": 72.628756
+      }
+    },
+    {
+      "id": "RB_003",
+      "buildingId": "RC",
+      "name": "RB 003",
+      "aliases": [
+        "RB 003"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188890,
+        "lng": 72.628754
+      }
+    },
+    {
+      "id": "RB_004",
+      "buildingId": "RC",
+      "name": "RB 004",
+      "aliases": [
+        "RB 004",
+        "Institutional Repository",
+        "Repo room"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188887,
+        "lng": 72.628735
+      }
+    },
+    {
+      "id": "RB_005",
+      "buildingId": "RC",
+      "name": "RB 005",
+      "aliases": [
+        "RB 005",
+        "Electrical room"
+      ],
+      "floor": 0,
+      "category": "seminar",
+      "description": "ClassRoom",
+      "coordinate": {
+        "lat": 23.188887,
+        "lng": 72.628676
+      }
     }
   ]
 }

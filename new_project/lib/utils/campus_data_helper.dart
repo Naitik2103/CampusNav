@@ -110,6 +110,7 @@ class CampusPlaceHelper {
   static CampusPlace createPlace({
     required String id,
     required String name,
+    List<String> aliases = const [],
     required LatLng location,
     required String placeType,
     String? department,
@@ -120,6 +121,7 @@ class CampusPlaceHelper {
     return CampusPlace(
       id: id,
       name: name,
+      aliases: aliases,
       location: location,
       placeType: placeType,
       department: department,
