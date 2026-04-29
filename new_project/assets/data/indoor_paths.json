@@ -12,7 +12,96 @@
         "cep_room_107",
         "cep_stair_a_f2"
       ],
+      "entrancesByFloor": {
+        "0": ["cep_gate_west", "cep_stair_a_f0"],
+        "1": ["cep_stair_a_f1"],
+        "2": ["cep_stair_a_f2"]
+      },
       "nodes": [
+        {
+          "id": "cep_room_013",
+          "floor": 0,
+          "coordinate": { "lat": 23.188358, "lng": 72.628059 },
+          "type": "room-door",
+          "roomId": "cep_013"
+        },
+        {
+          "id": "cep_room_012",
+          "floor": 0,
+          "coordinate": { "lat": 23.188289, "lng": 72.628059 },
+          "type": "room-door",
+          "roomId": "cep_012"
+        },
+        {
+          "id": "cep_room_010",
+          "floor": 0,
+          "coordinate": { "lat": 23.188209, "lng": 72.627973 },
+          "type": "room-door",
+          "roomId": "cep_010"
+        },
+        {
+          "id": "cep_room_009",
+          "floor": 0,
+          "coordinate": { "lat": 23.188194, "lng": 72.627890 },
+          "type": "room-door",
+          "roomId": "cep_009"
+        },
+        {
+          "id": "cep_room_008",
+          "floor": 0,
+          "coordinate": { "lat": 23.188181, "lng": 72.627806 },
+          "type": "room-door",
+          "roomId": "cep_008"
+        },
+        {
+          "id": "cep_room_006",
+          "floor": 0,
+          "coordinate": { "lat": 23.188367, "lng": 72.627772 },
+          "type": "room-door",
+          "roomId": "cep_006"
+        },
+        {
+          "id": "cep_room_005",
+          "floor": 0,
+          "coordinate": { "lat": 23.188259, "lng": 72.627772 },
+          "type": "room-door",
+          "roomId": "cep_0005"
+        },
+        {
+          "id": "cep_room_004",
+          "floor": 0,
+          "coordinate": { "lat": 23.188582, "lng": 72.627764 },
+          "type": "room-door",
+          "roomId": "cep_004"
+        },
+        {
+          "id": "cep_room_001",
+          "floor": 0,
+          "coordinate": { "lat": 23.188515, "lng": 72.628046 },
+          "type": "room-door",
+          "roomId": "cep_001"
+        },
+        {
+          "id": "cep_room_002",
+          "floor": 0,
+          "coordinate": { "lat": 23.188555, "lng": 72.628073 },
+          "type": "room-door",
+          "roomId": "cep_002"
+        },
+        {
+          "id": "cep_room_003",
+          "floor": 0,
+          "coordinate": { "lat": 23.188649, "lng": 72.628083 },
+          "type": "room-door",
+          "roomId": "cep_003"
+        },
+        {
+          "id": "cep_room_003a",
+          "floor": 0,
+          "coordinate": { "lat": 23.188656, "lng": 72.627973 },
+          "type": "room-door",
+          "roomId": "cep_003A"
+        },
         {
           "id": "cep_room_102",
           "floor": 1,
@@ -162,41 +251,80 @@
           "coordinate": { "lat": 23.188347, "lng": 72.628048 },
           "type": "room-door",
           "roomId": "cep_210"
+        },
+        {
+          "id": "cep_room_201",
+          "floor": 2,
+          "coordinate": { "lat": 23.188503, "lng": 72.628013 },
+          "type": "room-door",
+          "roomId": "cep_201"
+        },
+        {
+          "id": "cep_room_211",
+          "floor": 2,
+          "coordinate": { "lat": 23.188268, "lng": 72.627989 },
+          "type": "room-door",
+          "roomId": "cep_211"
+        },
+        {
+          "id": "cep_room_212",
+          "floor": 2,
+          "coordinate": { "lat": 23.188303, "lng": 72.627989 },
+          "type": "room-door",
+          "roomId": "cep_212"
+        },
+        {
+          "id": "cep_room_213",
+          "floor": 2,
+          "coordinate": { "lat": 23.188365, "lng": 72.627995 },
+          "type": "room-door",
+          "roomId": "cep_213"
         }
       ],
       "edges": [
+        { "from": "cep_stair_a_f0", "to": "cep_room_003a", "bidirectional": true },
+        { "from": "cep_room_003a", "to": "cep_room_004", "bidirectional": true },
+        { "from": "cep_room_003a", "to": "cep_room_003", "bidirectional": true },
+        { "from": "cep_room_003", "to": "cep_room_002", "bidirectional": true },
+        { "from": "cep_room_002", "to": "cep_room_001", "bidirectional": true },
+        { "from": "cep_room_001", "to": "cep_room_013", "bidirectional": true },
+        { "from": "cep_room_013", "to": "cep_room_012", "bidirectional": true },
+        { "from": "cep_room_012", "to": "cep_room_010", "bidirectional": true },
+        { "from": "cep_room_010", "to": "cep_room_009", "bidirectional": true },
+        { "from": "cep_room_009", "to": "cep_room_008", "bidirectional": true },
+        { "from": "cep_room_008", "to": "cep_room_005", "bidirectional": true },
+        { "from": "cep_room_008", "to": "cep_room_006", "bidirectional": true },
+        { "from": "cep_room_006", "to": "cep_room_005", "bidirectional": true },
+        { "from": "cep_room_005", "to": "cep_room_004", "bidirectional": true },
+        { "from": "cep_room_107", "to": "cep_room_108", "bidirectional": true },
+        { "from": "cep_room_102", "to": "cep_room_103", "bidirectional": true },
+        { "from": "cep_room_103", "to": "cep_room_104", "bidirectional": true },
+        { "from": "cep_room_104", "to": "cep_room_105", "bidirectional": true },
+        { "from": "cep_room_105", "to": "cep_room_106", "bidirectional": true },
+        { "from": "cep_room_106", "to": "cep_room_107", "bidirectional": true },
         { "from": "cep_room_107", "to": "cep_room_108", "bidirectional": true },
         { "from": "cep_room_108", "to": "cep_room_109", "bidirectional": true },
         { "from": "cep_room_109", "to": "cep_room_110", "bidirectional": true },
         { "from": "cep_room_110", "to": "cep_room_102", "bidirectional": true },
-
-        { "from": "cep_room_107", "to": "cep_room_106", "bidirectional": true },
-        { "from": "cep_room_106", "to": "cep_room_105", "bidirectional": true },
-        { "from": "cep_room_105", "to": "cep_room_104", "bidirectional": true },
-        { "from": "cep_room_104", "to": "cep_room_103", "bidirectional": true },
-
-        { "from": "cep_room_108", "to": "cep_room_106", "bidirectional": true },
-        { "from": "cep_room_109", "to": "cep_room_105", "bidirectional": true },
-        { "from": "cep_room_110", "to": "cep_room_104", "bidirectional": true },
-
+        { "from": "cep_stair_a_f1", "to": "cep_room_102", "bidirectional": true },
+        { "from": "cep_stair_a_f1", "to": "cep_room_103", "bidirectional": true },
         { "from": "cep_stair_a_f1", "to": "cep_stair_a_f2", "bidirectional": true },
         { "from": "cep_stair_a_f0", "to": "cep_stair_a_f1", "bidirectional": true },
         { "from": "cep_gate_west", "to": "cep_stair_a_f0", "bidirectional": true },
-
         { "from": "cep_stair_a_f2", "to": "cep_room_207", "bidirectional": true },
-        { "from": "cep_room_207", "to": "cep_room_208", "bidirectional": true },
-        { "from": "cep_room_208", "to": "cep_room_209", "bidirectional": true },
-        { "from": "cep_room_209", "to": "cep_room_210", "bidirectional": true },
-        { "from": "cep_room_210", "to": "cep_room_202", "bidirectional": true },
-
-        { "from": "cep_stair_a_f2", "to": "cep_room_206", "bidirectional": true },
+        { "from": "cep_room_203", "to": "cep_room_202", "bidirectional": true },
+        { "from": "cep_room_202", "to": "cep_room_201", "bidirectional": true },
+        { "from": "cep_room_201", "to": "cep_room_213", "bidirectional": true },
+        { "from": "cep_room_213", "to": "cep_room_212", "bidirectional": true },
+        { "from": "cep_room_212", "to": "cep_room_211", "bidirectional": true },
+        { "from": "cep_room_211", "to": "cep_room_210", "bidirectional": true },
+        { "from": "cep_room_210", "to": "cep_room_209", "bidirectional": true },
+        { "from": "cep_room_209", "to": "cep_room_208", "bidirectional": true },
+        { "from": "cep_room_208", "to": "cep_room_207", "bidirectional": true },
+        { "from": "cep_room_207", "to": "cep_room_206", "bidirectional": true },
         { "from": "cep_room_206", "to": "cep_room_205", "bidirectional": true },
         { "from": "cep_room_205", "to": "cep_room_204", "bidirectional": true },
-        { "from": "cep_room_204", "to": "cep_room_203", "bidirectional": true },
-
-        { "from": "cep_room_208", "to": "cep_room_206", "bidirectional": true },
-        { "from": "cep_room_209", "to": "cep_room_205", "bidirectional": true },
-        { "from": "cep_room_210", "to": "cep_room_204", "bidirectional": true }
+        { "from": "cep_room_204", "to": "cep_room_203", "bidirectional": true }
       ],
       "roomNodeMap": {
         "cep_102": "cep_room_102",

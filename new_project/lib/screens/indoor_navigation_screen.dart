@@ -42,6 +42,11 @@ class _IndoorNavigationScreenState extends State<IndoorNavigationScreen> {
       widget.building.buildingId,
       _selectedFloor,
     );
+    final graphLines = IndoorNavigationService.instance.getIndoorGraphLines(
+      buildingId: widget.building.buildingId,
+      floor: _selectedFloor,
+    );
+    final showGraphAsRoute = _selectedRoom != null;
 
     return Scaffold(
       appBar: AppBar(title: Text('${widget.building.name} Indoor Navigation')),
@@ -62,6 +67,8 @@ class _IndoorNavigationScreenState extends State<IndoorNavigationScreen> {
                           floor: _selectedFloor,
                           rooms: rooms,
                           selectedRoom: _selectedRoom,
+                          graphLines: graphLines,
+                          showGraphAsRoute: showGraphAsRoute,
                           routePolyline: _routePolyline,
                           onRoomTap: _onRoomSelected,
                         ),
@@ -184,8 +191,8 @@ class _IndoorNavigationScreenState extends State<IndoorNavigationScreen> {
     }
 
     var nextHint = widget.currentGpsLocation != null
-      ? 'Routing from your current location to ${room.name}'
-      : 'Room ${room.name} is on Floor ${room.floor}';
+        ? 'Routing from your current location to ${room.name}'
+        : 'Room ${room.name} is on Floor ${room.floor}';
     var nextFloor = _selectedFloor;
 
     if (suggestion.requiresFloorTransition) {
@@ -210,6 +217,8 @@ class IndoorFloorPlanCanvas extends StatelessWidget {
   final int floor;
   final List<IndoorRoom> rooms;
   final IndoorRoom? selectedRoom;
+  final List<List<LatLng>> graphLines;
+  final bool showGraphAsRoute;
   final List<LatLng> routePolyline;
   final ValueChanged<IndoorRoom> onRoomTap;
 
@@ -219,6 +228,8 @@ class IndoorFloorPlanCanvas extends StatelessWidget {
     required this.floor,
     required this.rooms,
     required this.selectedRoom,
+    required this.graphLines,
+    required this.showGraphAsRoute,
     required this.routePolyline,
     required this.onRoomTap,
   });
@@ -241,6 +252,8 @@ class IndoorFloorPlanCanvas extends StatelessWidget {
                 rooms: rooms,
                 transitions: transitions.toList(),
                 selectedRoom: selectedRoom,
+                graphLines: graphLines,
+                showGraphAsRoute: showGraphAsRoute,
                 routePolyline: routePolyline,
                 bounds: bounds,
               ),
@@ -306,6 +319,8 @@ class _FloorPlanPainter extends CustomPainter {
   final List<IndoorRoom> rooms;
   final List<IndoorTransitionPoint> transitions;
   final IndoorRoom? selectedRoom;
+  final List<List<LatLng>> graphLines;
+  final bool showGraphAsRoute;
   final List<LatLng> routePolyline;
   final Rect bounds;
 
@@ -314,6 +329,8 @@ class _FloorPlanPainter extends CustomPainter {
     required this.rooms,
     required this.transitions,
     required this.selectedRoom,
+    required this.graphLines,
+    required this.showGraphAsRoute,
     required this.routePolyline,
     required this.bounds,
   });
@@ -341,6 +358,15 @@ class _FloorPlanPainter extends CustomPainter {
       ..color = const Color(0xFFEA580C)
       ..style = PaintingStyle.fill;
 
+    final graphPaint = Paint()
+      ..color = showGraphAsRoute
+          ? const Color(0xFF16A34A)
+          : const Color(0xFF60A5FA)
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 2
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = StrokeJoin.round;
+
     final routePaint = Paint()
       ..color = const Color(0xFF16A34A)
       ..style = PaintingStyle.stroke
@@ -362,7 +388,23 @@ class _FloorPlanPainter extends CustomPainter {
     canvas.drawPath(path, fillBoundary);
     canvas.drawPath(path, paintBoundary);
 
-    if (routePolyline.length >= 2) {
+    for (final segment in graphLines) {
+      if (segment.length < 2) {
+        continue;
+      }
+      final graphPath = Path();
+      for (var i = 0; i < segment.length; i++) {
+        final point = _project(segment[i], size);
+        if (i == 0) {
+          graphPath.moveTo(point.dx, point.dy);
+        } else {
+          graphPath.lineTo(point.dx, point.dy);
+        }
+      }
+      canvas.drawPath(graphPath, graphPaint);
+    }
+
+    if (!showGraphAsRoute && routePolyline.length >= 2) {
       final routePath = Path();
       for (var i = 0; i < routePolyline.length; i++) {
         final point = _project(routePolyline[i], size);
@@ -398,8 +440,10 @@ class _FloorPlanPainter extends CustomPainter {
   bool shouldRepaint(covariant _FloorPlanPainter oldDelegate) {
     return oldDelegate.rooms != rooms ||
         oldDelegate.selectedRoom?.id != selectedRoom?.id ||
-      oldDelegate.transitions.length != transitions.length ||
-      !listEquals(oldDelegate.routePolyline, routePolyline);
+        oldDelegate.transitions.length != transitions.length ||
+        !listEquals(oldDelegate.routePolyline, routePolyline) ||
+        oldDelegate.graphLines.length != graphLines.length ||
+        oldDelegate.showGraphAsRoute != showGraphAsRoute;
   }
 
   Offset _project(LatLng coordinate, Size size) {

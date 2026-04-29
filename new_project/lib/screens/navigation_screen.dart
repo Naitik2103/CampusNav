@@ -205,7 +205,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
       return bearing * math.pi / 180;
     }
 
-    final bearing = const Distance().bearing(referencePoint, widget.endLocation);
+    final bearing = const Distance().bearing(
+      referencePoint,
+      widget.endLocation,
+    );
     return bearing * math.pi / 180;
   }
 
@@ -833,10 +836,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
         ? currentRoute!.steps[currentStepIndex]
         : null;
     final currentMarkerPoint = _getCurrentMarkerPoint();
-    final displayedRoutePoints =
-      _isLockedMultiStopRoute
-      ? currentRoute!.waypoints
-      : _currentDisplayLocation != null
+    final displayedRoutePoints = _isLockedMultiStopRoute
+        ? currentRoute!.waypoints
+        : _currentDisplayLocation != null
         ? _buildRemainingRoutePath(
             currentRoute!.waypoints,
             _currentDisplayLocation!,
@@ -918,9 +920,12 @@ class _NavigationScreenState extends State<NavigationScreen> {
                     ),
                   ],
                 ),
-                if (widget.routePlaces != null && widget.routePlaces!.length > 1)
+                if (widget.routePlaces != null &&
+                    widget.routePlaces!.length > 1)
                   MarkerLayer(
-                    markers: widget.routePlaces!.asMap().entries
+                    markers: widget.routePlaces!
+                        .asMap()
+                        .entries
                         .where((entry) {
                           final isFirst = entry.key == 0;
                           final isLiveSource =
@@ -938,57 +943,60 @@ class _NavigationScreenState extends State<NavigationScreen> {
                           final showGreenSourcePin = isFirst && !isLiveSource;
                           final showRedDestinationPin = isLast;
 
-                      return Marker(
-                        width: (showGreenSourcePin || showRedDestinationPin)
-                            ? 44
-                            : 36,
-                        height: (showGreenSourcePin || showRedDestinationPin)
-                            ? 44
-                            : 36,
-                        point: place.location,
-                        child: GestureDetector(
-                          onTap: () => _showPlaceNamePopup(place),
-                          child: showGreenSourcePin
-                              ? const Icon(
-                                  Icons.location_pin,
-                                  color: Colors.green,
-                                  size: 42,
-                                )
-                              : showRedDestinationPin
-                              ? const Icon(
-                                  Icons.location_pin,
-                                  color: Colors.red,
-                                  size: 42,
-                                )
-                              : Container(
-                                  decoration: BoxDecoration(
-                                    color: _getPlaceColor(place),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 1.8,
-                                    ),
-                                    boxShadow: const [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        blurRadius: 3,
+                          return Marker(
+                            width: (showGreenSourcePin || showRedDestinationPin)
+                                ? 44
+                                : 36,
+                            height:
+                                (showGreenSourcePin || showRedDestinationPin)
+                                ? 44
+                                : 36,
+                            point: place.location,
+                            child: GestureDetector(
+                              onTap: () => _showPlaceNamePopup(place),
+                              child: showGreenSourcePin
+                                  ? const Icon(
+                                      Icons.location_pin,
+                                      color: Colors.green,
+                                      size: 42,
+                                    )
+                                  : showRedDestinationPin
+                                  ? const Icon(
+                                      Icons.location_pin,
+                                      color: Colors.red,
+                                      size: 42,
+                                    )
+                                  : Container(
+                                      decoration: BoxDecoration(
+                                        color: _getPlaceColor(place),
+                                        shape: BoxShape.circle,
+                                        border: Border.all(
+                                          color: Colors.white,
+                                          width: 1.8,
+                                        ),
+                                        boxShadow: const [
+                                          BoxShadow(
+                                            color: Colors.black26,
+                                            blurRadius: 3,
+                                          ),
+                                        ],
                                       ),
-                                    ],
-                                  ),
-                                  child: Icon(
-                                    _getPlaceIcon(place),
-                                    color: Colors.white,
-                                    size: 20,
-                                  ),
-                                ),
-                        ),
-                      );
-                    }).toList(),
+                                      child: Icon(
+                                        _getPlaceIcon(place),
+                                        color: Colors.white,
+                                        size: 20,
+                                      ),
+                                    ),
+                            ),
+                          );
+                        })
+                        .toList(),
                   ),
                 MarkerLayer(
                   markers: [
                     // End marker
-                    if (widget.routePlaces == null || widget.routePlaces!.isEmpty)
+                    if (widget.routePlaces == null ||
+                        widget.routePlaces!.isEmpty)
                       Marker(
                         width: 40,
                         height: 40,
@@ -1154,7 +1162,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
                         final remainingCount =
                             currentRoute!.steps.length - currentStepIndex - 1;
                         for (int i = 0; i < remainingCount; i++) {
-                          final step = currentRoute!.steps[currentStepIndex + 1 + i];
+                          final step =
+                              currentRoute!.steps[currentStepIndex + 1 + i];
                           panelItems.add({
                             'type': 'step',
                             'step': step,
@@ -1181,11 +1190,14 @@ class _NavigationScreenState extends State<NavigationScreen> {
                                     color: Color(0xFF065F46),
                                   ),
                                 ),
-                                subtitle: const Text('Intermediate stop reached'),
+                                subtitle: const Text(
+                                  'Intermediate stop reached',
+                                ),
                               );
                             }
 
-                            final step = item['step'] as route_model.NavigationStep;
+                            final step =
+                                item['step'] as route_model.NavigationStep;
                             final label = item['label'] as int;
                             return ListTile(
                               leading: CircleAvatar(
@@ -1193,7 +1205,9 @@ class _NavigationScreenState extends State<NavigationScreen> {
                                 foregroundColor: _brandColor,
                                 child: Text('$label'),
                               ),
-                              title: Text(_localizeInstruction(step.instruction)),
+                              title: Text(
+                                _localizeInstruction(step.instruction),
+                              ),
                               subtitle: Text(
                                 '${step.getFormattedDistance()} • ${step.getFormattedDuration()}',
                               ),
