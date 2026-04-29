@@ -15,7 +15,7 @@
         "department": "Academic Affairs",
         "description": "CEP Building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 3,
         "hasIndoorMap": true
       }
     },
@@ -33,7 +33,7 @@
         "department": null,
         "description": "Main entrance gate to the CEP building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 0,
         "hasIndoorMap": true
       }
     },
@@ -51,7 +51,7 @@
         "department": null,
         "description": "Secondary entrance gate to the CEP building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 0,
         "hasIndoorMap": true
       }
     },
@@ -69,7 +69,7 @@
         "department": null,
         "description": "Tertiary entrance gate to the CEP building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 0,
         "hasIndoorMap": true
       }
     },
@@ -87,7 +87,7 @@
         "department": null,
         "description": "Entrance gate to the Lab Building",
         "imageUrl": null,
-        "floors": 3,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -105,7 +105,7 @@
         "department": null,
         "description": "Secondary entrance gate to the Lab Building",
         "imageUrl": null,
-        "floors": 3,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -123,7 +123,7 @@
         "department": null,
         "description": "Tertiary entrance gate to the LT3 Building",
         "imageUrl": null,
-        "floors": 3,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -141,7 +141,7 @@
         "department": null,
         "description": "Tertiary exit or entrance gate to the LT3 Building",
         "imageUrl": null,
-        "floors": 3,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -159,7 +159,7 @@
         "department": null,
         "description": "Tertiary entrance gate to the LT2 Building",
         "imageUrl": null,
-        "floors": 3,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -177,7 +177,7 @@
         "department": null,
         "description": "Tertiary exit or entrance gate to the LT2 Building",
         "imageUrl": null,
-        "floors": 3,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -191,11 +191,11 @@
       "properties": {
         "id": "LT1",
         "name": "LT1",
-        "placeType": "gate",
+        "placeType": "building",
         "department": null,
-        "description": "Tertiary entrance gate to the LT1 Building",
+        "description": "LT1 Building",
         "imageUrl": null,
-        "floors": 3,
+        "floors": 1,
         "hasIndoorMap": false
       }
     },
@@ -213,7 +213,7 @@
         "department": null,
         "description": "Entrance gate to Faculty Block 1 Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -231,7 +231,7 @@
         "department": null,
         "description": "Entrance gate to Faculty Block 2 Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -249,7 +249,7 @@
         "department": null,
         "description": "Entrance gate to Faculty Block 3 Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -267,7 +267,7 @@
         "department": null,
         "description": "Entrance gate to Faculty Block 4 Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -285,7 +285,7 @@
         "department": null,
         "description": "Entrance gate to Admin Office Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -303,7 +303,7 @@
         "department": "Academic Affairs",
         "description": "Resource Center Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 2,
         "hasIndoorMap": false
       }
     },
@@ -321,7 +321,7 @@
         "department": null,
         "description": "Primary entrance or exit gate to the SAC1 Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -339,7 +339,7 @@
         "department": null,
         "description": "Secondary entrance or exit gate to the SAC1 Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -357,7 +357,7 @@
         "department": null,
         "description": "OAT for outdoor events and activities",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 1,
         "hasIndoorMap": false
       }
     },
@@ -375,7 +375,7 @@
         "department": null,
         "description": "Canteen for students and staff",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -393,7 +393,7 @@
         "department": null,
         "description": "Gate to the Canteen",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 1,
         "hasIndoorMap": false
       }
     },
@@ -411,7 +411,7 @@
         "department": null,
         "description": "Secondary gate to the Canteen",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 1,
         "hasIndoorMap": false
       }
     },
@@ -429,7 +429,7 @@
         "department": null,
         "description": "Medical clinic for students and staff",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 1,
         "hasIndoorMap": false
       }
     },
@@ -448,7 +448,7 @@
         "department": null,
         "description": "SAC2 Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 2,
         "hasIndoorMap": false
       }
     },
@@ -466,7 +466,7 @@
         "department": null,
         "description": "Primary entrance or exit gate to the SAC2 Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -484,7 +484,7 @@
         "department": null,
         "description": "Secondary entrance or exit gate to the SAC2 Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -502,7 +502,7 @@
         "department": null,
         "description": "Tertiary entrance or exit gate to the HOR Women Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -520,7 +520,7 @@
         "department": null,
         "description": "HOR Women Building where girls live",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -538,7 +538,7 @@
         "department": null,
         "description": "Tertiary entrance or exit gate to the G Wing Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -556,7 +556,7 @@
         "department": null,
         "description": "Tertiary entrance or exit gate to the G Wing Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -574,7 +574,7 @@
         "department": null,
         "description": "G Wing Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -592,7 +592,7 @@
         "department": null,
         "description": "F Wing Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -610,7 +610,7 @@
         "department": null,
         "description": "E Wing Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -628,7 +628,7 @@
         "department": null,
         "description": "D Wing Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -646,7 +646,7 @@
         "department": null,
         "description": "C Wing Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -664,7 +664,7 @@
         "department": null,
         "description": "B Wing Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -682,7 +682,7 @@
         "department": null,
         "description": "A Wing Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -700,7 +700,7 @@
         "department": null,
         "description": "H Wing Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -718,7 +718,7 @@
         "department": null,
         "description": "Cricket Ground",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -736,7 +736,7 @@
         "department": null,
         "description": "Basketball Court",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -754,7 +754,7 @@
         "department": "Academic Affairs",
         "description": "Lab Building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 3,
         "hasIndoorMap": true
       }
     },
@@ -772,7 +772,7 @@
         "department": "Academic Affairs",
         "description": "LT2 Building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 0,
         "hasIndoorMap": true
       }
     },
@@ -808,7 +808,7 @@
         "department": "Academic Affairs",
         "description": "NEW HOR MEN Building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 4,
         "hasIndoorMap": true
       }
     },
@@ -826,7 +826,7 @@
         "department": "Academic Affairs",
         "description": "Faculty Block 1 Building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 3,
         "hasIndoorMap": true
       }
     },
@@ -844,7 +844,7 @@
         "department": "Academic Affairs",
         "description": "Faculty Block 2 Building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 3,
         "hasIndoorMap": true
       }
     },
@@ -862,7 +862,7 @@
         "department": "Academic Affairs",
         "description": "Faculty Block 3 Building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 3,
         "hasIndoorMap": true
       }
     },
@@ -880,7 +880,7 @@
         "department": "Academic Affairs",
         "description": "Faculty Block 4 Building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 3,
         "hasIndoorMap": true
       }
     },
@@ -898,7 +898,7 @@
         "department": null,
         "description": "Admin Office Building",
         "imageUrl": null,
-        "floors": 5,
+        "floors": 2,
         "hasIndoorMap": true
       }
     },
@@ -916,7 +916,7 @@
         "department": null,
         "description": "Canteen Building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 1,
         "hasIndoorMap": false
       }
     },
@@ -934,7 +934,7 @@
         "department": null,
         "description": "Student Activity Center 1",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 2,
         "hasIndoorMap": false
       }
     },
@@ -952,7 +952,7 @@
         "department": null,
         "description": "Faculty Residence 1 building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -970,7 +970,7 @@
         "department": null,
         "description": "Faculty Residence 2 building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -988,7 +988,7 @@
         "department": null,
         "description": "Faculty Residence 3 building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -1006,7 +1006,7 @@
         "department": null,
         "description": "Faculty Residence 4 building",
         "imageUrl": null,
-        "floors": 4,
+        "floors": 3,
         "hasIndoorMap": false
       }
     },
@@ -1024,7 +1024,6 @@
         "department": null,
         "description": "HOR Women Parking",
         "imageUrl": null,
-        "floors": 4,
         "hasIndoorMap": false
       }
     },
@@ -1042,7 +1041,6 @@
         "department": null,
         "description": "Faculty and Staff Parking",
         "imageUrl": null,
-        "floors": 4,
         "hasIndoorMap": false
       }
     },
@@ -1060,7 +1058,6 @@
         "department": null,
         "description": "HOR Men Parking",
         "imageUrl": null,
-        "floors": 4,
         "hasIndoorMap": false
       }
     },
@@ -1091,12 +1088,11 @@
       },
       "properties": {
         "id": "Main_LP",
-        "name": "LT Back Parking",
+        "name": "Main LP",
         "placeType": "pond",
         "department": null,
-        "description": "LT Back Parking",
+        "description": "Lotus Pond of DAU",
         "imageUrl": null,
-        "floors": 4,
         "hasIndoorMap": false
       }
     },
@@ -1109,10 +1105,10 @@
       },
       "properties": {
         "id": "Main_Gate",
-        "name": "LT Back Parking",
+        "name": "Main Gate",
         "placeType": "pond",
         "department": null,
-        "description": "LT Back Parking",
+        "description": "Main Gate Dau",
         "imageUrl": null,
         "floors": 4,
         "hasIndoorMap": false
@@ -1157,7 +1153,7 @@
         "name": "New Main Gate",
         "placeType": "gate",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "New Main Gate Dau",
         "imageUrl": null,
         "floors": 4,
         "hasIndoorMap": false
@@ -1176,28 +1172,9 @@
         "name": "Honey One Canteen",
         "placeType": "canteen",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Honey One Canteen",
         "imageUrl": null,
         "floors": 4,
-        "hasIndoorMap": false
-      }
-    },
-
-    {
-      "type": "Feature",
-      "id": "Honey_One_Canteen", 
-      "geometry": {
-        "type": "Point",
-        "coordinates": [72.627026, 23.188836]
-      },
-      "properties": {
-        "id": "Honey_One_Canteen",
-        "name": "Honey One Canteen",
-        "placeType": "canteen",
-        "department": null,
-        "description": "LT Front Parking",
-        "imageUrl": null,
-        "floors": 0,
         "hasIndoorMap": false
       }
     },
@@ -1214,7 +1191,7 @@
         "name": "Asha Pura Maa Canteen",
         "placeType": "canteen",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Asha Pura Maa Canteen",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1233,7 +1210,7 @@
         "name": "Padma Kamal Canteen",
         "placeType": "canteen",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Padma Kamal Canteen",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1252,7 +1229,7 @@
         "name": "Shine Star Canteen",
         "placeType": "canteen",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Shine Star Canteen",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1271,7 +1248,7 @@
         "name": "Non Veg Canteen",
         "placeType": "canteen",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Non Veg Canteen",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1290,7 +1267,7 @@
         "name": "Fruit Shop Canteen",
         "placeType": "canteen",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Fruit Shop Canteen",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1310,7 +1287,7 @@
         "name": "Kaka's Shop Canteen",
         "placeType": "canteen",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Kaka's Shop",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1348,7 +1325,7 @@
         "name": "Bank",
         "placeType": "bank",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Bank",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1364,10 +1341,10 @@
       },
       "properties": {
         "id": "Amul",
-        "name": "Amul Store",
+        "name": "Amul Parlour",
         "placeType": "canteen",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Amul Parlour",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1386,7 +1363,7 @@
         "name": "K++",
         "placeType": "canteen",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "K++ Canteen",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1405,7 +1382,7 @@
         "name": "Bakery",
         "placeType": "shop",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Bakery",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1425,7 +1402,7 @@
         "name": "Nescafe",
         "placeType": "coffee_shop",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Nescafe",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1444,7 +1421,7 @@
         "name": "DG Room",
         "placeType": "Power_Infrastructure",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "DG Room",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1464,7 +1441,7 @@
         "name": "Sub-Station",
         "placeType": "Power_Infrastructure",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Sub-Station",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1483,7 +1460,7 @@
         "name": "Net House",
         "placeType": "Power_Infrastructure",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Net House",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1502,7 +1479,7 @@
         "name": "RC A-wing",
         "placeType": "studyplace",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "A wing of the RC",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1521,7 +1498,7 @@
         "name": "RC B-wing",
         "placeType": "studyplace",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "B wing of the RC",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1540,7 +1517,7 @@
         "name": "Hostel Supervisior",
         "placeType": "office",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Hostel Supervisior Office",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1559,7 +1536,7 @@
         "name": "LR - Lakshman Rekha",
         "placeType": "place",
         "department": null,
-        "description": "LT Front Parking",
+        "description": "Entrance for the girl's hostel",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false

@@ -264,13 +264,14 @@
         "lng": 72.628046
       }
     },
+
     {
       "id": "cep_206",
       "buildingId": "cep",
       "name": "CEP 206",
       "floor": 2,
-      "category": "seminar",
-      "description": "Top floor seminar room",
+      "category": "classroom",
+      "description": "Top floor classroom room",
       "coordinate": {
         "lat": 23.188369,
         "lng": 72.627796
@@ -281,8 +282,8 @@
       "buildingId": "cep",
       "name": "CEP 207",
       "floor": 2,
-      "category": "seminar",
-      "description": "Top floor seminar room",
+      "category": "classroom",
+      "description": "Top floor classroom room",
       "coordinate": {
         "lat": 23.188328,
         "lng": 72.627796
@@ -297,8 +298,8 @@
         "System Design Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "Top floor seminar room",
+      "category": "System Design Lab",
+      "description": "Top floor System Design Lab",
       "coordinate": {
         "lat": 23.188217,
         "lng": 72.627810
@@ -312,7 +313,7 @@
         "CEP 209"
       ],
       "floor": 2,
-      "category": "seminar",
+      "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
         "lat": 23.188214,
@@ -325,11 +326,11 @@
       "name": "CEP 210",
       "aliases": [
         "CEP 210",
-        "ICESO Lab"
+        "ICESD Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "ICESD Lab",
+      "description": "ICESD Lab",
       "coordinate": {
         "lat": 23.188214,
         "lng": 72.627976
@@ -344,8 +345,8 @@
         "AIP Computational Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "AIP Computational Lab",
+      "description": "AIP Computational Lab",
       "coordinate": {
         "lat": 23.188268,
         "lng": 72.627989
@@ -359,7 +360,7 @@
         "CEP 212"
       ],
       "floor": 2,
-      "category": "seminar",
+      "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
         "lat": 23.188303,
@@ -375,7 +376,7 @@
         "Record Room"
       ],
       "floor": 2,
-      "category": "seminar",
+      "category": "Record Room",
       "description": "ClassRoom",
       "coordinate": {
         "lat": 23.188365,
@@ -391,8 +392,8 @@
         "Radio Room"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Radio Room",
+      "description": "Radio Room",
       "coordinate": {
         "lat": 23.188503,
         "lng": 72.628013
@@ -406,7 +407,7 @@
         "CEP 202"
       ],
       "floor": 2,
-      "category": "seminar",
+      "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
         "lat": 23.188567,
@@ -421,7 +422,7 @@
         "CEP 203"
       ],
       "floor": 2,
-      "category": "seminar",
+      "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
         "lat": 23.188633,
@@ -436,7 +437,7 @@
         "CEP 204"
       ],
       "floor": 2,
-      "category": "seminar",
+      "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
         "lat": 23.188584,
@@ -451,7 +452,7 @@
         "CEP 205"
       ],
       "floor": 2,
-      "category": "seminar",
+      "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
         "lat": 23.188512,
@@ -466,8 +467,8 @@
         "Lab 004"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Computer Lab",
+      "description": "Computer Lab",
       "coordinate": {
         "lat": 23.187087,
         "lng": 72.628156
@@ -481,8 +482,8 @@
         "Lab 005"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Computer Lab",
+      "description": "Computer Lab",
       "coordinate": {
         "lat": 23.186974,
         "lng": 72.628158
@@ -493,11 +494,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 006",
       "aliases": [
-        "Lab 006"
+        "Lab 006",
+        "Integrated laboratory for different abled"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Integrated laboratory for different abled",
+      "description": "Integrated laboratory for different abled",
       "coordinate": {
         "lat": 23.186873,
         "lng": 72.628105
@@ -511,8 +513,8 @@
         "Lab 007"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Computer Lab",
+      "description": "Computer Lab",
       "coordinate": {
         "lat": 23.186878,
         "lng": 72.628048
@@ -526,8 +528,8 @@
         "Lab 008"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Computer Lab",
+      "description": "Computer Lab",
       "coordinate": {
         "lat": 23.186880,
         "lng": 72.627944
@@ -538,11 +540,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 009",
       "aliases": [
-        "Lab 009"
+        "Lab 009",
+        "EVD Lab-II"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "EVD Lab-II",
+      "description": "EVD Lab-II",
       "coordinate": {
         "lat": 23.186843,
         "lng": 72.627871
@@ -553,11 +556,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 010",
       "aliases": [
-        "Lab 010"
+        "Lab 010",
+        "AIP Training Lab"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "AIP Training Lab",
+      "description": "AIP Training Lab",
       "coordinate": {
         "lat": 23.186863,
         "lng": 72.627799
@@ -571,8 +575,8 @@
         "Lab 011"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Electrical Room",
+      "description": "Electrical Room",
       "coordinate": {
         "lat": 23.186902,
         "lng": 72.627866
@@ -583,11 +587,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 012",
       "aliases": [
-        "Lab 012"
+        "Lab 012",
+        "Security Room"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Security Room",
+      "description": "Security Room",
       "coordinate": {
         "lat": 23.186949,
         "lng": 72.627869
@@ -601,8 +606,8 @@
         "Lab 013"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Computer Network Lab",
+      "description": "Computer Network Lab",
       "coordinate": {
         "lat": 23.187016,
         "lng": 72.627863
@@ -613,11 +618,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 014",
       "aliases": [
-        "Lab 014"
+        "Lab 014",
+        "Server Farm"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Server Farm",
+      "description": "Server Farm",
       "coordinate": {
         "lat": 23.187124,
         "lng": 72.627866
@@ -631,8 +637,8 @@
         "Lab 001"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Computer Lab",
+      "description": "Computer Lab",
       "coordinate": {
         "lat": 23.187211,
         "lng": 72.627938
@@ -646,8 +652,8 @@
         "Lab 002"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Computer Lab",
+      "description": "Computer Lab",
       "coordinate": {
         "lat": 23.187203,
         "lng": 72.628032
@@ -658,11 +664,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 003",
       "aliases": [
-        "Lab 003"
+        "Lab 003",
+        "Ubisense Lab-Research Lab"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Ubisense Lab-Research Lab",
+      "description": "Ubisense Lab-Research Lab",
       "coordinate": {
         "lat": 23.187196,
         "lng": 72.628094
@@ -676,8 +683,8 @@
         "Lab 104"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Electronics Lab",
+      "description": "Electronics Lab",
       "coordinate": {
         "lat": 23.187087,
         "lng": 72.628156
@@ -691,8 +698,8 @@
         "Lab 105"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Computer Network Lab",
+      "description": "Computer Network Lab",
       "coordinate": {
         "lat": 23.186974,
         "lng": 72.628158
@@ -703,11 +710,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 106",
       "aliases": [
-        "Lab 106"
+        "Lab 106" , 
+        "Lab Store"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Lab Store",
+      "description": "Lab Store",
       "coordinate": {
         "lat": 23.186873,
         "lng": 72.628105
@@ -721,8 +729,8 @@
         "Lab 107"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Electronics Lab",
+      "description": "Electronics Lab",
       "coordinate": {
         "lat": 23.186878,
         "lng": 72.628048
@@ -733,11 +741,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 108",
       "aliases": [
-        "Lab 108"
+        "Lab 108",
+        "DSP Lab"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "DSP Lab",
+      "description": "DSP Lab",
       "coordinate": {
         "lat": 23.186880,
         "lng": 72.627944
@@ -748,11 +757,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 109",
       "aliases": [
-        "Lab 109"
+        "Lab 109" , 
+        "CSPMI / INR Lab"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "CSPMI / INR Lab",
+      "description": "CSPMI / INR Lab",
       "coordinate": {
         "lat": 23.186843,
         "lng": 72.627871
@@ -763,11 +773,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 110",
       "aliases": [
-        "Lab 110"
+        "Lab 110" , 
+        "MTech Lab - II"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "MTech Lab - II",
+      "description": "MTech Lab - II",
       "coordinate": {
         "lat": 23.186863,
         "lng": 72.627799
@@ -781,26 +792,11 @@
         "Lab 111"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Electrical Room",
+      "description": "Electrical Room",
       "coordinate": {
         "lat": 23.186902,
         "lng": 72.627866
-      }
-    },
-    {
-      "id": "lab_111",
-      "buildingId": "Lab_building",
-      "name": "Lab 111",
-      "aliases": [
-        "Lab 111"
-      ],
-      "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
-      "coordinate": {
-        "lat": 23.186949,
-        "lng": 72.627869
       }
     },
     {
@@ -808,11 +804,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 112",
       "aliases": [
-        "Lab 112"
+        "Lab 112" , 
+        "RF Lab"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "RF Lab",
+      "description": "RF Lab",
       "coordinate": {
         "lat": 23.187016,
         "lng": 72.627863
@@ -823,11 +820,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 113",
       "aliases": [
-        "Lab 113"
+        "Lab 113" , 
+        "Help Desk"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Help Desk",
+      "description": "Help Desk",
       "coordinate": {
         "lat": 23.187124,
         "lng": 72.627866
@@ -841,8 +839,8 @@
         "Lab 101"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Electronics Lab",
+      "description": "Electronics Lab",
       "coordinate": {
         "lat": 23.187211,
         "lng": 72.627938
@@ -856,8 +854,8 @@
         "Lab 102"
       ],
       "floor": 1,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Electronics Lab",
+      "description": "Electronics Lab",
       "coordinate": {
         "lat": 23.187203,
         "lng": 72.628032
@@ -883,11 +881,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 204",
       "aliases": [
-        "Lab 204"
+        "Lab 204" , 
+        "General Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "General Lab",
+      "description": "General Lab",
       "coordinate": {
         "lat": 23.187087,
         "lng": 72.628156
@@ -898,11 +897,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 205",
       "aliases": [
-        "Lab 205"
+        "Lab 205" , 
+        "VLSI Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "VLSI Lab",
+      "description": "VLSI Lab",
       "coordinate": {
         "lat": 23.186974,
         "lng": 72.628158
@@ -913,11 +913,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 206",
       "aliases": [
-        "Lab 206"
+        "Lab 206",
+        "ULP Integrated Circuits Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "ULP Integrated Circuits Lab",
+      "description": "ULP Integrated Circuits Lab",
       "coordinate": {
         "lat": 23.186873,
         "lng": 72.628105
@@ -928,11 +929,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 207",
       "aliases": [
-        "Lab 207"
+        "Lab 207" ,
+        "Computational Science & HPC Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Computational Science & HPC Lab",
+      "description": "Computational Science & HPC Lab",
       "coordinate": {
         "lat": 23.186878,
         "lng": 72.628048
@@ -943,11 +945,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 208",
       "aliases": [
-        "Lab 208"
+        "Lab 208" , 
+        "Research Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Research Lab",
+      "description": "Research Lab",
       "coordinate": {
         "lat": 23.186880,
         "lng": 72.627944
@@ -958,11 +961,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 209",
       "aliases": [
-        "Lab 209"
+        "Lab 209" , 
+        "Robotics & Autonomous Systems Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Robotics & Autonomous Systems Lab",
+      "description": "Robotics & Autonomous Systems Lab",
       "coordinate": {
         "lat": 23.186843,
         "lng": 72.627871
@@ -973,11 +977,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 210",
       "aliases": [
-        "Lab 210"
+        "Lab 210" , 
+        "MSc (DS) Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "MSc (DS) Lab",
+      "description": "MSc (DS) Lab",
       "coordinate": {
         "lat": 23.186863,
         "lng": 72.627799
@@ -991,8 +996,8 @@
         "Lab 211"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Electrical Room",
+      "description": "Electrical Room",
       "coordinate": {
         "lat": 23.186902,
         "lng": 72.627866
@@ -1006,8 +1011,8 @@
         "Lab 212"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Security Room",
+      "description": "Security Room",
       "coordinate": {
         "lat": 23.186949,
         "lng": 72.627869
@@ -1018,11 +1023,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 213",
       "aliases": [
-        "Lab 213"
+        "Lab 213" , 
+        "IoT Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "IoT Lab",
+      "description": "IoT Lab",
       "coordinate": {
         "lat": 23.187016,
         "lng": 72.627863
@@ -1034,10 +1040,12 @@
       "name": "Lab 214 & 215",
       "aliases": [
         "Lab 214",
-        "Lab 215"
+        "Lab 215",
+        "Switch Room" , 
+        "Staff Room"
       ],
       "floor": 2,
-      "category": "seminar",
+      "category": "Switch & Staff Room",
       "description": "ClassRoom",
       "coordinate": {
         "lat": 23.187124,
@@ -1049,11 +1057,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 201",
       "aliases": [
-        "Lab 201"
+        "Lab 201" , 
+        "MTech Lab - I"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "MTech Lab - I",
+      "description": "MTech Lab - I",
       "coordinate": {
         "lat": 23.187211,
         "lng": 72.627938
@@ -1067,8 +1076,8 @@
         "Lab 202"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Research Lab",
+      "description": "Research Lab",
       "coordinate": {
         "lat": 23.187203,
         "lng": 72.628032
@@ -1079,11 +1088,12 @@
       "buildingId": "Lab_building",
       "name": "Lab 203",
       "aliases": [
-        "Lab 203"
+        "Lab 203" , 
+        "Microtronics Research Lab"
       ],
       "floor": 2,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Microtronics Research Lab",
+      "description": "Microtronics Research Lab",
       "coordinate": {
         "lat": 23.187196,
         "lng": 72.628094
@@ -1099,8 +1109,8 @@
         "Preview room"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Media Centre/Preview room",
+      "description":"Media Centre/Preview room",
       "coordinate": {
         "lat": 23.188959,
         "lng": 72.628695
@@ -1116,8 +1126,8 @@
         "Collab reading zone"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "Digital Resources/Collab reading zone",
+      "description": "Digital Resources/Collab reading zone",
       "coordinate": {
         "lat": 23.188954,
         "lng": 72.628756
@@ -1131,8 +1141,8 @@
         "RB 003"
       ],
       "floor": 0,
-      "category": "seminar",
-      "description": "ClassRoom",
+      "category": "RB 003",
+      "description": "RB 003",
       "coordinate": {
         "lat": 23.188890,
         "lng": 72.628754
@@ -1148,7 +1158,7 @@
         "Repo room"
       ],
       "floor": 0,
-      "category": "seminar",
+      "category": "Institutional Repository/Repo room",
       "description": "ClassRoom",
       "coordinate": {
         "lat": 23.188887,
@@ -1161,10 +1171,10 @@
       "name": "RB 005",
       "aliases": [
         "RB 005",
-        "Electrical room"
+        "RC Electrical room"
       ],
       "floor": 0,
-      "category": "seminar",
+      "category": "Electrical room",
       "description": "ClassRoom",
       "coordinate": {
         "lat": 23.188887,
