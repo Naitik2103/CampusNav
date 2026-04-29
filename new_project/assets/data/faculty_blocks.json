@@ -1,0 +1,32 @@
+{
+  "blocks": [
+    {
+      "buildingId": "cep",
+      "blockId": "Block 1",
+      "name": "Block 1 - Lecture Halls",
+      "coordinate": { "lat": 23.18845, "lng": 72.62795 },
+      "departments": ["Computer Science", "Mathematics"]
+    },
+    {
+      "buildingId": "cep",
+      "blockId": "Block 2",
+      "name": "Block 2 - Offices",
+      "coordinate": { "lat": 23.18860, "lng": 72.62788 },
+      "departments": ["Physics", "Chemistry"]
+    },
+    {
+      "buildingId": "cep",
+      "blockId": "Block 3",
+      "name": "Block 3 - Labs",
+      "coordinate": { "lat": 23.18852, "lng": 72.62805 },
+      "departments": ["Electronics", "Mechanical"]
+    },
+    {
+      "buildingId": "cep",
+      "blockId": "Block 4",
+      "name": "Block 4 - Research",
+      "coordinate": { "lat": 23.18830, "lng": 72.62799 },
+      "departments": ["Computer Science", "Data Science"]
+    }
+  ]
+}

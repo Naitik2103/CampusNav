@@ -14,6 +14,8 @@ import '../services/routing_service.dart';
 import '../services/campus_routing_service.dart';
 import '../services/path_based_routing_service.dart';
 import '../services/indoor_navigation_service.dart';
+import '../services/faculty_service.dart';
+import '../models/faculty_model.dart';
 import '../models/indoor_models.dart';
 import 'route_comparison_screen.dart';
 import 'indoor_navigation_screen.dart';
@@ -49,6 +51,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
   List<CampusPlace> _places = [];
   List<CampusPlace> _filteredPlaces = [];
   List<IndoorRoom> _filteredRooms = [];
+  List<FacultyEntry> _filteredFaculty = [];
   final Set<String> _visibleLayers = {'paths', 'places'};
   bool _isLoading = true;
   LatLng? _userLocation;
@@ -337,6 +340,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         'assets/data/campus_places.geojson',
       );
       await IndoorNavigationService.instance.loadIndoorConfigs();
+      await FacultyService.instance.loadFacultyDirectory();
       print('✓ Loaded ${places.length} places from GeoJSON');
       for (var place in places) {
         print(
@@ -397,8 +401,157 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         _filteredRooms = _indoorConfigLoaded
             ? IndoorNavigationService.instance.searchRooms(query)
             : [];
+        _filteredFaculty = FacultyService.instance.searchFaculty(query);
       }
     });
+  }
+
+  Widget _buildFacultySearchTile(FacultyEntry f, ColorScheme colors) {
+    final building = IndoorNavigationService.instance.findBuildingById(
+      f.buildingId,
+    );
+
+    // derive short block label like "FB1" from `block` or `buildingId`
+    String blockShort = 'FB?';
+    if ((f.block ?? '').isNotEmpty) {
+      final m = RegExp(r"(\d+)").firstMatch(f.block!);
+      if (m != null) blockShort = 'FB${m.group(1)}';
+    } else if (f.buildingId.contains('faculty_block_')) {
+      final m = RegExp(r'faculty_block_(\d+)').firstMatch(f.buildingId);
+      if (m != null) blockShort = 'FB${m.group(1)}';
+    } else if (building != null) {
+      // fallback: try to parse number from building name
+      final m = RegExp(r"(\d+)").firstMatch(building.name ?? '');
+      if (m != null) blockShort = 'FB${m.group(1)}';
+    }
+
+    final roomText = f.room ?? '';
+
+    return ListTile(
+      leading: const Icon(Icons.person_search_rounded, color: _brandColor),
+      title: Text(f.name),
+      subtitle: Text(
+        '${blockShort}${roomText.isNotEmpty ? ' · $roomText' : ''}',
+        style: TextStyle(color: colors.onSurfaceVariant, fontSize: 12),
+      ),
+      trailing: const Icon(Icons.directions, color: _brandColor),
+      onTap: () => _navigateToFaculty(f),
+    );
+  }
+
+  Future<void> _navigateToFaculty(FacultyEntry faculty) async {
+    if (_userLocation == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enable location to navigate.')),
+      );
+      return;
+    }
+
+    if (!_indoorConfigLoaded) {
+      await IndoorNavigationService.instance.loadIndoorConfigs();
+      _indoorConfigLoaded = IndoorNavigationService.instance.isLoaded;
+    }
+
+    final building = IndoorNavigationService.instance.findBuildingById(
+      faculty.buildingId,
+    );
+
+    LatLng destination = _OutdoorMapScreenState.defaultLocation;
+    CampusPlace? gate;
+    if (building != null) {
+      // Prefer explicit block coordinate if provided
+      if ((faculty.block ?? '').isNotEmpty) {
+        final blockCoord = FacultyService.instance.getBlockCoordinate(
+          building.buildingId,
+          faculty.block!,
+        );
+        if (blockCoord != null) {
+          destination = blockCoord;
+        }
+      }
+
+      // If no destination yet, try department -> block mapping
+      if ((faculty.block == null || faculty.block!.isEmpty) &&
+          faculty.department != null) {
+        final deptBlock = FacultyService.instance.getBlockForDepartment(
+          building.buildingId,
+          faculty.department!,
+        );
+        if (deptBlock != null) {
+          destination = deptBlock;
+        }
+      }
+
+      // If still no destination, route to nearest gate or centroid
+      if (destination == null) {
+        gate = _findNearestGateForBuilding(building);
+        if (gate != null) {
+          destination = gate.location;
+        } else {
+          final centroid = _computeCentroid(building.boundary);
+          destination = centroid;
+        }
+      }
+    } else {
+      // If building not found, try to find a place with matching id
+      final place = _places.firstWhere(
+        (p) => p.id.toLowerCase() == faculty.buildingId.toLowerCase(),
+        orElse: () => _places.isNotEmpty ? _places.first : null as CampusPlace,
+      );
+      if (place != null) {
+        destination = place.location;
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Could not find building for ${faculty.name}.'),
+          ),
+        );
+        return;
+      }
+    }
+
+    await _fetchAndDisplayRoute(_userLocation!, destination);
+
+    if (!mounted) return;
+
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RouteComparisonScreen(
+          startLocation: _userLocation!,
+          endLocation: destination,
+          destinationName: faculty.name,
+        ),
+      ),
+    );
+
+    if (!mounted) return;
+    setState(() {
+      _activeRoutePath = null;
+    });
+
+    // If building has indoor map and faculty has room, open indoor map
+    if (building != null && building.hasIndoorMap && faculty.room != null) {
+      final room = IndoorNavigationService.instance.rooms.firstWhere(
+        (r) =>
+            r.id.toLowerCase() == faculty.room!.toLowerCase() ||
+            r.name.toLowerCase() == faculty.room!.toLowerCase(),
+        orElse: () => null as IndoorRoom,
+      );
+      if (room != null) {
+        await _openIndoorMap(building: building, initialFloor: room.floor);
+      }
+    }
+  }
+
+  LatLng _computeCentroid(List<LatLng> poly) {
+    if (poly.isEmpty) return _OutdoorMapScreenState.defaultLocation;
+    double x = 0, y = 0;
+    for (final p in poly) {
+      x += p.latitude;
+      y += p.longitude;
+    }
+    return LatLng(x / poly.length, y / poly.length);
   }
 
   String _normalizeKey(String value) {
@@ -423,9 +576,9 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
       return placeNameKey.contains(buildingIdKey) ||
           placeIdKey.contains(buildingIdKey) ||
           buildingNameKeys.any(
-          (buildingNameKey) =>
-            placeNameKey.contains(buildingNameKey) ||
-            placeIdKey.contains(buildingNameKey),
+            (buildingNameKey) =>
+                placeNameKey.contains(buildingNameKey) ||
+                placeIdKey.contains(buildingNameKey),
           );
     }).toList();
 
@@ -819,7 +972,9 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                       ),
                     if (_activeRoutePlaces.isNotEmpty)
                       MarkerLayer(
-                        markers: _activeRoutePlaces.asMap().entries
+                        markers: _activeRoutePlaces
+                            .asMap()
+                            .entries
                             .where((entry) {
                               final isFirst = entry.key == 0;
                               final isLiveSource =
@@ -828,56 +983,61 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                               return !(isFirst && isLiveSource);
                             })
                             .map((entry) {
-                          final index = entry.key;
-                          final place = entry.value;
-                          final isFirst = index == 0;
-                          final isLast = index == _activeRoutePlaces.length - 1;
-                          final isLiveSource = place.id == '__live_source__';
-                          final showGreenSourcePin = isFirst && !isLiveSource;
-                          final showRedDestinationPin = isLast;
-                          final markerSize = _placeMarkerSizeForZoom();
-                          final iconSize = _placeIconSizeForZoom();
+                              final index = entry.key;
+                              final place = entry.value;
+                              final isFirst = index == 0;
+                              final isLast =
+                                  index == _activeRoutePlaces.length - 1;
+                              final isLiveSource =
+                                  place.id == '__live_source__';
+                              final showGreenSourcePin =
+                                  isFirst && !isLiveSource;
+                              final showRedDestinationPin = isLast;
+                              final markerSize = _placeMarkerSizeForZoom();
+                              final iconSize = _placeIconSizeForZoom();
 
-                          return Marker(
-                            point: place.location,
-                            width: markerSize,
-                            height: markerSize,
-                            child: showGreenSourcePin
-                                ? Icon(
-                                    Icons.location_pin,
-                                    color: Colors.green,
-                                    size: iconSize + 10,
-                                  )
-                                : showRedDestinationPin
-                                ? Icon(
-                                    Icons.location_pin,
-                                    color: Colors.red,
-                                    size: iconSize + 10,
-                                  )
-                                : Container(
-                                    decoration: BoxDecoration(
-                                      color: _getPlaceColor(place),
-                                      shape: BoxShape.circle,
-                                      border: Border.all(
-                                        color: Colors.white,
-                                        width: markerSize >= 36 ? 2 : 1.6,
-                                      ),
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: Colors.black26,
-                                          blurRadius:
-                                              markerSize >= 36 ? 4 : 3,
+                              return Marker(
+                                point: place.location,
+                                width: markerSize,
+                                height: markerSize,
+                                child: showGreenSourcePin
+                                    ? Icon(
+                                        Icons.location_pin,
+                                        color: Colors.green,
+                                        size: iconSize + 10,
+                                      )
+                                    : showRedDestinationPin
+                                    ? Icon(
+                                        Icons.location_pin,
+                                        color: Colors.red,
+                                        size: iconSize + 10,
+                                      )
+                                    : Container(
+                                        decoration: BoxDecoration(
+                                          color: _getPlaceColor(place),
+                                          shape: BoxShape.circle,
+                                          border: Border.all(
+                                            color: Colors.white,
+                                            width: markerSize >= 36 ? 2 : 1.6,
+                                          ),
+                                          boxShadow: [
+                                            BoxShadow(
+                                              color: Colors.black26,
+                                              blurRadius: markerSize >= 36
+                                                  ? 4
+                                                  : 3,
+                                            ),
+                                          ],
                                         ),
-                                      ],
-                                    ),
-                                    child: Icon(
-                                      _getPlaceIcon(place),
-                                      color: Colors.white,
-                                      size: iconSize,
-                                    ),
-                                  ),
-                          );
-                        }).toList(),
+                                        child: Icon(
+                                          _getPlaceIcon(place),
+                                          color: Colors.white,
+                                          size: iconSize,
+                                        ),
+                                      ),
+                              );
+                            })
+                            .toList(),
                       ),
                     // Render places
                     if (_visibleLayers.contains('places'))
@@ -1030,7 +1190,9 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                 ),
                 // Search Results Panel
                 if (_searchQuery.isNotEmpty &&
-                    (_filteredPlaces.isNotEmpty || _filteredRooms.isNotEmpty))
+                    (_filteredPlaces.isNotEmpty ||
+                        _filteredRooms.isNotEmpty ||
+                        _filteredFaculty.isNotEmpty))
                   Positioned(
                     top: 78,
                     left: 16,
@@ -1077,6 +1239,19 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                               ),
                             ..._filteredPlaces.map(
                               (place) => _buildPlaceSearchTile(place, colors),
+                            ),
+                            if (_filteredFaculty.isNotEmpty)
+                              const Divider(height: 1),
+                            if (_filteredFaculty.isNotEmpty)
+                              const Padding(
+                                padding: EdgeInsets.fromLTRB(16, 10, 16, 4),
+                                child: Text(
+                                  'Faculty',
+                                  style: TextStyle(fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                            ..._filteredFaculty.map(
+                              (f) => _buildFacultySearchTile(f, colors),
                             ),
                           ],
                         ),
@@ -1472,262 +1647,256 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
     bool draftOptimizeOrder = _lastPlannerOptimizeOrder;
     bool draftUseLiveSource = _lastPlannerUseLiveSource;
 
-    final result =
-        await showModalBottomSheet<Map<String, dynamic>>(
-          context: context,
-          isScrollControlled: true,
-          showDragHandle: true,
-          builder: (context) {
-            return StatefulBuilder(
-              builder: (context, setModalState) {
-                final selectableStops = _places.where((place) {
+    final result = await showModalBottomSheet<Map<String, dynamic>>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            final selectableStops =
+                _places.where((place) {
                   if (selectedFrom?.id == place.id) return false;
                   if (selectedTo?.id == place.id) return false;
                   return true;
-                }).toList()
-                  ..sort(
-                    (a, b) => a.name.toLowerCase().compareTo(
-                      b.name.toLowerCase(),
+                }).toList()..sort(
+                  (a, b) =>
+                      a.name.toLowerCase().compareTo(b.name.toLowerCase()),
+                );
+
+            return Padding(
+              padding: EdgeInsets.fromLTRB(
+                16,
+                8,
+                16,
+                MediaQuery.of(context).viewInsets.bottom + 16,
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Plan Multi-Stop Route',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
-                  );
-
-                return Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    16,
-                    8,
-                    16,
-                    MediaQuery.of(context).viewInsets.bottom + 16,
-                  ),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text(
-                          'Plan Multi-Stop Route',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        const Text(
-                          'Choose start, destination, and intermediate stops. We can optimize stop order for shortest path.',
-                          style: TextStyle(color: Colors.black54),
-                        ),
-                        const SizedBox(height: 8),
-                        SwitchListTile(
-                          value: draftUseLiveSource,
-                          contentPadding: EdgeInsets.zero,
-                          title: const Text('Use my live location as source'),
-                          subtitle: Text(
-                            _userLocation == null
-                                ? 'Waiting for GPS fix. Enable location for real-time start.'
-                                : 'Start route from your current GPS position.',
-                          ),
-                          onChanged: (value) {
-                            setModalState(() {
-                              draftUseLiveSource = value;
-                              if (value) {
-                                selectedFrom = null;
-                              }
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 14),
-                        DropdownMenu<CampusPlace>(
-                          width: double.infinity,
-                          enabled: !draftUseLiveSource,
-                          enableFilter: true,
-                          requestFocusOnTap: false,
-                          initialSelection: selectedFrom,
-                          leadingIcon: const Icon(Icons.trip_origin_rounded),
-                          label: const Text('Start (From)'),
-                          dropdownMenuEntries: _places
-                              .map(
-                                (place) => DropdownMenuEntry<CampusPlace>(
-                                  value: place,
-                                  label: place.name,
-                                ),
-                              )
-                              .toList(),
-                          onSelected: (place) {
-                            setModalState(() {
-                              selectedFrom = place;
-                              draftSelectedStops.removeWhere(
-                                (stop) => stop.id == place?.id,
-                              );
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 12),
-                        DropdownMenu<CampusPlace>(
-                          width: double.infinity,
-                          enableFilter: true,
-                          requestFocusOnTap: false,
-                          initialSelection: selectedTo,
-                          leadingIcon: const Icon(Icons.location_on_rounded),
-                          label: const Text('Destination (Optional)'),
-                          dropdownMenuEntries: _places
-                              .map(
-                                (place) => DropdownMenuEntry<CampusPlace>(
-                                  value: place,
-                                  label: place.name,
-                                ),
-                              )
-                              .toList(),
-                          onSelected: (place) {
-                            setModalState(() {
-                              selectedTo = place;
-                              draftSelectedStops.removeWhere(
-                                (stop) => stop.id == place?.id,
-                              );
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 14),
-                        const Text(
-                          'Intermediate Stops',
-                          style: TextStyle(fontWeight: FontWeight.w600),
-                        ),
-                        const SizedBox(height: 8),
-                        if (selectableStops.isEmpty)
-                          const Text(
-                            'No additional places available for stops.',
-                            style: TextStyle(color: Colors.black54),
+                    const SizedBox(height: 6),
+                    const Text(
+                      'Choose start, destination, and intermediate stops. We can optimize stop order for shortest path.',
+                      style: TextStyle(color: Colors.black54),
+                    ),
+                    const SizedBox(height: 8),
+                    SwitchListTile(
+                      value: draftUseLiveSource,
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text('Use my live location as source'),
+                      subtitle: Text(
+                        _userLocation == null
+                            ? 'Waiting for GPS fix. Enable location for real-time start.'
+                            : 'Start route from your current GPS position.',
+                      ),
+                      onChanged: (value) {
+                        setModalState(() {
+                          draftUseLiveSource = value;
+                          if (value) {
+                            selectedFrom = null;
+                          }
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 14),
+                    DropdownMenu<CampusPlace>(
+                      width: double.infinity,
+                      enabled: !draftUseLiveSource,
+                      enableFilter: true,
+                      requestFocusOnTap: false,
+                      initialSelection: selectedFrom,
+                      leadingIcon: const Icon(Icons.trip_origin_rounded),
+                      label: const Text('Start (From)'),
+                      dropdownMenuEntries: _places
+                          .map(
+                            (place) => DropdownMenuEntry<CampusPlace>(
+                              value: place,
+                              label: place.name,
+                            ),
                           )
-                        else
-                          Wrap(
-                            spacing: 8,
-                            runSpacing: 8,
-                            children: selectableStops.map((place) {
-                              final selected = draftSelectedStops.any(
-                                (stop) => stop.id == place.id,
-                              );
+                          .toList(),
+                      onSelected: (place) {
+                        setModalState(() {
+                          selectedFrom = place;
+                          draftSelectedStops.removeWhere(
+                            (stop) => stop.id == place?.id,
+                          );
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    DropdownMenu<CampusPlace>(
+                      width: double.infinity,
+                      enableFilter: true,
+                      requestFocusOnTap: false,
+                      initialSelection: selectedTo,
+                      leadingIcon: const Icon(Icons.location_on_rounded),
+                      label: const Text('Destination (Optional)'),
+                      dropdownMenuEntries: _places
+                          .map(
+                            (place) => DropdownMenuEntry<CampusPlace>(
+                              value: place,
+                              label: place.name,
+                            ),
+                          )
+                          .toList(),
+                      onSelected: (place) {
+                        setModalState(() {
+                          selectedTo = place;
+                          draftSelectedStops.removeWhere(
+                            (stop) => stop.id == place?.id,
+                          );
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 14),
+                    const Text(
+                      'Intermediate Stops',
+                      style: TextStyle(fontWeight: FontWeight.w600),
+                    ),
+                    const SizedBox(height: 8),
+                    if (selectableStops.isEmpty)
+                      const Text(
+                        'No additional places available for stops.',
+                        style: TextStyle(color: Colors.black54),
+                      )
+                    else
+                      Wrap(
+                        spacing: 8,
+                        runSpacing: 8,
+                        children: selectableStops.map((place) {
+                          final selected = draftSelectedStops.any(
+                            (stop) => stop.id == place.id,
+                          );
 
-                              return FilterChip(
-                                label: Text(place.name),
-                                selected: selected,
-                                onSelected: (pick) {
-                                  setModalState(() {
-                                    if (pick) {
-                                      draftSelectedStops.add(place);
-                                    } else {
-                                      draftSelectedStops.removeWhere(
-                                        (stop) => stop.id == place.id,
-                                      );
-                                    }
-                                  });
-                                },
-                              );
-                            }).toList(),
+                          return FilterChip(
+                            label: Text(place.name),
+                            selected: selected,
+                            onSelected: (pick) {
+                              setModalState(() {
+                                if (pick) {
+                                  draftSelectedStops.add(place);
+                                } else {
+                                  draftSelectedStops.removeWhere(
+                                    (stop) => stop.id == place.id,
+                                  );
+                                }
+                              });
+                            },
+                          );
+                        }).toList(),
+                      ),
+                    const SizedBox(height: 10),
+                    SwitchListTile(
+                      value: draftOptimizeOrder,
+                      contentPadding: EdgeInsets.zero,
+                      title: const Text('Optimize stop order'),
+                      subtitle: const Text(
+                        'Recommended: avoids visiting far stops too early.',
+                      ),
+                      onChanged: (value) {
+                        setModalState(() {
+                          draftOptimizeOrder = value;
+                        });
+                      },
+                    ),
+                    const SizedBox(height: 12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: OutlinedButton(
+                            onPressed: () => Navigator.pop(context),
+                            child: const Text('Cancel'),
                           ),
-                        const SizedBox(height: 10),
-                        SwitchListTile(
-                          value: draftOptimizeOrder,
-                          contentPadding: EdgeInsets.zero,
-                          title: const Text('Optimize stop order'),
-                          subtitle: const Text(
-                            'Recommended: avoids visiting far stops too early.',
-                          ),
-                          onChanged: (value) {
-                            setModalState(() {
-                              draftOptimizeOrder = value;
-                            });
-                          },
                         ),
-                        const SizedBox(height: 12),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: OutlinedButton(
-                                onPressed: () => Navigator.pop(context),
-                                child: const Text('Cancel'),
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            Expanded(
-                              child: ElevatedButton.icon(
-                                onPressed: () {
-                                  if (draftUseLiveSource &&
-                                      _userLocation == null) {
-                                    showDialog<void>(
-                                      context: context,
-                                      builder: (dialogContext) => AlertDialog(
-                                        title: const Text('Location Needed'),
-                                        content: const Text(
-                                          'Live location is not available yet. Please enable location and try again.',
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                              dialogContext,
-                                            ),
-                                            child: const Text('OK'),
-                                          ),
-                                        ],
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              if (draftUseLiveSource && _userLocation == null) {
+                                showDialog<void>(
+                                  context: context,
+                                  builder: (dialogContext) => AlertDialog(
+                                    title: const Text('Location Needed'),
+                                    content: const Text(
+                                      'Live location is not available yet. Please enable location and try again.',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(dialogContext),
+                                        child: const Text('OK'),
                                       ),
-                                    );
-                                    return;
-                                  }
+                                    ],
+                                  ),
+                                );
+                                return;
+                              }
 
-                                  final selectedSequence = <CampusPlace>[
-                                    if (draftUseLiveSource &&
-                                        _userLocation != null)
-                                      _liveLocationAsPlace(),
-                                    if (selectedFrom != null) selectedFrom!,
-                                    ...draftSelectedStops,
-                                    if (selectedTo != null) selectedTo!,
-                                  ];
+                              final selectedSequence = <CampusPlace>[
+                                if (draftUseLiveSource && _userLocation != null)
+                                  _liveLocationAsPlace(),
+                                if (selectedFrom != null) selectedFrom!,
+                                ...draftSelectedStops,
+                                if (selectedTo != null) selectedTo!,
+                              ];
 
-                                  final uniqueCount = selectedSequence
-                                      .map((p) => p.id)
-                                      .toSet()
-                                      .length;
+                              final uniqueCount = selectedSequence
+                                  .map((p) => p.id)
+                                  .toSet()
+                                  .length;
 
-                                  if (uniqueCount < 2) {
-                                    showDialog<void>(
-                                      context: context,
-                                      builder: (dialogContext) => AlertDialog(
-                                        title: const Text('Not Enough Places'),
-                                        content: const Text(
-                                          'Please choose at least two places to generate a route.',
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            onPressed: () => Navigator.pop(
-                                              dialogContext,
-                                            ),
-                                            child: const Text('OK'),
-                                          ),
-                                        ],
+                              if (uniqueCount < 2) {
+                                showDialog<void>(
+                                  context: context,
+                                  builder: (dialogContext) => AlertDialog(
+                                    title: const Text('Not Enough Places'),
+                                    content: const Text(
+                                      'Please choose at least two places to generate a route.',
+                                    ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () =>
+                                            Navigator.pop(dialogContext),
+                                        child: const Text('OK'),
                                       ),
-                                    );
-                                    return;
-                                  }
+                                    ],
+                                  ),
+                                );
+                                return;
+                              }
 
-                                  Navigator.pop(context, {
-                                    'from': selectedFrom,
-                                    'to': selectedTo,
-                                    'stops': draftSelectedStops,
-                                    'optimize': draftOptimizeOrder,
-                                          'useLiveSource': draftUseLiveSource,
-                                  });
-                                },
-                                icon: const Icon(Icons.route_rounded),
-                                label: const Text('Start Multi-Stop'),
-                              ),
-                            ),
-                          ],
+                              Navigator.pop(context, {
+                                'from': selectedFrom,
+                                'to': selectedTo,
+                                'stops': draftSelectedStops,
+                                'optimize': draftOptimizeOrder,
+                                'useLiveSource': draftUseLiveSource,
+                              });
+                            },
+                            icon: const Icon(Icons.route_rounded),
+                            label: const Text('Start Multi-Stop'),
+                          ),
                         ),
                       ],
                     ),
-                  ),
-                );
-              },
+                  ],
+                ),
+              ),
             );
           },
         );
+      },
+    );
 
     if (!mounted || result == null) return;
 
@@ -1862,11 +2031,8 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
       final from = orderedStops[i].location;
       final to = orderedStops[i + 1].location;
 
-      route_model.Route? segment = await PathBasedRoutingService.getPathBasedRoute(
-        from,
-        to,
-        _paths,
-      );
+      route_model.Route? segment =
+          await PathBasedRoutingService.getPathBasedRoute(from, to, _paths);
 
       segment ??= await CampusRoutingService.getCampusRoute(from, to, _paths);
       if (segment == null || segment.waypoints.length < 2) {
