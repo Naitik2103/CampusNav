@@ -2177,7 +2177,7 @@
         "name": "CEP Gate 3 Behind Intersection Side 1 to CEP Gate 3 Side 2 Intersection",
         "walkable": true,
         "pathType": "blocks",
-        "difficulty": "medium",
+        "difficulty": "easy",
         "wheelchair_accessible": true,
         "restrictions": "No Vehicles",
         "description": "CEP Gate 3 Behind Intersection Side 1 to CEP Gate 3 Side 2 Intersection"

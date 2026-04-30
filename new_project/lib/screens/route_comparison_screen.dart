@@ -150,6 +150,11 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
             options: MapOptions(
               initialCenter: widget.startLocation,
               initialZoom: 17,
+              interactionOptions: const InteractionOptions(
+                flags: InteractiveFlag.all,
+              ),
+              minZoom: 3,
+              maxZoom: 19,
             ),
             children: [
               TileLayer(
@@ -206,12 +211,14 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
               ),
             ],
           ),
-          Container(
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.center,
-                colors: [Color(0x800B1220), Color(0x000B1220)],
+          IgnorePointer(
+            child: Container(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.center,
+                  colors: [Color(0x800B1220), Color(0x000B1220)],
+                ),
               ),
             ),
           ),
@@ -351,6 +358,7 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
                       itemBuilder: (context, index) {
                         final route = routes[index];
                         final isSelected = route == selectedRoute;
+                        final accessSummary = _buildPathAccessSummary(route);
 
                         return GestureDetector(
                           onTap: () {
@@ -413,36 +421,10 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
                                     ),
                                   ],
                                 ),
-                                if (route.wheelchairAccessible) ...[
+                                if (_hasAccessSummary(accessSummary)) ...[
                                   const SizedBox(height: 10),
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                      vertical: 6,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xFFDCFCE7),
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                    child: const Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        Icon(
-                                          Icons.accessible_rounded,
-                                          size: 14,
-                                          color: Color(0xFF166534),
-                                        ),
-                                        SizedBox(width: 4),
-                                        Text(
-                                          'Wheelchair Accessible',
-                                          style: TextStyle(
-                                            fontSize: 11,
-                                            color: Color(0xFF166534),
-                                            fontWeight: FontWeight.w700,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
+                                  _buildAccessibilityChip(
+                                    summary: accessSummary,
                                   ),
                                 ],
                                 if (isSelected) ...[
@@ -505,6 +487,179 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
     );
   }
 
+  _PathAccessSummary _buildPathAccessSummary(route_model.Route route) {
+    final matchedPaths = _pathsForRoute(route);
+    if (matchedPaths.isEmpty) {
+      return _PathAccessSummary(
+        walkable: route.waypoints.isNotEmpty,
+        vehicleAccess: true,
+        wheelchairAccessible: route.wheelchairAccessible,
+        restrictions: const [],
+      );
+    }
+
+    final walkable = matchedPaths.every((path) => path.walkable);
+    final wheelchairAccessible =
+        route.wheelchairAccessible &&
+        matchedPaths.every((path) => path.wheelchairAccessible);
+    final vehicleAccess = matchedPaths.every(
+      (path) => _isVehicleAllowed(path.restrictions),
+    );
+    final restrictions = _collectRestrictionNotes(matchedPaths);
+
+    return _PathAccessSummary(
+      walkable: walkable,
+      vehicleAccess: vehicleAccess,
+      wheelchairAccessible: wheelchairAccessible,
+      restrictions: restrictions,
+    );
+  }
+
+  List<CampusPath> _pathsForRoute(route_model.Route route) {
+    if (campusPaths.isEmpty || route.waypoints.isEmpty) {
+      return const [];
+    }
+
+    const distanceCalc = Distance();
+    const double matchThresholdMeters = 6.0;
+    final matched = <CampusPath>[];
+
+    for (final path in campusPaths) {
+      if (_routeTouchesPath(
+        route.waypoints,
+        path,
+        distanceCalc,
+        matchThresholdMeters,
+      )) {
+        matched.add(path);
+      }
+    }
+
+    return matched;
+  }
+
+  bool _routeTouchesPath(
+    List<LatLng> routePoints,
+    CampusPath path,
+    Distance distanceCalc,
+    double thresholdMeters,
+  ) {
+    if (path.coordinates.isEmpty) return false;
+
+    for (final routePoint in routePoints) {
+      for (final pathPoint in path.coordinates) {
+        if (distanceCalc(routePoint, pathPoint) <= thresholdMeters) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  bool _isVehicleAllowed(String? restrictions) {
+    if (restrictions == null || restrictions.trim().isEmpty) {
+      return true;
+    }
+    final lower = restrictions.toLowerCase();
+    if (lower.contains('no vehicles') ||
+        lower.contains('no vehicle') ||
+        lower.contains('no_vehicles')) {
+      return false;
+    }
+    return true;
+  }
+
+  List<String> _collectRestrictionNotes(List<CampusPath> paths) {
+    final notes = <String>{};
+    for (final path in paths) {
+      final raw = path.restrictions?.trim();
+      if (raw == null || raw.isEmpty) continue;
+      notes.add(raw);
+    }
+    return notes.toList();
+  }
+
+  bool _hasAccessSummary(_PathAccessSummary summary) {
+    return summary.walkable ||
+        summary.vehicleAccess ||
+        summary.wheelchairAccessible ||
+        summary.restrictions.isNotEmpty;
+  }
+
+  Widget _buildAccessibilityChip({
+    required _PathAccessSummary summary,
+  }) {
+    final bgColor = summary.wheelchairAccessible
+        ? const Color(0xFFDCFCE7)
+        : const Color(0xFFFEF3C7);
+    final fgColor = summary.wheelchairAccessible
+        ? const Color(0xFF166534)
+        : const Color(0xFF854D0E);
+    const yesColor = Color(0xFF166534);
+
+    Color valueColor(bool value) => value ? yesColor : fgColor;
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Icon(Icons.accessible_rounded, size: 14, color: fgColor),
+          const SizedBox(width: 4),
+          Flexible(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Walkable: ${summary.walkable ? 'Yes' : 'No'}',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: valueColor(summary.walkable),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  'Vehicle: ${summary.vehicleAccess ? 'Yes' : 'No'}',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: valueColor(summary.vehicleAccess),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                Text(
+                  'Wheelchair: ${summary.wheelchairAccessible ? 'Yes' : 'No'}',
+                  style: TextStyle(
+                    fontSize: 11,
+                    color: valueColor(summary.wheelchairAccessible),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                if (summary.restrictions.isNotEmpty)
+                  Text(
+                    'Restriction: ${summary.restrictions.first}',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: fgColor,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _getRouteIcon(String routeType) {
     IconData icon;
     switch (routeType) {
@@ -557,4 +712,18 @@ class _RouteComparisonScreenState extends State<RouteComparisonScreen> {
       }),
     );
   }
+}
+
+class _PathAccessSummary {
+  final bool walkable;
+  final bool vehicleAccess;
+  final bool wheelchairAccessible;
+  final List<String> restrictions;
+
+  const _PathAccessSummary({
+    required this.walkable,
+    required this.vehicleAccess,
+    required this.wheelchairAccessible,
+    required this.restrictions,
+  });
 }

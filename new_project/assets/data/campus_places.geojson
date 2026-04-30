@@ -1524,7 +1524,7 @@
       }
     },
 
-     {
+    {
       "type": "Feature",
       "id": "LR", 
       "geometry": {
@@ -1537,6 +1537,25 @@
         "placeType": "place",
         "department": null,
         "description": "Entrance for the girl's hostel",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+
+    {
+      "type": "Feature",
+      "id": "Gym", 
+      "geometry": {
+        "type": "Point",
+        "coordinates": [72.626892, 23.189284]
+      },
+      "properties": {
+        "id": "Gym",
+        "name": "Gym",
+        "placeType": "place",
+        "department": null,
+        "description": "Gym for all",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
