@@ -1,0 +1,49 @@
+name: Build iOS App
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions tab
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java (Required by Gradle/Flutter plugins)
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Get Flutter dependencies
+        run: |
+          cd new_project
+          flutter pub get
+
+      - name: Build iOS Application (Unsigned)
+        run: |
+          cd new_project
+          flutter build ios --no-codesign --release
+
+      - name: Package IPA (Unsigned)
+        run: |
+          cd new_project
+          mkdir -p Payload
+          mv build/ios/iphoneos/new_project.app Payload/
+          zip -r CampusNav.ipa Payload
+
+      - name: Upload IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: new_project/CampusNav.ipa
