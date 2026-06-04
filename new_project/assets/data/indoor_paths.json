@@ -5,328 +5,856 @@
       "buildingId": "cep",
       "name": "CEP Indoor Path Graph",
       "defaultFloor": 1,
-      "floors": [0, 1, 2],
+      "floors": [
+        0,
+        1,
+        2
+      ],
       "entrances": [
-        "cep_gate_west",
-        "cep_stair_a_f0",
-        "cep_room_107",
-        "cep_stair_a_f2"
+        "CEP_Gate_1",
+        "CEP_Gate_2",
+        "CEP_Gate_3",
+        "CEP_Stair_A1_f0_to_f1",
+        "CEP_Stair_A2_f0_to_f1",
+        "CEP_Stair_B1_f0_to_f1",
+        "CEP_Stair_B2_f0_to_f1",
+        "CEP_Stair_C_f0_to_f1",
+        "CEP_Stair_A1_f1_to_f2",
+        "CEP_Stair_A2_f1_to_f2",
+        "CEP_Stair_B1_f1_to_f2"
       ],
       "entrancesByFloor": {
-        "0": ["cep_gate_west", "cep_stair_a_f0"],
-        "1": ["cep_stair_a_f1"],
-        "2": ["cep_stair_a_f2"]
+        "0": [
+          "CEP_Gate_1",
+          "CEP_Gate_3"
+        ],
+        "1": [
+          "CEP_Gate_2",
+          "CEP_Stair_A1_f0_to_f1",
+          "CEP_Stair_A2_f0_to_f1",
+          "CEP_Stair_B1_f0_to_f1",
+          "CEP_Stair_B2_f0_to_f1",
+          "CEP_Stair_C_f0_to_f1"
+        ],
+        "2": [
+          "CEP_Stair_A1_f1_to_f2",
+          "CEP_Stair_A2_f1_to_f2",
+          "CEP_Stair_B1_f1_to_f2"
+        ]
       },
       "nodes": [
         {
+          "id": "CEP_Stair_B1_f1_to_f2",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.188700,
+            "lng": 72.627885
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Stair_B2_f1",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.188582,
+            "lng": 72.627887
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Stair_A1_f1_to_f2",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.188480,
+            "lng": 72.627592
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Stair_A2_f1_to_f2",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.188392,
+            "lng": 72.627590
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Stair_A1_f0_to_f1",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188480,
+            "lng": 72.627592
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Stair_A2_f0_to_f1",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188392,
+            "lng": 72.627590
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Stair_B1_f0_to_f1",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188700,
+            "lng": 72.627885
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Stair_B2_f0_to_f1",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188582,
+            "lng": 72.627887
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Stair_C_f0_to_f1",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188250,
+            "lng": 72.627895
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Gate_1",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188439,
+            "lng": 72.627560
+          },
+          "type": "entrance"
+        },
+        {
+          "id": "CEP_Gate_2",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188688,
+            "lng": 72.627874
+          },
+          "type": "entrance"
+        },
+        {
+          "id": "CEP_Gate_3",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188446,
+            "lng": 72.628048
+          },
+          "type": "entrance"
+        },
+        {
           "id": "cep_room_013",
           "floor": 0,
-          "coordinate": { "lat": 23.188358, "lng": 72.628059 },
+          "coordinate": {
+            "lat": 23.188350,
+            "lng": 72.628024
+          },
           "type": "room-door",
           "roomId": "cep_013"
         },
         {
           "id": "cep_room_012",
           "floor": 0,
-          "coordinate": { "lat": 23.188289, "lng": 72.628059 },
+          "coordinate": {
+            "lat": 23.188276,
+            "lng": 72.628024
+          },
           "type": "room-door",
           "roomId": "cep_012"
         },
         {
           "id": "cep_room_010",
           "floor": 0,
-          "coordinate": { "lat": 23.188209, "lng": 72.627973 },
+          "coordinate": {
+            "lat": 23.188209,
+            "lng": 72.627973
+          },
           "type": "room-door",
           "roomId": "cep_010"
         },
         {
           "id": "cep_room_009",
           "floor": 0,
-          "coordinate": { "lat": 23.188194, "lng": 72.627890 },
+          "coordinate": {
+            "lat": 23.188212,
+            "lng": 72.627895
+          },
           "type": "room-door",
           "roomId": "cep_009"
         },
         {
           "id": "cep_room_008",
           "floor": 0,
-          "coordinate": { "lat": 23.188181, "lng": 72.627806 },
+          "coordinate": {
+            "lat": 23.188212,
+            "lng": 72.627818
+          },
           "type": "room-door",
           "roomId": "cep_008"
         },
         {
+          "id": "cep_room_0005",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188259,
+            "lng": 72.627764
+          },
+          "type": "room-door",
+          "roomId": "cep_0005"
+        },
+        {
           "id": "cep_room_006",
           "floor": 0,
-          "coordinate": { "lat": 23.188367, "lng": 72.627772 },
+          "coordinate": {
+            "lat": 23.188367,
+            "lng": 72.627764
+          },
           "type": "room-door",
           "roomId": "cep_006"
         },
         {
           "id": "cep_room_005",
           "floor": 0,
-          "coordinate": { "lat": 23.188259, "lng": 72.627772 },
+          "coordinate": {
+            "lat": 23.188508,
+            "lng": 72.627764
+          },
           "type": "room-door",
-          "roomId": "cep_0005"
+          "roomId": "cep_005"
         },
         {
           "id": "cep_room_004",
           "floor": 0,
-          "coordinate": { "lat": 23.188582, "lng": 72.627764 },
+          "coordinate": {
+            "lat": 23.188604,
+            "lng": 72.627764
+          },
           "type": "room-door",
           "roomId": "cep_004"
         },
         {
           "id": "cep_room_001",
           "floor": 0,
-          "coordinate": { "lat": 23.188515, "lng": 72.628046 },
+          "coordinate": {
+            "lat": 23.188513,
+            "lng": 72.628024
+          },
           "type": "room-door",
           "roomId": "cep_001"
         },
         {
           "id": "cep_room_002",
           "floor": 0,
-          "coordinate": { "lat": 23.188555, "lng": 72.628073 },
+          "coordinate": {
+            "lat": 23.188549,
+            "lng": 72.628024
+          },
           "type": "room-door",
           "roomId": "cep_002"
         },
         {
           "id": "cep_room_003",
           "floor": 0,
-          "coordinate": { "lat": 23.188649, "lng": 72.628083 },
+          "coordinate": {
+            "lat": 23.188582,
+            "lng": 72.628024
+          },
           "type": "room-door",
           "roomId": "cep_003"
         },
         {
           "id": "cep_room_003a",
           "floor": 0,
-          "coordinate": { "lat": 23.188656, "lng": 72.627973 },
+          "coordinate": {
+            "lat": 23.188604,
+            "lng": 72.628024
+          },
           "type": "room-door",
           "roomId": "cep_003A"
         },
         {
+          "id": "cep_room_101",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.188493,
+            "lng": 72.628030
+          },
+          "type": "room-door",
+          "roomId": "cep_101"
+        },
+        {
           "id": "cep_room_102",
           "floor": 1,
-          "coordinate": { "lat": 23.188515, "lng": 72.628046 },
+          "coordinate": {
+            "lat": 23.188520,
+            "lng": 72.628030
+          },
           "type": "room-door",
           "roomId": "cep_102"
         },
         {
           "id": "cep_room_103",
           "floor": 1,
-          "coordinate": { "lat": 23.188582, "lng": 72.627764 },
+          "coordinate": {
+            "lat": 23.188582,
+            "lng": 72.627764
+          },
           "type": "room-door",
           "roomId": "cep_103"
         },
         {
           "id": "cep_room_104",
           "floor": 1,
-          "coordinate": { "lat": 23.188508, "lng": 72.627767 },
+          "coordinate": {
+            "lat": 23.188508,
+            "lng": 72.627764
+          },
           "type": "room-door",
           "roomId": "cep_104"
         },
         {
           "id": "cep_room_105",
           "floor": 1,
-          "coordinate": { "lat": 23.188367, "lng": 72.627772 },
+          "coordinate": {
+            "lat": 23.188367,
+            "lng": 72.627764
+          },
           "type": "room-door",
           "roomId": "cep_105"
         },
         {
           "id": "cep_room_106",
           "floor": 1,
-          "coordinate": { "lat": 23.188259, "lng": 72.627772 },
+          "coordinate": {
+            "lat": 23.188259,
+            "lng": 72.627764
+          },
           "type": "room-door",
           "roomId": "cep_106"
         },
         {
           "id": "cep_room_107",
           "floor": 1,
-          "coordinate": { "lat": 23.188204, "lng": 72.627815 },
+          "coordinate": {
+            "lat": 23.188209,
+            "lng": 72.627815
+          },
           "type": "room-door",
           "roomId": "cep_107"
         },
         {
           "id": "cep_room_108",
           "floor": 1,
-          "coordinate": { "lat": 23.188194, "lng": 72.627890 },
+          "coordinate": {
+            "lat": 23.188209,
+            "lng": 72.627890
+          },
           "type": "room-door",
           "roomId": "cep_108"
         },
         {
           "id": "cep_room_109",
           "floor": 1,
-          "coordinate": { "lat": 23.188209, "lng": 72.627973 },
+          "coordinate": {
+            "lat": 23.188209,
+            "lng": 72.627973
+          },
           "type": "room-door",
           "roomId": "cep_109"
         },
         {
           "id": "cep_room_110",
           "floor": 1,
-          "coordinate": { "lat": 23.188347, "lng": 72.628048 },
+          "coordinate": {
+            "lat": 23.188345,
+            "lng": 72.628032
+          },
           "type": "room-door",
           "roomId": "cep_110"
         },
         {
-          "id": "cep_stair_a_f1",
-          "floor": 1,
-          "coordinate": { "lat": 23.188695, "lng": 72.627887 },
-          "type": "stairs"
-        },
-        {
-          "id": "cep_stair_a_f0",
-          "floor": 0,
-          "coordinate": { "lat": 23.188695, "lng": 72.627887 },
-          "type": "stairs"
-        },
-        {
-          "id": "cep_stair_a_f2",
+          "id": "cep_room_201",
           "floor": 2,
-          "coordinate": { "lat": 23.188695, "lng": 72.627887 },
-          "type": "stairs"
-        },
-        {
-          "id": "cep_gate_west",
-          "floor": 0,
-          "coordinate": { "lat": 23.188698, "lng": 72.628134 },
-          "type": "entrance"
+          "coordinate": {
+            "lat": 23.188503,
+            "lng": 72.628008
+          },
+          "type": "room-door",
+          "roomId": "cep_201"
         },
         {
           "id": "cep_room_202",
           "floor": 2,
-          "coordinate": { "lat": 23.188515, "lng": 72.628046 },
+          "coordinate": {
+            "lat": 23.188559,
+            "lng": 72.628008
+          },
           "type": "room-door",
           "roomId": "cep_202"
         },
         {
           "id": "cep_room_203",
           "floor": 2,
-          "coordinate": { "lat": 23.188582, "lng": 72.627764 },
+          "coordinate": {
+            "lat": 23.188601,
+            "lng": 72.628008
+          },
           "type": "room-door",
           "roomId": "cep_203"
         },
         {
           "id": "cep_room_204",
           "floor": 2,
-          "coordinate": { "lat": 23.188508, "lng": 72.627767 },
+          "coordinate": {
+            "lat": 23.188601,
+            "lng": 72.627764
+          },
           "type": "room-door",
           "roomId": "cep_204"
         },
         {
           "id": "cep_room_205",
           "floor": 2,
-          "coordinate": { "lat": 23.188367, "lng": 72.627772 },
+          "coordinate": {
+            "lat": 23.188510,
+            "lng": 72.627764
+          },
           "type": "room-door",
           "roomId": "cep_205"
         },
         {
           "id": "cep_room_206",
           "floor": 2,
-          "coordinate": { "lat": 23.188259, "lng": 72.627772 },
+          "coordinate": {
+            "lat": 23.188367,
+            "lng": 72.627764
+          },
           "type": "room-door",
           "roomId": "cep_206"
         },
         {
           "id": "cep_room_207",
           "floor": 2,
-          "coordinate": { "lat": 23.188204, "lng": 72.627815 },
+          "coordinate": {
+            "lat": 23.188305,
+            "lng": 72.627764
+          },
           "type": "room-door",
           "roomId": "cep_207"
         },
         {
           "id": "cep_room_208",
           "floor": 2,
-          "coordinate": { "lat": 23.188194, "lng": 72.627890 },
+          "coordinate": {
+            "lat": 23.188209,
+            "lng": 72.627890
+          },
           "type": "room-door",
           "roomId": "cep_208"
         },
         {
           "id": "cep_room_209",
           "floor": 2,
-          "coordinate": { "lat": 23.188209, "lng": 72.627973 },
+          "coordinate": {
+            "lat": 23.188209,
+            "lng": 72.627973
+          },
           "type": "room-door",
           "roomId": "cep_209"
         },
         {
           "id": "cep_room_210",
           "floor": 2,
-          "coordinate": { "lat": 23.188347, "lng": 72.628048 },
+          "coordinate": {
+            "lat": 23.188209,
+            "lng": 72.628008
+          },
           "type": "room-door",
           "roomId": "cep_210"
         },
         {
-          "id": "cep_room_201",
-          "floor": 2,
-          "coordinate": { "lat": 23.188503, "lng": 72.628013 },
-          "type": "room-door",
-          "roomId": "cep_201"
-        },
-        {
           "id": "cep_room_211",
           "floor": 2,
-          "coordinate": { "lat": 23.188268, "lng": 72.627989 },
+          "coordinate": {
+            "lat": 23.188268,
+            "lng": 72.628008
+          },
           "type": "room-door",
           "roomId": "cep_211"
         },
         {
           "id": "cep_room_212",
           "floor": 2,
-          "coordinate": { "lat": 23.188303, "lng": 72.627989 },
+          "coordinate": {
+            "lat": 23.188303,
+            "lng": 72.628008
+          },
           "type": "room-door",
           "roomId": "cep_212"
         },
         {
           "id": "cep_room_213",
           "floor": 2,
-          "coordinate": { "lat": 23.188365, "lng": 72.627995 },
+          "coordinate": {
+            "lat": 23.188367,
+            "lng": 72.628008
+          },
           "type": "room-door",
           "roomId": "cep_213"
+        },
+        {
+          "id": "CEP_Stair_A1_f2",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.188480,
+            "lng": 72.627592
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Stair_A2_f2",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.188392,
+            "lng": 72.627590
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "CEP_Stair_B1_f2",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.188700,
+            "lng": 72.627885
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "cep_ground_floor_canteen_side",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188436,
+            "lng": 72.627764
+          },
+          "type": "manual",
+          "roomId": "cep_ground_floor_canteen_side"
+        },
+        {
+          "id": "cep_ground_floor_RC_side",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.188446,
+            "lng": 72.628024
+          },
+          "type": "manual",
+          "roomId": "cep_ground_floor_RC_side"
+        },
+        {
+          "id": "cep_first_floor_canteen_side",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.188424,
+            "lng": 72.627764
+          },
+          "type": "manual",
+          "roomId": "cep_first_floor_canteen_side"
+        },
+        {
+          "id": "cep_second_floor_canteen_side",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.188424,
+            "lng": 72.627764
+          },
+          "type": "manual",
+          "roomId": "cep_second_floor_canteen_side"
+        },
+        {
+          "id": "cep_room_102_extended",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.188582,
+            "lng": 72.628030
+          },
+          "type": "manual",
+          "roomId": "cep_first_floor_canteen_side"
+        },
+        {
+          "id": "cep_room_208_extended",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.188209,
+            "lng": 72.627807
+          },
+          "type": "manual",
+          "roomId": "cep_208_extended"
+        },
+        {
+          "id": "cep_top_floor_admin_side",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.188601,
+            "lng": 72.627885
+          },
+          "type": "manual",
+          "roomId": "cep_top_floor_admin_side"
         }
       ],
       "edges": [
-        { "from": "cep_stair_a_f0", "to": "cep_room_003a", "bidirectional": true },
-        { "from": "cep_room_003a", "to": "cep_room_004", "bidirectional": true },
-        { "from": "cep_room_003a", "to": "cep_room_003", "bidirectional": true },
-        { "from": "cep_room_003", "to": "cep_room_002", "bidirectional": true },
-        { "from": "cep_room_002", "to": "cep_room_001", "bidirectional": true },
-        { "from": "cep_room_001", "to": "cep_room_013", "bidirectional": true },
-        { "from": "cep_room_013", "to": "cep_room_012", "bidirectional": true },
-        { "from": "cep_room_012", "to": "cep_room_010", "bidirectional": true },
-        { "from": "cep_room_010", "to": "cep_room_009", "bidirectional": true },
-        { "from": "cep_room_009", "to": "cep_room_008", "bidirectional": true },
-        { "from": "cep_room_008", "to": "cep_room_005", "bidirectional": true },
-        { "from": "cep_room_008", "to": "cep_room_006", "bidirectional": true },
-        { "from": "cep_room_006", "to": "cep_room_005", "bidirectional": true },
-        { "from": "cep_room_005", "to": "cep_room_004", "bidirectional": true },
-        { "from": "cep_room_107", "to": "cep_room_108", "bidirectional": true },
-        { "from": "cep_room_102", "to": "cep_room_103", "bidirectional": true },
-        { "from": "cep_room_103", "to": "cep_room_104", "bidirectional": true },
-        { "from": "cep_room_104", "to": "cep_room_105", "bidirectional": true },
-        { "from": "cep_room_105", "to": "cep_room_106", "bidirectional": true },
-        { "from": "cep_room_106", "to": "cep_room_107", "bidirectional": true },
-        { "from": "cep_room_107", "to": "cep_room_108", "bidirectional": true },
-        { "from": "cep_room_108", "to": "cep_room_109", "bidirectional": true },
-        { "from": "cep_room_109", "to": "cep_room_110", "bidirectional": true },
-        { "from": "cep_room_110", "to": "cep_room_102", "bidirectional": true },
-        { "from": "cep_stair_a_f1", "to": "cep_room_102", "bidirectional": true },
-        { "from": "cep_stair_a_f1", "to": "cep_room_103", "bidirectional": true },
-        { "from": "cep_stair_a_f1", "to": "cep_stair_a_f2", "bidirectional": true },
-        { "from": "cep_stair_a_f0", "to": "cep_stair_a_f1", "bidirectional": true },
-        { "from": "cep_gate_west", "to": "cep_stair_a_f0", "bidirectional": true },
-        { "from": "cep_stair_a_f2", "to": "cep_room_207", "bidirectional": true },
-        { "from": "cep_room_203", "to": "cep_room_202", "bidirectional": true },
-        { "from": "cep_room_202", "to": "cep_room_201", "bidirectional": true },
-        { "from": "cep_room_201", "to": "cep_room_213", "bidirectional": true },
-        { "from": "cep_room_213", "to": "cep_room_212", "bidirectional": true },
-        { "from": "cep_room_212", "to": "cep_room_211", "bidirectional": true },
-        { "from": "cep_room_211", "to": "cep_room_210", "bidirectional": true },
-        { "from": "cep_room_210", "to": "cep_room_209", "bidirectional": true },
-        { "from": "cep_room_209", "to": "cep_room_208", "bidirectional": true },
-        { "from": "cep_room_208", "to": "cep_room_207", "bidirectional": true },
-        { "from": "cep_room_207", "to": "cep_room_206", "bidirectional": true },
-        { "from": "cep_room_206", "to": "cep_room_205", "bidirectional": true },
-        { "from": "cep_room_205", "to": "cep_room_204", "bidirectional": true },
-        { "from": "cep_room_204", "to": "cep_room_203", "bidirectional": true }
+        {
+          "from": "CEP_Stair_B1_f2",
+          "to": "cep_top_floor_admin_side",
+          "bidirectional": true
+        },
+        {
+          "from": "CEP_Stair_B1_f1_to_f2",
+          "to": "CEP_Stair_B2_f1",
+          "bidirectional": true
+        },
+        {
+          "from": "CEP_Stair_A1_f2",
+          "to": "cep_second_floor_canteen_side",
+          "bidirectional": true
+        },
+        {
+          "from": "CEP_Stair_A2_f2",
+          "to": "cep_second_floor_canteen_side",
+          "bidirectional": true
+        },
+        {
+          "from": "CEP_Stair_A1_f1_to_f2",
+          "to": "cep_first_floor_canteen_side",
+          "bidirectional": true
+        },
+        {
+          "from": "CEP_Stair_A2_f1_to_f2",
+          "to": "cep_first_floor_canteen_side",
+          "bidirectional": true
+        },
+        {
+          "from": "CEP_Gate_3",
+          "to": "cep_ground_floor_RC_side",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_ground_floor_canteen_side",
+          "to": "CEP_Gate_1",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_003a",
+          "to": "cep_room_004",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_003a",
+          "to": "cep_room_003",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_003",
+          "to": "cep_room_002",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_002",
+          "to": "cep_room_001",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_001",
+          "to": "cep_room_013",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_013",
+          "to": "cep_room_012",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_012",
+          "to": "cep_room_010",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_010",
+          "to": "cep_room_009",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_009",
+          "to": "cep_room_008",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_008",
+          "to": "cep_room_0005",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_006",
+          "to": "cep_room_0005",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_006",
+          "to": "cep_room_005",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_005",
+          "to": "cep_room_004",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_107",
+          "to": "cep_room_108",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_102",
+          "to": "cep_room_102_extended",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_102_extended",
+          "to": "cep_room_103",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_103",
+          "to": "cep_room_104",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_104",
+          "to": "cep_room_105",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_105",
+          "to": "cep_room_106",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_106",
+          "to": "cep_room_107",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_107",
+          "to": "cep_room_108",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_108",
+          "to": "cep_room_109",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_109",
+          "to": "cep_room_110",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_110",
+          "to": "cep_room_102",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_203",
+          "to": "cep_room_202",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_202",
+          "to": "cep_room_201",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_201",
+          "to": "cep_room_213",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_213",
+          "to": "cep_room_212",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_212",
+          "to": "cep_room_211",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_211",
+          "to": "cep_room_210",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_210",
+          "to": "cep_room_209",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_209",
+          "to": "cep_room_208",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_208",
+          "to": "cep_room_208_extended",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_208_extended",
+          "to": "cep_room_207",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_207",
+          "to": "cep_room_206",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_206",
+          "to": "cep_room_205",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_205",
+          "to": "cep_room_204",
+          "bidirectional": true
+        },
+        {
+          "from": "cep_room_204",
+          "to": "cep_room_203",
+          "bidirectional": true
+        }
       ],
       "roomNodeMap": {
+        "cep_001": "cep_room_001",
+        "cep_002": "cep_room_002",
+        "cep_003": "cep_room_003",
+        "cep_003A": "cep_room_003a",
+        "cep_004": "cep_room_004",
+        "cep_0005": "cep_room_0005",
+        "cep_006": "cep_room_006",
+        "cep_008": "cep_room_008",
+        "cep_009": "cep_room_009",
+        "cep_010": "cep_room_010",
+        "cep_012": "cep_room_012",
+        "cep_013": "cep_room_013",
+        "cep_101": "cep_room_101",
         "cep_102": "cep_room_102",
         "cep_103": "cep_room_103",
         "cep_104": "cep_room_104",
@@ -336,6 +864,7 @@
         "cep_108": "cep_room_108",
         "cep_109": "cep_room_109",
         "cep_110": "cep_room_110",
+        "cep_201": "cep_room_201",
         "cep_202": "cep_room_202",
         "cep_203": "cep_room_203",
         "cep_204": "cep_room_204",
@@ -344,153 +873,831 @@
         "cep_207": "cep_room_207",
         "cep_208": "cep_room_208",
         "cep_209": "cep_room_209",
-        "cep_210": "cep_room_210"
+        "cep_210": "cep_room_210",
+        "cep_211": "cep_room_211",
+        "cep_212": "cep_room_212",
+        "cep_213": "cep_room_213"
       }
     },
     {
       "buildingId": "Lab_building",
       "name": "Lab Building Indoor Path Graph",
       "defaultFloor": 0,
-      "floors": [0, 1, 2],
+      "floors": [
+        0,
+        1,
+        2
+      ],
       "entrances": [
-        "lab_room_004_f0",
-        "lab_room_104_f1",
-        "lab_room_204_f2"
+        "LAB_Gate_1",
+        "LAB_Gate_2",
+        "Stair_Left_Side",
+        "Stair_Right_Side"
       ],
       "entrancesByFloor": {
-        "0": ["lab_room_004_f0"],
-        "1": ["lab_room_104_f1"],
-        "2": ["lab_room_204_f2"]
+        "0": [
+          "LAB_Gate_1",
+          "LAB_Gate_2"
+        ],
+        "1": [
+          "Stair_Left_Side",
+          "Stair_Right_Side"
+        ],
+        "2": [
+          "Stair_Left_Side",
+          "Stair_Right_Side"
+        ]
       },
       "nodes": [
-        { "id": "lab_room_001_f0", "floor": 0, "coordinate": { "lat": 23.187211, "lng": 72.627938 }, "type": "room-door", "roomId": "lab_001" },
-        { "id": "lab_room_002_f0", "floor": 0, "coordinate": { "lat": 23.187203, "lng": 72.628032 }, "type": "room-door", "roomId": "lab_002" },
-        { "id": "lab_room_003_f0", "floor": 0, "coordinate": { "lat": 23.187196, "lng": 72.628094 }, "type": "room-door", "roomId": "lab_003" },
-        { "id": "lab_room_004_f0", "floor": 0, "coordinate": { "lat": 23.187087, "lng": 72.628156 }, "type": "room-door", "roomId": "lab_004" },
-        { "id": "lab_room_005_f0", "floor": 0, "coordinate": { "lat": 23.186974, "lng": 72.628158 }, "type": "room-door", "roomId": "lab_005" },
-        { "id": "lab_room_006_f0", "floor": 0, "coordinate": { "lat": 23.186873, "lng": 72.628105 }, "type": "room-door", "roomId": "lab_006" },
-        { "id": "lab_room_007_f0", "floor": 0, "coordinate": { "lat": 23.186878, "lng": 72.628048 }, "type": "room-door", "roomId": "lab_007" },
-        { "id": "lab_room_008_f0", "floor": 0, "coordinate": { "lat": 23.186880, "lng": 72.627944 }, "type": "room-door", "roomId": "lab_008" },
-        { "id": "lab_room_009_f0", "floor": 0, "coordinate": { "lat": 23.186843, "lng": 72.627871 }, "type": "room-door", "roomId": "lab_009" },
-        { "id": "lab_room_010_f0", "floor": 0, "coordinate": { "lat": 23.186863, "lng": 72.627799 }, "type": "room-door", "roomId": "lab_010" },
-        { "id": "lab_room_011_f0", "floor": 0, "coordinate": { "lat": 23.186902, "lng": 72.627866 }, "type": "room-door", "roomId": "lab_011" },
-        { "id": "lab_room_012_f0", "floor": 0, "coordinate": { "lat": 23.186949, "lng": 72.627869 }, "type": "room-door", "roomId": "lab_012" },
-        { "id": "lab_room_013_f0", "floor": 0, "coordinate": { "lat": 23.187016, "lng": 72.627863 }, "type": "room-door", "roomId": "lab_013" },
-        { "id": "lab_room_014_f0", "floor": 0, "coordinate": { "lat": 23.187124, "lng": 72.627866 }, "type": "room-door", "roomId": "lab_014" },
-        { "id": "lab_room_101_f1", "floor": 1, "coordinate": { "lat": 23.187211, "lng": 72.627938 }, "type": "room-door", "roomId": "lab_101" },
-        { "id": "lab_room_102_f1", "floor": 1, "coordinate": { "lat": 23.187203, "lng": 72.628032 }, "type": "room-door", "roomId": "lab_102" },
-        { "id": "lab_room_103_f1", "floor": 1, "coordinate": { "lat": 23.187196, "lng": 72.628094 }, "type": "room-door", "roomId": "lab_103" },
-        { "id": "lab_room_104_f1", "floor": 1, "coordinate": { "lat": 23.187087, "lng": 72.628156 }, "type": "room-door", "roomId": "lab_104" },
-        { "id": "lab_room_105_f1", "floor": 1, "coordinate": { "lat": 23.186974, "lng": 72.628158 }, "type": "room-door", "roomId": "lab_105" },
-        { "id": "lab_room_106_f1", "floor": 1, "coordinate": { "lat": 23.186873, "lng": 72.628105 }, "type": "room-door", "roomId": "lab_106" },
-        { "id": "lab_room_107_f1", "floor": 1, "coordinate": { "lat": 23.186878, "lng": 72.628048 }, "type": "room-door", "roomId": "lab_107" },
-        { "id": "lab_room_108_f1", "floor": 1, "coordinate": { "lat": 23.186880, "lng": 72.627944 }, "type": "room-door", "roomId": "lab_108" },
-        { "id": "lab_room_109_f1", "floor": 1, "coordinate": { "lat": 23.186843, "lng": 72.627871 }, "type": "room-door", "roomId": "lab_109" },
-        { "id": "lab_room_110_f1", "floor": 1, "coordinate": { "lat": 23.186863, "lng": 72.627799 }, "type": "room-door", "roomId": "lab_110" },
-        { "id": "lab_room_111_f1", "floor": 1, "coordinate": { "lat": 23.186902, "lng": 72.627866 }, "type": "room-door", "roomId": "lab_111" },
-        { "id": "lab_room_112_f1", "floor": 1, "coordinate": { "lat": 23.187016, "lng": 72.627863 }, "type": "room-door", "roomId": "lab_112" },
-        { "id": "lab_room_113_f1", "floor": 1, "coordinate": { "lat": 23.187124, "lng": 72.627866 }, "type": "room-door", "roomId": "lab_113" },
-        { "id": "lab_room_201_f2", "floor": 2, "coordinate": { "lat": 23.187211, "lng": 72.627938 }, "type": "room-door", "roomId": "lab_201" },
-        { "id": "lab_room_202_f2", "floor": 2, "coordinate": { "lat": 23.187203, "lng": 72.628032 }, "type": "room-door", "roomId": "lab_202" },
-        { "id": "lab_room_203_f2", "floor": 2, "coordinate": { "lat": 23.187196, "lng": 72.628094 }, "type": "room-door", "roomId": "lab_203" },
-        { "id": "lab_room_204_f2", "floor": 2, "coordinate": { "lat": 23.187087, "lng": 72.628156 }, "type": "room-door", "roomId": "lab_204" },
-        { "id": "lab_room_205_f2", "floor": 2, "coordinate": { "lat": 23.186974, "lng": 72.628158 }, "type": "room-door", "roomId": "lab_205" },
-        { "id": "lab_room_206_f2", "floor": 2, "coordinate": { "lat": 23.186873, "lng": 72.628105 }, "type": "room-door", "roomId": "lab_206" },
-        { "id": "lab_room_207_f2", "floor": 2, "coordinate": { "lat": 23.186878, "lng": 72.628048 }, "type": "room-door", "roomId": "lab_207" },
-        { "id": "lab_room_208_f2", "floor": 2, "coordinate": { "lat": 23.186880, "lng": 72.627944 }, "type": "room-door", "roomId": "lab_208" },
-        { "id": "lab_room_209_f2", "floor": 2, "coordinate": { "lat": 23.186843, "lng": 72.627871 }, "type": "room-door", "roomId": "lab_209" },
-        { "id": "lab_room_210_f2", "floor": 2, "coordinate": { "lat": 23.186863, "lng": 72.627799 }, "type": "room-door", "roomId": "lab_210" },
-        { "id": "lab_room_211_f2", "floor": 2, "coordinate": { "lat": 23.186902, "lng": 72.627866 }, "type": "room-door", "roomId": "lab_211" },
-        { "id": "lab_room_212_f2", "floor": 2, "coordinate": { "lat": 23.186949, "lng": 72.627869 }, "type": "room-door", "roomId": "lab_212" },
-        { "id": "lab_room_213_f2", "floor": 2, "coordinate": { "lat": 23.187016, "lng": 72.627863 }, "type": "room-door", "roomId": "lab_213" },
-        { "id": "lab_room_214_215_f2", "floor": 2, "coordinate": { "lat": 23.187124, "lng": 72.627866 }, "type": "room-door", "roomId": "lab_214_&_215" }
+        {
+          "id": "Stair_Left_Side",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.627810
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "Stair_Right_Side",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.627810
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "LAB_Gate_1",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.187152,
+            "lng": 72.628126
+          },
+          "type": "room-door",
+          "roomId": "LAB_Gate_1"
+        },
+        {
+          "id": "LAB_Gate_2",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.186900,
+            "lng": 72.628137
+          },
+          "type": "room-door",
+          "roomId": "LAB_Gate_2"
+        },
+        {
+          "id": "lab_room_001_extended",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.627871
+          },
+          "type": "manual",
+          "roomId": "lab_room_001_extended"
+        },
+        {
+          "id": "lab_room_001",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.627938
+          },
+          "type": "room-door",
+          "roomId": "lab_001"
+        },
+        {
+          "id": "lab_room_002",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.628032
+          },
+          "type": "room-door",
+          "roomId": "lab_002"
+        },
+        {
+          "id": "lab_room_003",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.628094
+          },
+          "type": "room-door",
+          "roomId": "lab_003"
+        },
+        {
+          "id": "lab_room_004",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.187087,
+            "lng": 72.628126
+          },
+          "type": "room-door",
+          "roomId": "lab_004"
+        },
+        {
+          "id": "lab_room_005",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.186974,
+            "lng": 72.628126
+          },
+          "type": "room-door",
+          "roomId": "lab_005"
+        },
+        {
+          "id": "lab_room_006",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.628105
+          },
+          "type": "room-door",
+          "roomId": "lab_006"
+        },
+        {
+          "id": "lab_room_007",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.628048
+          },
+          "type": "room-door",
+          "roomId": "lab_007"
+        },
+        {
+          "id": "lab_room_008",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.627944
+          },
+          "type": "room-door",
+          "roomId": "lab_008"
+        },
+        {
+          "id": "lab_room_009",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.186820,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_009"
+        },
+        {
+          "id": "lab_room_010",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.186820,
+            "lng": 72.627799
+          },
+          "type": "room-door",
+          "roomId": "lab_010"
+        },
+        {
+          "id": "lab_room_011",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.186905,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_011"
+        },
+        {
+          "id": "lab_room_012",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.186949,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_012"
+        },
+        {
+          "id": "lab_room_013",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.187016,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_013"
+        },
+        {
+          "id": "lab_room_014",
+          "floor": 0,
+          "coordinate": {
+            "lat": 23.187124,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_014"
+        },
+        {
+          "id": "Stair_Left_Side_f1",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.627810
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "Stair_Right_Side_f1",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.627810
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "lab_room_101_extended",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.627871
+          },
+          "type": "manual",
+          "roomId": "lab_room_101_extended"
+        },
+        {
+          "id": "lab_room_101",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.627938
+          },
+          "type": "room-door",
+          "roomId": "lab_101"
+        },
+        {
+          "id": "lab_room_102",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.628032
+          },
+          "type": "room-door",
+          "roomId": "lab_102"
+        },
+        {
+          "id": "lab_room_103",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.628094
+          },
+          "type": "room-door",
+          "roomId": "lab_103"
+        },
+        {
+          "id": "lab_room_104",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.187087,
+            "lng": 72.628126
+          },
+          "type": "room-door",
+          "roomId": "lab_104"
+        },
+        {
+          "id": "lab_room_105",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.186974,
+            "lng": 72.628126
+          },
+          "type": "room-door",
+          "roomId": "lab_105"
+        },
+        {
+          "id": "lab_room_106",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.628105
+          },
+          "type": "room-door",
+          "roomId": "lab_106"
+        },
+        {
+          "id": "lab_room_107",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.628048
+          },
+          "type": "room-door",
+          "roomId": "lab_107"
+        },
+        {
+          "id": "lab_room_108",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.627944
+          },
+          "type": "room-door",
+          "roomId": "lab_108"
+        },
+        {
+          "id": "lab_room_109",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.186820,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_109"
+        },
+        {
+          "id": "lab_room_110",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.186820,
+            "lng": 72.627799
+          },
+          "type": "room-door",
+          "roomId": "lab_110"
+        },
+        {
+          "id": "lab_room_111",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.186905,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_111"
+        },
+        {
+          "id": "lab_room_112",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.187016,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_112"
+        },
+        {
+          "id": "lab_room_113",
+          "floor": 1,
+          "coordinate": {
+            "lat": 23.187124,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_113"
+        },
+        {
+          "id": "Stair_Left_Side_f2",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.627810
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "Stair_Right_Side_f2",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.627810
+          },
+          "type": "stairs"
+        },
+        {
+          "id": "lab_room_201_extended",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.627871
+          },
+          "type": "manual",
+          "roomId": "lab_room_201_extended"
+        },
+        {
+          "id": "lab_room_201",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.627938
+          },
+          "type": "room-door",
+          "roomId": "lab_201"
+        },
+        {
+          "id": "lab_room_202",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.628032
+          },
+          "type": "room-door",
+          "roomId": "lab_202"
+        },
+        {
+          "id": "lab_room_203",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.187211,
+            "lng": 72.628094
+          },
+          "type": "room-door",
+          "roomId": "lab_203"
+        },
+        {
+          "id": "lab_room_204",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.187087,
+            "lng": 72.628126
+          },
+          "type": "room-door",
+          "roomId": "lab_204"
+        },
+        {
+          "id": "lab_room_205",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.186974,
+            "lng": 72.628126
+          },
+          "type": "room-door",
+          "roomId": "lab_205"
+        },
+        {
+          "id": "lab_room_206",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.628105
+          },
+          "type": "room-door",
+          "roomId": "lab_206"
+        },
+        {
+          "id": "lab_room_207",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.628048
+          },
+          "type": "room-door",
+          "roomId": "lab_207"
+        },
+        {
+          "id": "lab_room_208",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.186873,
+            "lng": 72.627944
+          },
+          "type": "room-door",
+          "roomId": "lab_208"
+        },
+        {
+          "id": "lab_room_209",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.186820,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_209"
+        },
+        {
+          "id": "lab_room_210",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.186820,
+            "lng": 72.627799
+          },
+          "type": "room-door",
+          "roomId": "lab_210"
+        },
+        {
+          "id": "lab_room_211",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.186905,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_211"
+        },
+        {
+          "id": "lab_room_212",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.186949,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_212"
+        },
+        {
+          "id": "lab_room_213",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.187016,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_213"
+        },
+        {
+          "id": "lab_room_214_215",
+          "floor": 2,
+          "coordinate": {
+            "lat": 23.187124,
+            "lng": 72.627871
+          },
+          "type": "room-door",
+          "roomId": "lab_214_215"
+        }
       ],
       "edges": [
-        { "from": "lab_room_001_f0", "to": "lab_room_002_f0", "bidirectional": true },
-        { "from": "lab_room_002_f0", "to": "lab_room_003_f0", "bidirectional": true },
-        { "from": "lab_room_003_f0", "to": "lab_room_004_f0", "bidirectional": true },
-        { "from": "lab_room_004_f0", "to": "lab_room_005_f0", "bidirectional": true },
-        { "from": "lab_room_005_f0", "to": "lab_room_006_f0", "bidirectional": true },
-        { "from": "lab_room_006_f0", "to": "lab_room_007_f0", "bidirectional": true },
-        { "from": "lab_room_007_f0", "to": "lab_room_008_f0", "bidirectional": true },
-        { "from": "lab_room_008_f0", "to": "lab_room_009_f0", "bidirectional": true },
-        { "from": "lab_room_009_f0", "to": "lab_room_010_f0", "bidirectional": true },
-        { "from": "lab_room_010_f0", "to": "lab_room_011_f0", "bidirectional": true },
-        { "from": "lab_room_011_f0", "to": "lab_room_012_f0", "bidirectional": true },
-        { "from": "lab_room_012_f0", "to": "lab_room_013_f0", "bidirectional": true },
-        { "from": "lab_room_013_f0", "to": "lab_room_014_f0", "bidirectional": true },
-        { "from": "lab_room_014_f0", "to": "lab_room_001_f0", "bidirectional": true },
-        { "from": "lab_room_101_f1", "to": "lab_room_102_f1", "bidirectional": true },
-        { "from": "lab_room_102_f1", "to": "lab_room_103_f1", "bidirectional": true },
-        { "from": "lab_room_103_f1", "to": "lab_room_104_f1", "bidirectional": true },
-        { "from": "lab_room_104_f1", "to": "lab_room_105_f1", "bidirectional": true },
-        { "from": "lab_room_105_f1", "to": "lab_room_106_f1", "bidirectional": true },
-        { "from": "lab_room_106_f1", "to": "lab_room_107_f1", "bidirectional": true },
-        { "from": "lab_room_107_f1", "to": "lab_room_108_f1", "bidirectional": true },
-        { "from": "lab_room_108_f1", "to": "lab_room_109_f1", "bidirectional": true },
-        { "from": "lab_room_109_f1", "to": "lab_room_110_f1", "bidirectional": true },
-        { "from": "lab_room_110_f1", "to": "lab_room_111_f1", "bidirectional": true },
-        { "from": "lab_room_111_f1", "to": "lab_room_112_f1", "bidirectional": true },
-        { "from": "lab_room_112_f1", "to": "lab_room_113_f1", "bidirectional": true },
-        { "from": "lab_room_113_f1", "to": "lab_room_101_f1", "bidirectional": true },
-        { "from": "lab_room_201_f2", "to": "lab_room_202_f2", "bidirectional": true },
-        { "from": "lab_room_202_f2", "to": "lab_room_203_f2", "bidirectional": true },
-        { "from": "lab_room_203_f2", "to": "lab_room_204_f2", "bidirectional": true },
-        { "from": "lab_room_204_f2", "to": "lab_room_205_f2", "bidirectional": true },
-        { "from": "lab_room_205_f2", "to": "lab_room_206_f2", "bidirectional": true },
-        { "from": "lab_room_206_f2", "to": "lab_room_207_f2", "bidirectional": true },
-        { "from": "lab_room_207_f2", "to": "lab_room_208_f2", "bidirectional": true },
-        { "from": "lab_room_208_f2", "to": "lab_room_209_f2", "bidirectional": true },
-        { "from": "lab_room_209_f2", "to": "lab_room_210_f2", "bidirectional": true },
-        { "from": "lab_room_209_f2", "to": "lab_room_211_f2", "bidirectional": true },
-        { "from": "lab_room_210_f2", "to": "lab_room_211_f2", "bidirectional": true },
-        { "from": "lab_room_211_f2", "to": "lab_room_212_f2", "bidirectional": true },
-        { "from": "lab_room_212_f2", "to": "lab_room_213_f2", "bidirectional": true },
-        { "from": "lab_room_213_f2", "to": "lab_room_214_215_f2", "bidirectional": true },
-        { "from": "lab_room_214_215_f2", "to": "lab_room_201_f2", "bidirectional": true }
+        {
+          "from": "lab_room_001",
+          "to": "lab_room_002",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_002",
+          "to": "lab_room_003",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_003",
+          "to": "LAB_Gate_1",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_004",
+          "to": "LAB_Gate_1",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_004",
+          "to": "lab_room_005",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_005",
+          "to": "LAB_Gate_2",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_006",
+          "to": "LAB_Gate_2",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_006",
+          "to": "lab_room_007",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_007",
+          "to": "lab_room_008",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_008",
+          "to": "lab_room_009",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_009",
+          "to": "lab_room_010",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_009",
+          "to": "lab_room_011",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_011",
+          "to": "lab_room_012",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_012",
+          "to": "lab_room_013",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_013",
+          "to": "lab_room_014",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_014",
+          "to": "lab_room_001_extended",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_001",
+          "to": "lab_room_001_extended",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_101",
+          "to": "lab_room_102",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_102",
+          "to": "lab_room_103",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_103",
+          "to": "lab_room_104",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_104",
+          "to": "lab_room_105",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_105",
+          "to": "lab_room_106",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_106",
+          "to": "lab_room_107",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_107",
+          "to": "lab_room_108",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_108",
+          "to": "lab_room_109",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_109",
+          "to": "lab_room_111",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_110",
+          "to": "lab_room_109",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_111",
+          "to": "lab_room_112",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_112",
+          "to": "lab_room_113",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_113",
+          "to": "lab_room_101_extended",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_101",
+          "to": "lab_room_101_extended",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_201",
+          "to": "lab_room_202",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_202",
+          "to": "lab_room_203",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_203",
+          "to": "lab_room_204",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_204",
+          "to": "lab_room_205",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_205",
+          "to": "lab_room_206",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_206",
+          "to": "lab_room_207",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_207",
+          "to": "lab_room_208",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_208",
+          "to": "lab_room_209",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_209",
+          "to": "lab_room_210",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_209",
+          "to": "lab_room_211",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_211",
+          "to": "lab_room_212",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_212",
+          "to": "lab_room_213",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_213",
+          "to": "lab_room_214_215",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_214_215",
+          "to": "lab_room_201_extended",
+          "bidirectional": true
+        },
+        {
+          "from": "lab_room_201",
+          "to": "lab_room_201_extended",
+          "bidirectional": true
+        }
       ],
       "roomNodeMap": {
-        "lab_001": "lab_room_001_f0",
-        "lab_002": "lab_room_002_f0",
-        "lab_003": "lab_room_003_f0",
-        "lab_004": "lab_room_004_f0",
-        "lab_005": "lab_room_005_f0",
-        "lab_006": "lab_room_006_f0",
-        "lab_007": "lab_room_007_f0",
-        "lab_008": "lab_room_008_f0",
-        "lab_009": "lab_room_009_f0",
-        "lab_010": "lab_room_010_f0",
-        "lab_011": "lab_room_011_f0",
-        "lab_012": "lab_room_012_f0",
-        "lab_013": "lab_room_013_f0",
-        "lab_014": "lab_room_014_f0",
-        "lab_101": "lab_room_101_f1",
-        "lab_102": "lab_room_102_f1",
-        "lab_103": "lab_room_103_f1",
-        "lab_104": "lab_room_104_f1",
-        "lab_105": "lab_room_105_f1",
-        "lab_106": "lab_room_106_f1",
-        "lab_107": "lab_room_107_f1",
-        "lab_108": "lab_room_108_f1",
-        "lab_109": "lab_room_109_f1",
-        "lab_110": "lab_room_110_f1",
-        "lab_111": "lab_room_111_f1",
-        "lab_112": "lab_room_112_f1",
-        "lab_113": "lab_room_113_f1",
-        "lab_201": "lab_room_201_f2",
-        "lab_202": "lab_room_202_f2",
-        "lab_203": "lab_room_203_f2",
-        "lab_204": "lab_room_204_f2",
-        "lab_205": "lab_room_205_f2",
-        "lab_206": "lab_room_206_f2",
-        "lab_207": "lab_room_207_f2",
-        "lab_208": "lab_room_208_f2",
-        "lab_209": "lab_room_209_f2",
-        "lab_210": "lab_room_210_f2",
-        "lab_211": "lab_room_211_f2",
-        "lab_212": "lab_room_212_f2",
-        "lab_213": "lab_room_213_f2",
-        "lab_214_&_215": "lab_room_214_215_f2"
+        "lab_001": "lab_room_001",
+        "lab_002": "lab_room_002",
+        "lab_003": "lab_room_003",
+        "lab_004": "lab_room_004",
+        "lab_005": "lab_room_005",
+        "lab_006": "lab_room_006",
+        "lab_007": "lab_room_007",
+        "lab_008": "lab_room_008",
+        "lab_009": "lab_room_009",
+        "lab_010": "lab_room_010",
+        "lab_011": "lab_room_011",
+        "lab_012": "lab_room_012",
+        "lab_013": "lab_room_013",
+        "lab_014": "lab_room_014",
+        "lab_101": "lab_room_101",
+        "lab_102": "lab_room_102",
+        "lab_103": "lab_room_103",
+        "lab_104": "lab_room_104",
+        "lab_105": "lab_room_105",
+        "lab_106": "lab_room_106",
+        "lab_107": "lab_room_107",
+        "lab_108": "lab_room_108",
+        "lab_109": "lab_room_109",
+        "lab_110": "lab_room_110",
+        "lab_111": "lab_room_111",
+        "lab_112": "lab_room_112",
+        "lab_113": "lab_room_113",
+        "lab_201": "lab_room_201",
+        "lab_202": "lab_room_202",
+        "lab_203": "lab_room_203",
+        "lab_204": "lab_room_204",
+        "lab_205": "lab_room_205",
+        "lab_206": "lab_room_206",
+        "lab_207": "lab_room_207",
+        "lab_208": "lab_room_208",
+        "lab_209": "lab_room_209",
+        "lab_210": "lab_room_210",
+        "lab_211": "lab_room_211",
+        "lab_212": "lab_room_212",
+        "lab_213": "lab_room_213",
+        "lab_214_&_215": "lab_room_214_215"
       }
     }
   ]

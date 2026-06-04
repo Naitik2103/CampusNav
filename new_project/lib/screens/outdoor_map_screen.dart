@@ -15,8 +15,10 @@ import '../services/campus_routing_service.dart';
 import '../services/path_based_routing_service.dart';
 import '../services/indoor_navigation_service.dart';
 import '../services/faculty_service.dart';
+import '../services/washroom_service.dart';
 import '../models/faculty_model.dart';
 import '../models/indoor_models.dart';
+import '../models/washroom_model.dart';
 import 'route_comparison_screen.dart';
 import 'indoor_navigation_screen.dart';
 import 'navigation_screen.dart';
@@ -52,6 +54,8 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
   List<CampusPlace> _filteredPlaces = [];
   List<IndoorRoom> _filteredRooms = [];
   List<FacultyEntry> _filteredFaculty = [];
+  List<Washroom> _washrooms = [];
+  List<CampusPlace> _washroomPlaces = [];
   final Set<String> _visibleLayers = {'paths', 'places'};
   bool _isLoading = true;
   LatLng? _userLocation;
@@ -341,6 +345,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
       );
       await IndoorNavigationService.instance.loadIndoorConfigs();
       await FacultyService.instance.loadFacultyDirectory();
+      await WashroomService.instance.loadWashrooms();
       print('✓ Loaded ${places.length} places from GeoJSON');
       for (var place in places) {
         print(
@@ -351,8 +356,10 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
 
       setState(() {
         _paths = paths;
-        _places = places;
-        _filteredPlaces = places;
+        _washrooms = WashroomService.instance.washrooms;
+        _washroomPlaces = WashroomService.instance.toPlaces(_washrooms);
+        _places = [...places, ..._washroomPlaces];
+        _filteredPlaces = _places;
         _indoorConfigLoaded = IndoorNavigationService.instance.isLoaded;
         _isLoading = false;
       });
@@ -390,6 +397,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
       if (query.isEmpty) {
         _filteredPlaces = _places;
         _filteredRooms = [];
+        _filteredFaculty = [];
       } else {
         // Use the location search service for better filtering
         _filteredPlaces = LocationSearchService.searchPlaces(query, _places);
@@ -404,6 +412,129 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         _filteredFaculty = FacultyService.instance.searchFaculty(query);
       }
     });
+
+    unawaited(_handleWashroomNearMeQuery(query));
+  }
+
+  WashroomType? _parseWashroomType(String query) {
+    final normalized = _normalizeKey(query);
+    if (normalized.contains('women') ||
+        normalized.contains('female') ||
+        normalized.contains('ladies')) {
+      return WashroomType.women;
+    }
+    if (normalized.contains('men') ||
+        normalized.contains('male') ||
+        normalized.contains('gents')) {
+      return WashroomType.men;
+    }
+    return null;
+  }
+
+  bool _isWashroomNearMeQuery(String query) {
+    final normalized = _normalizeKey(query);
+    if (normalized.isEmpty) return false;
+
+    final wantsWashroom =
+        normalized.contains('washroom') ||
+        normalized.contains('restroom') ||
+        normalized.contains('toilet');
+
+    final wantsNear =
+        normalized.contains('nearme') ||
+        normalized.contains('nearby') ||
+        normalized.contains('nearest') ||
+        normalized.contains('closest');
+
+    return wantsWashroom && wantsNear;
+  }
+
+  Future<void> _handleWashroomNearMeQuery(String query) async {
+    if (!_isWashroomNearMeQuery(query)) return;
+
+    if (_userLocation == null) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please enable location to find nearby washrooms.'),
+        ),
+      );
+      return;
+    }
+
+    if (_washrooms.isEmpty) {
+      await WashroomService.instance.loadWashrooms();
+      _washrooms = WashroomService.instance.washrooms;
+      _washroomPlaces = WashroomService.instance.toPlaces(_washrooms);
+      if (_washrooms.isEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No washroom data available yet.')),
+        );
+        return;
+      }
+    }
+
+    final type = _parseWashroomType(query);
+    final candidates = WashroomService.instance.filterByType(type);
+
+    if (candidates.isEmpty) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('No ${type == null ? '' : washroomTypeLabel(type)} washrooms found.')),
+      );
+      return;
+    }
+
+    final targets = candidates.map((w) => w.location).toList();
+    final nearest = PathBasedRoutingService.findNearestTargetByPathDistance(
+      _userLocation!,
+      targets,
+      _paths,
+    );
+
+    Washroom? nearestWashroom;
+    double? distanceMeters;
+    if (nearest != null) {
+      nearestWashroom = candidates[nearest.index];
+      distanceMeters = nearest.distanceMeters;
+    } else {
+      const distanceCalc = Distance();
+      nearestWashroom = candidates
+          .map(
+            (w) => WashroomDistance(
+              washroom: w,
+              distanceMeters: distanceCalc(_userLocation!, w.location),
+              usesPathDistance: false,
+            ),
+          )
+          .reduce((a, b) => a.distanceMeters < b.distanceMeters ? a : b)
+          .washroom;
+    }
+
+    if (nearestWashroom == null) return;
+
+    final place = WashroomService.instance.toCampusPlace(nearestWashroom);
+
+    if (!mounted) return;
+    setState(() {
+      _filteredPlaces = [place];
+      _filteredRooms = [];
+      _filteredFaculty = [];
+    });
+
+    await _fetchAndDisplayRoute(_userLocation!, place.location);
+
+    if (!mounted) return;
+    final distanceLabel = distanceMeters == null
+        ? 'via direct distance'
+        : '${distanceMeters.toStringAsFixed(0)}m via campus paths';
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Nearest washroom: ${place.name} ($distanceLabel).'),
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   Widget _buildFacultySearchTile(FacultyEntry f, ColorScheme colors) {
@@ -539,7 +670,11 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         orElse: () => null as IndoorRoom,
       );
       if (room != null) {
-        await _openIndoorMap(building: building, initialFloor: room.floor);
+        await _openIndoorMap(
+          building: building,
+          initialFloor: room.floor,
+          targetRoom: room,
+        );
       }
     }
   }
@@ -657,7 +792,11 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
       _activeRoutePath = null;
     });
 
-    await _openIndoorMap(building: building, initialFloor: room.floor);
+    await _openIndoorMap(
+      building: building,
+      initialFloor: room.floor,
+      targetRoom: room,
+    );
   }
 
   Color _getPathColor(CampusPath path) {
@@ -682,8 +821,53 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         return Icons.local_parking;
       case 'restroom':
         return Icons.wc;
+      case 'stairs':
+        return Icons.stairs;
       case 'landmark':
         return Icons.place;
+      case 'canteen':
+      case 'restaurant':
+        return Icons.restaurant;
+      case 'atm':
+        return Icons.local_atm;
+      case 'bank':
+        return Icons.account_balance;
+      case 'office':
+        return Icons.business;
+      case 'gate':
+        return Icons.meeting_room;
+      case 'library':
+        return Icons.menu_book;
+      case 'pond':
+        return Icons.water;
+      case 'playground':
+        return Icons.sports_soccer;
+      case 'gym':
+        return Icons.fitness_center;
+      case 'coffee_shop':
+      case 'cafe':
+        return Icons.coffee;
+      case 'music':
+      case 'music_room':
+        return Icons.music_note;
+      case 'clinic':
+      case 'hospital':
+        return Icons.local_hospital;
+      case 'bakery':
+        return Icons.cake;
+      case 'theatre':
+      case 'auditorium':
+        return Icons.theaters;
+      case 'store_room':
+        return Icons.inventory;
+      case 'lab':
+      case 'laboratory':
+        return Icons.computer;
+      case 'amul':
+        return Icons.store;
+      case 'fruit_shop':
+      case 'fruit':
+        return Icons.apple;
       default:
         return Icons.location_on;
     }
@@ -697,10 +881,99 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
         return Colors.blue;
       case 'restroom':
         return Colors.green;
+      case 'stairs':
+        return Colors.amber;
       case 'landmark':
         return Colors.amber;
+      case 'canteen':
+      case 'restaurant':
+        return Colors.deepOrange;
+      case 'atm':
+      case 'bank':
+        return Colors.teal;
+      case 'office':
+        return Colors.indigo;
+      case 'gate':
+        return Colors.brown;
+      case 'library':
+        return Colors.cyan;
+      case 'pond':
+        return Colors.lightBlue;
+      case 'playground':
+        return Colors.lightGreen;
+      case 'gym':
+        return Colors.blueGrey;
+      case 'coffee_shop':
+      case 'cafe':
+        return Colors.orangeAccent;
+      case 'music':
+      case 'music_room':
+        return Colors.pink;
+      case 'clinic':
+      case 'hospital':
+        return Colors.redAccent;
+      case 'bakery':
+        return Colors.pinkAccent;
+      case 'theatre':
+      case 'auditorium':
+        return Colors.deepPurpleAccent;
+      case 'store_room':
+        return Colors.blueGrey;
+      case 'lab':
+      case 'laboratory':
+        return Colors.indigoAccent;
+      case 'amul':
+        return const Color(0xFF00529B); // Amul Brand Blue
+      case 'fruit_shop':
+      case 'fruit':
+        return Colors.redAccent;
       default:
         return Colors.grey;
+    }
+  }
+
+  int _getPlaceRenderPriority(CampusPlace place) {
+    switch (place.placeType.toLowerCase()) {
+      case 'building':
+      case 'lab':
+      case 'laboratory':
+      case 'amul':
+        return 10;
+      case 'library':
+        return 9;
+      case 'canteen':
+      case 'restaurant':
+      case 'coffee_shop':
+      case 'cafe':
+      case 'bakery':
+      case 'theatre':
+      case 'auditorium':
+      case 'fruit_shop':
+      case 'fruit':
+        return 8;
+      case 'office':
+      case 'gym':
+      case 'music':
+      case 'music_room':
+      case 'clinic':
+      case 'hospital':
+        return 7;
+      case 'store_room':
+      case 'bank':
+        return 6;
+      case 'atm':
+      case 'gate':
+        return 5;
+      case 'parking':
+        return 4;
+      case 'landmark':
+        return 3;
+      case 'restroom':
+        return 2;
+      case 'stairs':
+        return 1;
+      default:
+        return 0;
     }
   }
 
@@ -727,9 +1000,28 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
       return;
     }
 
-    final building = IndoorNavigationService.instance.findBuildingByGps(
+    // 1. Try to find if user is inside a building boundary polygon
+    var building = IndoorNavigationService.instance.findBuildingByGps(
       location,
     );
+
+    // 2. If not inside, check if we are near (within 15 meters of) any gate for a building with an indoor map
+    if (building == null) {
+      final distance = const Distance();
+      for (final b in IndoorNavigationService.instance.buildings) {
+        if (!b.hasIndoorMap) continue;
+
+        final gate = _findNearestGateForBuilding(b);
+        if (gate != null) {
+          final dist = distance(location, gate.location);
+          if (dist <= 15.0) {
+            building = b;
+            break;
+          }
+        }
+      }
+    }
+
     final detectedId = building?.buildingId;
 
     if (detectedId == _currentDetectedIndoorBuildingId) {
@@ -778,6 +1070,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
   Future<void> _openIndoorMap({
     required IndoorBuilding building,
     int? initialFloor,
+    IndoorRoom? targetRoom,
   }) async {
     if (_isIndoorScreenActive || !mounted) return;
 
@@ -788,6 +1081,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
           building: building,
           initialFloor: initialFloor ?? building.groundFloor,
           currentGpsLocation: _userLocation,
+          targetRoom: targetRoom,
         ),
       ),
     );
@@ -993,8 +1287,8 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                               final showGreenSourcePin =
                                   isFirst && !isLiveSource;
                               final showRedDestinationPin = isLast;
-                              final markerSize = _placeMarkerSizeForZoom();
-                              final iconSize = _placeIconSizeForZoom();
+                              final markerSize = _placeMarkerSizeForPlace(place);
+                              final iconSize = _placeIconSizeForPlace(place);
 
                               return Marker(
                                 point: place.location,
@@ -1074,40 +1368,75 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                               ),
                             ),
                           // Place markers
-                          ..._filteredPlaces.map((place) {
-                            final markerSize = _placeMarkerSizeForZoom();
-                            final iconSize = _placeIconSizeForZoom();
+                          ...(() {
+                            // Sort places so that higher priority ones appear LAST in the list (rendering them on top)
+                            final sortedPlaces = List<CampusPlace>.from(_filteredPlaces)..sort((a, b) {
+                              return _getPlaceRenderPriority(a).compareTo(_getPlaceRenderPriority(b));
+                            });
 
-                            return Marker(
-                              point: place.location,
-                              width: markerSize,
-                              height: markerSize,
-                              child: GestureDetector(
-                                onTap: () => _showPlaceInfo(place),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: _getPlaceColor(place),
-                                    shape: BoxShape.circle,
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: markerSize >= 36 ? 2 : 1.6,
-                                    ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black26,
-                                        blurRadius: markerSize >= 36 ? 4 : 3,
+                            final groupCounts = <String, int>{};
+                            final groupSizes = <String, int>{};
+                            for (final place in sortedPlaces) {
+                              final key = _placeCoordinateKey(place);
+                              groupSizes[key] = (groupSizes[key] ?? 0) + 1;
+                            }
+
+                            return sortedPlaces.map((place) {
+                              final markerSize = _placeMarkerSizeForPlace(place);
+                              final iconSize = _placeIconSizeForPlace(place);
+                              final key = _placeCoordinateKey(place);
+                              final groupIndex = groupCounts[key] ?? 0;
+                              groupCounts[key] = groupIndex + 1;
+                              final groupSize = groupSizes[key] ?? 1;
+                              final displayPoint = _displayPointForPlace(
+                                place,
+                                groupIndex,
+                                groupSize,
+                              );
+
+                              return Marker(
+                                point: displayPoint,
+                                width: markerSize,
+                                height: markerSize,
+                                child: GestureDetector(
+                                  onTap: () => _showPlaceInfo(place),
+                                  child: Container(
+                                    decoration: BoxDecoration(
+                                      color: _getPlaceColor(place),
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: Colors.white,
+                                        width: markerSize >= 36 ? 2 : 1.6,
                                       ),
-                                    ],
-                                  ),
-                                  child: Icon(
-                                    _getPlaceIcon(place),
-                                    color: Colors.white,
-                                    size: iconSize,
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black26,
+                                          blurRadius: markerSize >= 36 ? 4 : 3,
+                                        ),
+                                      ],
+                                    ),
+                                    child: _shouldShowCharacterIcon(place)
+                                        ? Center(
+                                            child: Text(
+                                              _getPlaceCharacter(place),
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: iconSize,
+                                                fontFamily: 'Roboto',
+                                              ),
+                                            ),
+                                          )
+                                        : Icon(
+                                            _getPlaceIcon(place),
+                                            color: Colors.white,
+                                            size: iconSize,
+                                          ),
                                   ),
                                 ),
-                              ),
-                            );
-                          }),
+                              );
+                            }).toList();
+                          })(),
                         ],
                       ),
                   ],
@@ -1124,7 +1453,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                       onChanged: _searchPlaces,
                       decoration: InputDecoration(
                         hintText:
-                            'Search buildings, gates, parking, room no...',
+                          'Search buildings, gates, parking, washrooms...',
                         prefixIcon: const Icon(Icons.search_rounded, size: 22),
                         suffixIcon: _searchQuery.isNotEmpty
                             ? IconButton(
@@ -1354,21 +1683,97 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
     );
   }
 
+  bool _shouldShowCharacterIcon(CampusPlace place) {
+    final type = place.placeType.toLowerCase();
+    final name = place.name.toLowerCase();
+    return type == 'amul' || name.contains('amul');
+  }
+
+  String _getPlaceCharacter(CampusPlace place) {
+    if (place.name.toLowerCase().contains('amul')) {
+      return 'A';
+    }
+    if (place.name.isNotEmpty) {
+      return place.name[0].toUpperCase();
+    }
+    return 'A';
+  }
+
   double _placeMarkerSizeForZoom() {
     // Keep existing visual size for zoomed-in levels, shrink gradually when zooming out.
-    if (_currentZoom >= 15.0) return 30.0;
+    if (_currentZoom >= 15.0) return 25.0;
     if (_currentZoom <= 10.0) return 18.0;
 
     final t = (_currentZoom - 10.0) / 5.0;
     return 18.0 + (22.0 * t);
   }
 
+  double _placeMarkerSizeForPlace(CampusPlace place) {
+    final typeLower = place.placeType.toLowerCase();
+    if (typeLower == 'stairs') {
+      return 18.0;
+    }
+    if (typeLower == 'restroom') {
+      return 14.0;
+    }
+
+    return _placeMarkerSizeForZoom();
+  }
+
   double _placeIconSizeForZoom() {
-    if (_currentZoom >= 15.0) return 20.0;
+    if (_currentZoom >= 15.0) return 15.0;
     if (_currentZoom <= 10.0) return 10.0;
 
     final t = (_currentZoom - 10.0) / 5.0;
     return 10.0 + (10.0 * t);
+  }
+
+  double _placeIconSizeForPlace(CampusPlace place) {
+    final typeLower = place.placeType.toLowerCase();
+    if (typeLower == 'stairs') {
+      return 10.0;
+    }
+    if (typeLower == 'restroom') {
+      return 6.0;
+    }
+
+    if (typeLower == 'canteen' ||
+        typeLower == 'restaurant' ||
+        typeLower == 'fruit_shop' ||
+        typeLower == 'fruit') {
+      return 8.0;
+    }
+
+    return _placeIconSizeForZoom();
+  }
+
+  String _placeCoordinateKey(CampusPlace place) {
+    return '${place.location.latitude.toStringAsFixed(6)},${place.location.longitude.toStringAsFixed(6)}';
+  }
+
+  LatLng _displayPointForPlace(
+    CampusPlace place,
+    int groupIndex,
+    int groupSize,
+  ) {
+    final typeLower = place.placeType.toLowerCase();
+    if ((typeLower != 'restroom' && typeLower != 'stairs') || groupSize <= 1) {
+      return place.location;
+    }
+
+    const radiusMeters = 2.5;
+    const metersPerDegreeLat = 111320.0;
+    final latOffset = radiusMeters / metersPerDegreeLat;
+    final lngScale = cos(place.location.latitude * (pi / 180.0));
+    final lngOffset = lngScale == 0 ? 0.0 : latOffset / lngScale;
+
+    final angleStep = (2 * pi) / groupSize;
+    final angle = (-pi / 2) + (groupIndex * angleStep);
+
+    final offsetLat = place.location.latitude + (sin(angle) * latOffset);
+    final offsetLng = place.location.longitude + (cos(angle) * lngOffset);
+
+    return LatLng(offsetLat, offsetLng);
   }
 
   void _showPlaceInfo(CampusPlace place) {
@@ -1421,17 +1826,29 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
                 style: TextStyle(color: Colors.grey[600]),
               ),
             ],
-            if (place.hasIndoorMap) ...[
-              const SizedBox(height: 12),
-              ElevatedButton.icon(
-                onPressed: () async {
-                  Navigator.pop(context);
-                  await _openIndoorMapForPlace(place);
-                },
-                icon: const Icon(Icons.layers),
-                label: const Text('View Indoor Map'),
-              ),
-            ],
+            Builder(
+              builder: (context) {
+                bool placeHasIndoor = place.hasIndoorMap;
+                if (!placeHasIndoor && place.placeType.toLowerCase() == 'gate') {
+                  final b = IndoorNavigationService.instance.findBuildingForPlace(place);
+                  if (b != null && b.hasIndoorMap) {
+                    placeHasIndoor = true;
+                  }
+                }
+                if (!placeHasIndoor) return const SizedBox.shrink();
+                return Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: ElevatedButton.icon(
+                    onPressed: () async {
+                      Navigator.pop(context);
+                      await _openIndoorMapForPlace(place);
+                    },
+                    icon: const Icon(Icons.layers),
+                    label: const Text('View Indoor Map'),
+                  ),
+                );
+              },
+            ),
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
@@ -2255,30 +2672,38 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
   void _showLayerPanel(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      builder: (context) => Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text(
-              'Map Layers',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            CheckboxListTile(
-              title: const Text('Campus Paths'),
-              value: _visibleLayers.contains('paths'),
-              activeColor: _brandColor,
-              onChanged: (_) => _toggleLayer('paths'),
-            ),
-            CheckboxListTile(
-              title: const Text('Places & Buildings'),
-              value: _visibleLayers.contains('places'),
-              activeColor: _brandColor,
-              onChanged: (_) => _toggleLayer('places'),
-            ),
-          ],
+      builder: (context) => StatefulBuilder(
+        builder: (context, setSheetState) => Container(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Map Layers',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 16),
+              CheckboxListTile(
+                title: const Text('Campus Paths'),
+                value: _visibleLayers.contains('paths'),
+                activeColor: _brandColor,
+                onChanged: (_) {
+                  _toggleLayer('paths');
+                  setSheetState(() {});
+                },
+              ),
+              CheckboxListTile(
+                title: const Text('Places & Buildings'),
+                value: _visibleLayers.contains('places'),
+                activeColor: _brandColor,
+                onChanged: (_) {
+                  _toggleLayer('places');
+                  setSheetState(() {});
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

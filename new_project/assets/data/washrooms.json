@@ -1,0 +1,152 @@
+{
+  "washrooms": [
+    {
+      "id": "wr_001",
+      "type": "men",
+      "coordinate": {
+        "lat": 23.190396,
+        "lng": 72.627979
+      },
+      "building": "Placement Block"
+    },
+    {
+      "id": "wr_002",
+      "type": "women",
+      "coordinate": {
+        "lat": 23.190396,
+        "lng": 72.627979
+      },
+      "building": "Placement Block"
+    },
+    {
+      "id": "wr_003",
+      "type": "men",
+      "coordinate": {
+        "lat": 23.189232,
+        "lng": 72.626517
+      },
+      "building": "SAC 1"
+    },
+    {
+      "id": "wr_004",
+      "type": "women",
+      "coordinate": {
+        "lat": 23.189232,
+        "lng": 72.626517
+      },
+      "building": "SAC 1"
+    },
+    {
+      "id": "wr_005",
+      "type": "men",
+      "coordinate": {
+        "lat": 23.188966,
+        "lng": 72.626621
+      },
+      "building": "OAT"
+    },
+    {
+      "id": "wr_006",
+      "type": "women",
+      "coordinate": {
+        "lat": 23.188907,
+        "lng": 72.627064
+      },
+      "building": "OAT"
+    },
+    {
+      "id": "wr_007",
+      "type": "men",
+      "coordinate": {
+        "lat": 23.188569,
+        "lng": 72.626731
+      },
+      "building": "Canteen"
+    },
+    {
+      "id": "wr_008",
+      "type": "women",
+      "coordinate": {
+        "lat": 23.188569,
+        "lng": 72.626731
+      },
+      "building": "Canteen"
+    },
+    {
+      "id": "wr_009",
+      "type": "men",
+      "coordinate": {
+        "lat": 23.188646,
+        "lng": 72.627724
+      },
+      "building": "CEP",
+      "description": "Available on all floor."
+    },
+    {
+      "id": "wr_010",
+      "type": "women",
+      "coordinate": {
+        "lat": 23.188668,
+        "lng": 72.628016
+      },
+      "building": "CEP",
+      "description": "Available on all floor."
+    },
+    {
+      "id": "wr_011",
+      "type": "men",
+      "coordinate": {
+        "lat": 23.187240,
+        "lng": 72.627855
+      },
+      "building": "LAB Building",
+      "description": "Available on all floor."
+    },
+    {
+      "id": "wr_012",
+      "type": "women",
+      "coordinate": {
+        "lat": 23.187240,
+        "lng": 72.627875
+      },
+      "building": "LAB Building",
+      "description": "Available on all floor."
+    },
+    {
+      "id": "wr_013",
+      "type": "men",
+      "coordinate": {
+        "lat": 23.186695,
+        "lng": 72.628829
+      },
+      "building": "LT - 2/3"
+    },
+    {
+      "id": "wr_014",
+      "type": "women",
+      "coordinate": {
+        "lat": 23.186685,
+        "lng": 72.628783
+      },
+      "building": "LT - 2/3"
+    },
+    {
+      "id": "wr_015",
+      "type": "men",
+      "coordinate": {
+        "lat": 23.186449,
+        "lng": 72.628531
+      },
+      "building": "LT - 1"
+    },
+    {
+      "id": "wr_016",
+      "type": "women",
+      "coordinate": {
+        "lat": 23.186454,
+        "lng": 72.628416
+      },
+      "building": "LT - 1"
+    }
+  ]
+}

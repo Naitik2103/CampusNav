@@ -126,6 +126,107 @@ class IndoorNavigationService {
       final parsedRooms = _parseRooms(roomsMap);
       final parsedPathGraphs = _parseIndoorPathGraphs(pathsMap);
 
+      // Auto-sync building transition points (staircases):
+      // Group all "stairs" nodes in the path graph by base ID,
+      // collect their floors, and merge them into the building's transition points.
+      // This permanently avoids duplicate staircase data entry in indoor_building_boundaries.json.
+      for (final building in parsedBuildings) {
+        final buildingKey = _normalizeKey(building.buildingId);
+        final graph = parsedPathGraphs[buildingKey];
+        if (graph == null) continue;
+
+        // Group stairs by base ID
+        final Map<String, List<_IndoorPathNode>> stairGroups = {};
+        for (final node in graph.nodes.values) {
+          if (node.type == 'stairs') {
+            // e.g. "CEP_Stair_C_f0_to_f1" -> "CEP_Stair_C"
+            final baseId = node.id
+                .replaceAll(RegExp(r'_(f\d+(_to_f\d+)?|f\d+)'), '')
+                .replaceAll(RegExp(r'_(f\d+)'), '');
+            stairGroups.putIfAbsent(baseId, () => []).add(node);
+          }
+        }
+
+        // Add or update transitions in the building object
+        final updatedTransitions = List<IndoorTransitionPoint>.from(building.transitionPoints);
+        stairGroups.forEach((baseId, nodes) {
+          if (nodes.isEmpty) return;
+
+          final uniqueFloors = nodes.map((n) => n.floor).toSet().toList()..sort();
+          final coordinate = nodes.first.coordinate;
+          
+          // Human-friendly label, e.g. "CEP_Stair_C" -> "CEP Stair C"
+          final label = baseId.replaceAll('_', ' ');
+
+          // Check if it already exists in parsed transitions (so we don't duplicate)
+          final existingIndex = updatedTransitions.indexWhere(
+            (t) => t.id.toLowerCase() == baseId.toLowerCase(),
+          );
+
+          final newTransition = IndoorTransitionPoint(
+            id: baseId,
+            label: label,
+            type: 'stairs',
+            floors: uniqueFloors,
+            coordinate: coordinate,
+          );
+
+          if (existingIndex != -1) {
+            // Merge floors and update coordinate
+            final existing = updatedTransitions[existingIndex];
+            final mergedFloors = <int>{...existing.floors, ...uniqueFloors}.toList()..sort();
+            updatedTransitions[existingIndex] = IndoorTransitionPoint(
+              id: existing.id,
+              label: existing.label,
+              type: existing.type,
+              floors: mergedFloors,
+              coordinate: coordinate, // authoritative from path graph
+            );
+          } else {
+            updatedTransitions.add(newTransition);
+          }
+        });
+
+        // Replace transitionPoints in building
+        building.transitionPoints.clear();
+        building.transitionPoints.addAll(updatedTransitions);
+      }
+
+      // Auto-sync room coordinates: if a room has a defined node in the path graph,
+      // override its coordinate in memory with the path graph node's coordinate.
+      // This permanently avoids data mismatches between indoor_rooms.json and indoor_paths.json.
+      for (var i = 0; i < parsedRooms.length; i++) {
+        final room = parsedRooms[i];
+        final buildingKey = _normalizeKey(room.buildingId);
+        final graph = parsedPathGraphs[buildingKey];
+        if (graph != null) {
+          final nodeId = graph.roomNodeMap[room.id];
+          _IndoorPathNode? node;
+          if (nodeId != null) {
+            node = graph.nodes[nodeId];
+          } else {
+            for (final n in graph.nodes.values) {
+              if (n.roomId == room.id) {
+                node = n;
+                break;
+              }
+            }
+          }
+          if (node != null) {
+            parsedRooms[i] = IndoorRoom(
+              id: room.id,
+              buildingId: room.buildingId,
+              name: room.name,
+              aliases: room.aliases,
+              floor: room.floor,
+              category: room.category,
+              description: room.description,
+              coordinate: node.coordinate,
+            );
+          }
+        }
+      }
+
       // Ensure every room has a corresponding node in the path graph
       // and is connected to the nearest path node on the same floor.
       _attachMissingRoomNodes(parsedRooms, parsedPathGraphs);
@@ -209,6 +310,7 @@ class IndoorNavigationService {
     required IndoorBuilding building,
     required IndoorRoom destinationRoom,
     int? fromFloor,
+    int? filterFloor,
   }) {
     if (!_isLoaded) {
       return [];
@@ -257,6 +359,7 @@ class IndoorNavigationService {
     return pathNodeIds
         .map((id) => graph.nodes[id])
         .whereType<_IndoorPathNode>()
+        .where((node) => filterFloor == null || node.floor == filterFloor)
         .map((node) => node.coordinate)
         .toList();
   }
@@ -266,6 +369,7 @@ class IndoorNavigationService {
     required LatLng startLocation,
     required IndoorRoom destinationRoom,
     int? fromFloor,
+    int? filterFloor,
   }) {
     if (!_isLoaded) {
       return [];
@@ -328,6 +432,7 @@ class IndoorNavigationService {
     return pathNodeIds
         .map((id) => graph.nodes[id])
         .whereType<_IndoorPathNode>()
+        .where((node) => filterFloor == null || node.floor == filterFloor)
         .map((node) => node.coordinate)
         .toList();
   }
@@ -442,9 +547,7 @@ class IndoorNavigationService {
       if (fromNode == null || toNode == null) {
         continue;
       }
-      if (fromNode.type != 'room-door' || toNode.type != 'room-door') {
-        continue;
-      }
+      // Draw all same-floor connections (including room doors, stairs, entrances, and manual points)
       if (fromNode.floor != floor || toNode.floor != floor) {
         continue;
       }
@@ -473,7 +576,7 @@ class IndoorNavigationService {
           (point) => point.floors.contains(room.floor),
           orElse: () => IndoorTransitionPoint(
             id: 'none',
-            label: 'Nearest staircase/elevator',
+            label: 'Nearest stairs',
             type: 'stairs',
             floors: [fromFloor, room.floor],
             coordinate: room.coordinate,
@@ -488,6 +591,61 @@ class IndoorNavigationService {
       toFloor: room.floor,
       transitionPoint: transitionPoint,
     );
+  }
+
+  /// Returns the coordinate of the entry/entrance node for the given floor.
+  /// Used to highlight entry point on the canvas.
+  LatLng? getEntryNodeCoordinate({
+    required String buildingId,
+    required int floor,
+    LatLng? referenceLocation,
+  }) {
+    if (!_isLoaded) return null;
+    final graph = _indoorPathGraphs[_normalizeKey(buildingId)];
+    if (graph == null) return null;
+
+    if (referenceLocation != null) {
+      final nearestId = _findNearestEntryNodeOnFloor(
+        graph: graph,
+        location: referenceLocation,
+        floor: floor,
+      ) ??
+      _findNearestNodeOnFloor(
+        graph: graph,
+        location: referenceLocation,
+        floor: floor,
+      );
+      if (nearestId != null) {
+        final node = graph.nodes[nearestId];
+        if (node != null) return node.coordinate;
+      }
+    }
+
+    final floorEntrances = graph.entrancesByFloor[floor];
+    if (floorEntrances != null && floorEntrances.isNotEmpty) {
+      // First try to find a node in the floor list that matches the floor exactly
+      for (final id in floorEntrances) {
+        final node = graph.nodes[id];
+        if (node != null && node.floor == floor) return node.coordinate;
+      }
+      // If none found with exact floor match, fallback to the first valid node in the floor list
+      for (final id in floorEntrances) {
+        final node = graph.nodes[id];
+        if (node != null) return node.coordinate;
+      }
+    }
+
+    // Fallback to general entrances matching the floor
+    for (final id in graph.entrances) {
+      final node = graph.nodes[id];
+      if (node != null && node.floor == floor) return node.coordinate;
+    }
+    return null;
+  }
+
+  /// Returns coordinate of main building gate (floor 0 entrance) — for outdoor routing target
+  LatLng? getBuildingEntranceCoordinate(String buildingId) {
+    return getEntryNodeCoordinate(buildingId: buildingId, floor: 0);
   }
 
   List<IndoorBuilding> _parseBuildings(Map<String, dynamic> jsonMap) {

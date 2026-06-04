@@ -8,8 +8,8 @@
       "category": "Security Room",
       "description": "Ground floor copy of CEP 102",
       "coordinate": {
-        "lat": 23.188358,
-        "lng": 72.628059
+        "lat": 23.188350,
+        "lng": 72.628024
       }
     },
     {
@@ -20,8 +20,8 @@
       "category": "Conference Room",
       "description": "Ground floor copy of CEP 102",
       "coordinate": {
-        "lat": 23.188289,
-        "lng": 72.628059
+        "lat": 23.188276,
+        "lng": 72.628027
       }
     },
     {
@@ -44,8 +44,8 @@
       "category": "Gallery",
       "description": "Ground floor copy of CEP 108",
       "coordinate": {
-        "lat": 23.188194,
-        "lng": 72.627890
+        "lat": 23.188212,
+        "lng": 72.627895
       }
     },
     {
@@ -56,8 +56,8 @@
       "category": "SPARK HUB",
       "description": "Ground floor copy of CEP 107",
       "coordinate": {
-        "lat": 23.188181,
-        "lng": 72.627806
+        "lat": 23.188212,
+        "lng": 72.627818
       }
     },
     {
@@ -116,8 +116,8 @@
       "category": "Electrical Room",
       "description": "Ground floor copy of CEP 102",
       "coordinate": {
-        "lat": 23.188515,
-        "lng": 72.628046
+        "lat": 23.188513,
+        "lng": 72.628030
       }
     },
     {
@@ -128,8 +128,8 @@
       "category": "MDes, IUxD Studio",
       "description": "Ground floor copy of CEP 102",
       "coordinate": {
-        "lat": 23.188555,
-        "lng": 72.628073
+        "lat": 23.188549,
+        "lng": 72.628040
       }
     },
     {
@@ -140,8 +140,8 @@
       "category": "IRLP Lab",
       "description": "Ground floor copy of CEP 102",
       "coordinate": {
-        "lat": 23.188649,
-        "lng": 72.628083
+        "lat": 23.188582,
+        "lng": 72.628030
       }
     },
     {
@@ -152,8 +152,8 @@
       "category": " EVD Lab - 1",
       "description": "Ground floor copy of CEP 102",
       "coordinate": {
-        "lat": 23.188656,
-        "lng": 72.627973
+        "lat": 23.188604,
+        "lng": 72.628032
       }
     },
     {
@@ -164,8 +164,8 @@
       "category": "classroom",
       "description": "1st floor classroom",
       "coordinate": {
-        "lat": 23.188347,
-        "lng": 72.628048
+        "lat": 23.188345,
+        "lng": 72.628032
       }
     },
     {
@@ -260,8 +260,20 @@
       "category": "seminar",
       "description": "Top floor seminar room",
       "coordinate": {
-        "lat": 23.188515,
-        "lng": 72.628046
+        "lat": 23.188520,
+        "lng": 72.628030
+      }
+    },
+    {
+      "id": "cep_101",
+      "buildingId": "cep",
+      "name": "CEP 101",
+      "floor": 1,
+      "category": "classroom",
+      "description": "1st floor classroom",
+      "coordinate": {
+        "lat": 23.188493,
+        "lng": 72.628030
       }
     },
 
@@ -273,8 +285,8 @@
       "category": "classroom",
       "description": "Top floor classroom room",
       "coordinate": {
-        "lat": 23.188369,
-        "lng": 72.627796
+        "lat": 23.188367,
+        "lng": 72.627764
       }
     },
     {
@@ -285,8 +297,8 @@
       "category": "classroom",
       "description": "Top floor classroom room",
       "coordinate": {
-        "lat": 23.188328,
-        "lng": 72.627796
+        "lat": 23.188305,
+        "lng": 72.627764
       }
     },
     {
@@ -301,8 +313,8 @@
       "category": "System Design Lab",
       "description": "Top floor System Design Lab",
       "coordinate": {
-        "lat": 23.188217,
-        "lng": 72.627810
+        "lat": 23.188194,
+        "lng": 72.627890
       }
     },
     {
@@ -316,8 +328,8 @@
       "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
-        "lat": 23.188214,
-        "lng": 72.627898
+        "lat": 23.188209,
+        "lng": 72.627973
       }
     },
     {
@@ -332,8 +344,8 @@
       "category": "ICESD Lab",
       "description": "ICESD Lab",
       "coordinate": {
-        "lat": 23.188214,
-        "lng": 72.627976
+        "lat": 23.188347,
+        "lng": 72.628048
       }
     },
     {
@@ -379,8 +391,8 @@
       "category": "Record Room",
       "description": "ClassRoom",
       "coordinate": {
-        "lat": 23.188365,
-        "lng": 72.627995
+        "lat": 23.188367,
+        "lng": 72.628000
       }
     },
     {
@@ -396,7 +408,7 @@
       "description": "Radio Room",
       "coordinate": {
         "lat": 23.188503,
-        "lng": 72.628013
+        "lng": 72.628008
       }
     },
     {
@@ -410,8 +422,8 @@
       "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
-        "lat": 23.188567,
-        "lng": 72.628019
+        "lat": 23.188559,
+        "lng": 72.628011
       }
     },
     {
@@ -425,8 +437,8 @@
       "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
-        "lat": 23.188633,
-        "lng": 72.628022
+        "lat": 23.188601,
+        "lng": 72.628016
       }
     },
     {
@@ -440,8 +452,8 @@
       "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
-        "lat": 23.188584,
-        "lng": 72.627759
+        "lat": 23.188586,
+        "lng": 72.627764
       }
     },
     {
@@ -455,8 +467,8 @@
       "category": "classroom",
       "description": "ClassRoom",
       "coordinate": {
-        "lat": 23.188512,
-        "lng": 72.627761
+        "lat": 23.188510,
+        "lng": 72.627769
       }
     },
     {

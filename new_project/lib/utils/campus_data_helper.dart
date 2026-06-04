@@ -175,6 +175,166 @@ class CampusPlaceHelper {
     );
   }
 
+  static CampusPlace createCanteen(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'canteen',
+      description: 'Campus canteen / dining facility',
+    );
+  }
+
+  static CampusPlace createRestaurant(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'restaurant',
+      description: 'Campus restaurant',
+    );
+  }
+
+  static CampusPlace createOffice(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'office',
+      description: 'Campus office',
+    );
+  }
+
+  static CampusPlace createBank(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'bank',
+      description: 'Campus bank branch',
+    );
+  }
+
+  static CampusPlace createATM(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'atm',
+      description: 'Campus ATM facility',
+    );
+  }
+
+  static CampusPlace createGate(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'gate',
+      description: 'Campus gate/entrance',
+    );
+  }
+
+  static CampusPlace createPond(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'pond',
+      description: 'Campus pond / water body',
+    );
+  }
+
+  static CampusPlace createPlayground(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'playground',
+      description: 'Campus playground / sports field',
+    );
+  }
+
+  static CampusPlace createGym(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'gym',
+      description: 'Campus gym / fitness center',
+    );
+  }
+
+  static CampusPlace createCoffeeShop(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'coffee_shop',
+      description: 'Campus coffee shop / cafe',
+    );
+  }
+
+  static CampusPlace createMusicRoom(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'music_room',
+      description: 'Campus music room',
+    );
+  }
+
+  static CampusPlace createClinic(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'clinic',
+      description: 'Campus health clinic / medical center',
+    );
+  }
+
+  static CampusPlace createBakery(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'bakery',
+      description: 'Campus bakery shop',
+    );
+  }
+
+  static CampusPlace createTheatre(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'theatre',
+      description: 'Campus theatre / auditorium',
+    );
+  }
+
+  static CampusPlace createStoreRoom(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'store_room',
+      description: 'Campus store room / inventory',
+    );
+  }
+
+  static CampusPlace createLab(String id, String name, LatLng location) {
+    return createPlace(
+      id: id,
+      name: name,
+      location: location,
+      placeType: 'lab',
+      description: 'Campus computer / scientific laboratory',
+    );
+  }
+
   static CampusPlace createRestroom(String id, String name, LatLng location) {
     return createPlace(
       id: id,

@@ -6,7 +6,10 @@
       "id": "CEP",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627753, 23.188420]
+        "coordinates": [
+          72.627753,
+          23.188420
+        ]
       },
       "properties": {
         "id": "place_cep",
@@ -24,7 +27,10 @@
       "id": "CEP_Gate_1",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627560,23.188439]
+        "coordinates": [
+          72.627560,
+          23.188439
+        ]
       },
       "properties": {
         "id": "CEP_Gate_1",
@@ -42,7 +48,10 @@
       "id": "CEP_Gate_2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627874,23.188688]
+        "coordinates": [
+          72.627874,
+          23.188688
+        ]
       },
       "properties": {
         "id": "CEP_Gate_2",
@@ -60,7 +69,10 @@
       "id": "CEP_Gate_3",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628048,23.188446]
+        "coordinates": [
+          72.628048,
+          23.188446
+        ]
       },
       "properties": {
         "id": "CEP_Gate_3",
@@ -78,7 +90,10 @@
       "id": "Lab_Gate_1",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628126, 23.187152]
+        "coordinates": [
+          72.628126,
+          23.187152
+        ]
       },
       "properties": {
         "id": "Lab_Gate_1",
@@ -96,7 +111,10 @@
       "id": "Lab_Gate_2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628137,23.186900]
+        "coordinates": [
+          72.628137,
+          23.186900
+        ]
       },
       "properties": {
         "id": "Lab_Gate_2",
@@ -114,7 +132,10 @@
       "id": "LT3_front_gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628738,23.186725]
+        "coordinates": [
+          72.628738,
+          23.186725
+        ]
       },
       "properties": {
         "id": "LT3_front_gate",
@@ -132,7 +153,10 @@
       "id": "LT3_back_gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628939,23.186696]
+        "coordinates": [
+          72.628939,
+          23.186696
+        ]
       },
       "properties": {
         "id": "LT3_back_gate",
@@ -150,7 +174,10 @@
       "id": "LT2_front_gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628644,23.186639]
+        "coordinates": [
+          72.628644,
+          23.186639
+        ]
       },
       "properties": {
         "id": "LT2_front_gate",
@@ -168,7 +195,10 @@
       "id": "LT2_back_gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628663,23.186415]
+        "coordinates": [
+          72.628663,
+          23.186415
+        ]
       },
       "properties": {
         "id": "LT2_back_gate",
@@ -186,7 +216,10 @@
       "id": "LT1",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628445,23.186533]
+        "coordinates": [
+          72.628445,
+          23.186533
+        ]
       },
       "properties": {
         "id": "LT1",
@@ -204,7 +237,10 @@
       "id": "faculty_block_1_entrance_gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628697, 23.189240]
+        "coordinates": [
+          72.628697,
+          23.189240
+        ]
       },
       "properties": {
         "id": "faculty_block_1_entrance_gate",
@@ -222,7 +258,10 @@
       "id": "faculty_block_2_entrance_gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628491,23.189304]
+        "coordinates": [
+          72.628491,
+          23.189304
+        ]
       },
       "properties": {
         "id": "faculty_block_2_entrance_gate",
@@ -240,7 +279,10 @@
       "id": "faculty_block_3_entrance_gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628121,23.189472]
+        "coordinates": [
+          72.628121,
+          23.189472
+        ]
       },
       "properties": {
         "id": "faculty_block_3_entrance_gate",
@@ -258,7 +300,10 @@
       "id": "faculty_block_4_entrance_gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627895,23.189359]
+        "coordinates": [
+          72.627895,
+          23.189359
+        ]
       },
       "properties": {
         "id": "faculty_block_4_entrance_gate",
@@ -276,7 +321,10 @@
       "id": "admin_office_entrance_gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627871,23.189055]
+        "coordinates": [
+          72.627871,
+          23.189055
+        ]
       },
       "properties": {
         "id": "admin_office_entrance_gate",
@@ -294,12 +342,15 @@
       "id": "resource_center",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628598,23.188905]
+        "coordinates": [
+          72.628598,
+          23.188905
+        ]
       },
       "properties": {
         "id": "resource_center",
         "name": "Resource Center",
-        "placeType": "building",
+        "placeType": "library",
         "department": "Academic Affairs",
         "description": "Resource Center Building",
         "imageUrl": null,
@@ -312,7 +363,10 @@
       "id": "SAC1_Gate_1",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626691,23.189226]
+        "coordinates": [
+          72.626691,
+          23.189226
+        ]
       },
       "properties": {
         "id": "SAC1_Gate_1",
@@ -330,12 +384,15 @@
       "id": "SAC1_Gate_2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627012,23.189312]
+        "coordinates": [
+          72.627012,
+          23.189312
+        ]
       },
       "properties": {
         "id": "SAC1_Gate_2",
         "name": "SAC1 Gate 2",
-        "placeType": "gate",
+        "placeType": "place",
         "department": null,
         "description": "Secondary entrance or exit gate to the SAC1 Building",
         "imageUrl": null,
@@ -348,12 +405,15 @@
       "id": "OAT",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626825,23.188972]
+        "coordinates": [
+          72.626825,
+          23.188972
+        ]
       },
       "properties": {
         "id": "OAT",
         "name": "OAT",
-        "placeType": "gate",
+        "placeType": "theatre",
         "department": null,
         "description": "OAT for outdoor events and activities",
         "imageUrl": null,
@@ -366,7 +426,10 @@
       "id": "Canteen",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626825,23.188674]
+        "coordinates": [
+          72.626825,
+          23.188674
+        ]
       },
       "properties": {
         "id": "Canteen",
@@ -384,12 +447,15 @@
       "id": "canteen_gate_1",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627230,23.188755]
+        "coordinates": [
+          72.627230,
+          23.188755
+        ]
       },
       "properties": {
         "id": "canteen_gate_1",
         "name": "Canteen Gate 1",
-        "placeType": "gate",
+        "placeType": "place",
         "department": null,
         "description": "Gate to the Canteen",
         "imageUrl": null,
@@ -402,7 +468,10 @@
       "id": "canteen_gate_2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626809,23.188435]
+        "coordinates": [
+          72.626809,
+          23.188435
+        ]
       },
       "properties": {
         "id": "canteen_gate_2",
@@ -420,12 +489,15 @@
       "id": "clinic",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626937,23.188368]
+        "coordinates": [
+          72.626937,
+          23.188368
+        ]
       },
       "properties": {
         "id": "clinic",
         "name": "Clinic",
-        "placeType": "building",
+        "placeType": "clinic",
         "department": null,
         "description": "Medical clinic for students and staff",
         "imageUrl": null,
@@ -438,12 +510,20 @@
       "id": "SAC2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627863,23.190395]
+        "coordinates": [
+          72.627863,
+          23.190395
+        ]
       },
       "properties": {
         "id": "SAC2",
         "name": "SAC2",
-        "aliases":["Placement Cell"],
+        "aliases": [
+          "Placement Cell",
+          "Admission Cell",
+          "School of Law",
+          "SELC LAB"
+        ],
         "placeType": "building",
         "department": null,
         "description": "SAC2 Building",
@@ -457,7 +537,10 @@
       "id": "SAC2_Gate_1",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627723,23.190350]
+        "coordinates": [
+          72.627723,
+          23.190350
+        ]
       },
       "properties": {
         "id": "SAC2_Gate_1",
@@ -475,12 +558,15 @@
       "id": "SAC2_Gate_2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627999,23.190400]
+        "coordinates": [
+          72.627999,
+          23.190400
+        ]
       },
       "properties": {
         "id": "SAC2_Gate_2",
         "name": "SAC2 Gate 2",
-        "placeType": "gate",
+        "placeType": "place",
         "department": null,
         "description": "Secondary entrance or exit gate to the SAC2 Building",
         "imageUrl": null,
@@ -493,7 +579,10 @@
       "id": "HOR_Women_Gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628512,23.190433]
+        "coordinates": [
+          72.628512,
+          23.190433
+        ]
       },
       "properties": {
         "id": "HOR_Women_Gate",
@@ -511,7 +600,10 @@
       "id": "HOR_Women_Building",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628426,23.190422]
+        "coordinates": [
+          72.628426,
+          23.190422
+        ]
       },
       "properties": {
         "id": "HOR_Women_Building",
@@ -529,12 +621,15 @@
       "id": "G_wing_entrance_gate_1",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627324,23.187771]
+        "coordinates": [
+          72.627324,
+          23.187771
+        ]
       },
       "properties": {
         "id": "G_wing_entrance_gate_1",
         "name": "G Wing Entrance Gate 1",
-        "placeType": "gate",
+        "placeType": "place",
         "department": null,
         "description": "Tertiary entrance or exit gate to the G Wing Building",
         "imageUrl": null,
@@ -547,12 +642,15 @@
       "id": "G_wing_entrance_gate_2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627192,23.187843]
+        "coordinates": [
+          72.627192,
+          23.187843
+        ]
       },
       "properties": {
         "id": "G_wing_entrance_gate_2",
         "name": "G Wing Entrance Gate 2",
-        "placeType": "gate",
+        "placeType": "place",
         "department": null,
         "description": "Tertiary entrance or exit gate to the G Wing Building",
         "imageUrl": null,
@@ -565,14 +663,17 @@
       "id": "G_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627273,23.187794]
+        "coordinates": [
+          72.627273,
+          23.187794
+        ]
       },
       "properties": {
         "id": "G_wing",
         "name": "G Wing",
         "placeType": "building",
         "department": null,
-        "description": "G Wing Building",
+        "description": "Boy's Hostel Wing G",
         "imageUrl": null,
         "floors": 3,
         "hasIndoorMap": false
@@ -583,14 +684,17 @@
       "id": "F_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627061,23.188077]
+        "coordinates": [
+          72.627061,
+          23.188077
+        ]
       },
       "properties": {
         "id": "F_wing",
         "name": "F Wing",
         "placeType": "building",
         "department": null,
-        "description": "F Wing Building",
+        "description": "Boy's Hostel Wing F",
         "imageUrl": null,
         "floors": 3,
         "hasIndoorMap": false
@@ -601,14 +705,17 @@
       "id": "E_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626656,23.188060]
+        "coordinates": [
+          72.626656,
+          23.188060
+        ]
       },
       "properties": {
         "id": "E_wing",
         "name": "E Wing",
         "placeType": "building",
         "department": null,
-        "description": "E Wing Building",
+        "description": "Boy's Hostel Wing E",
         "imageUrl": null,
         "floors": 3,
         "hasIndoorMap": false
@@ -619,14 +726,17 @@
       "id": "D_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627082,23.187067]
+        "coordinates": [
+          72.627082,
+          23.187067
+        ]
       },
       "properties": {
         "id": "D_wing",
         "name": "D Wing",
         "placeType": "building",
         "department": null,
-        "description": "D Wing Building",
+        "description": "Boy's Hostel Wing D",
         "imageUrl": null,
         "floors": 3,
         "hasIndoorMap": false
@@ -637,14 +747,17 @@
       "id": "C_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627047,23.187428]
+        "coordinates": [
+          72.627047,
+          23.187428
+        ]
       },
       "properties": {
         "id": "C_wing",
         "name": "C Wing",
         "placeType": "building",
         "department": null,
-        "description": "C Wing Building",
+        "description": "Boy's Hostel Wing C",
         "imageUrl": null,
         "floors": 3,
         "hasIndoorMap": false
@@ -655,14 +768,17 @@
       "id": "B_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626712,23.187419]
+        "coordinates": [
+          72.626712,
+          23.187419
+        ]
       },
       "properties": {
         "id": "B_wing",
         "name": "B Wing",
         "placeType": "building",
         "department": null,
-        "description": "B Wing Building",
+        "description": "Boy's Hostel Wing B",
         "imageUrl": null,
         "floors": 3,
         "hasIndoorMap": false
@@ -673,14 +789,17 @@
       "id": "A_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626701,23.187059]
+        "coordinates": [
+          72.626701,
+          23.187059
+        ]
       },
       "properties": {
         "id": "A_wing",
         "name": "A Wing",
         "placeType": "building",
         "department": null,
-        "description": "A Wing Building",
+        "description": "Boy's Hostel Wing A",
         "imageUrl": null,
         "floors": 3,
         "hasIndoorMap": false
@@ -691,14 +810,185 @@
       "id": "H_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626466,23.187729]
+        "coordinates": [
+          72.626466,
+          23.187729
+        ]
       },
       "properties": {
         "id": "H_wing",
         "name": "H Wing",
         "placeType": "building",
         "department": null,
-        "description": "H Wing Building",
+        "description": "Boy's Hostel Wing H",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "J_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.628287,
+          23.190224
+        ]
+      },
+      "properties": {
+        "id": "J_wing",
+        "name": "J Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "Girl's Hostel Wing J",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "J_wing_extended",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627989,
+          23.190098
+        ]
+      },
+      "properties": {
+        "id": "J_wing_extended",
+        "name": "J Wing Extended",
+        "placeType": "building",
+        "department": null,
+        "description": "Girl's Hostel Wing J Extended",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "K_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.628250,
+          23.190579
+        ]
+      },
+      "properties": {
+        "id": "K_wing",
+        "name": "K Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "Girl's Hostel Wing K",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "K_wing_extended",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627898,
+          23.190620
+        ]
+      },
+      "properties": {
+        "id": "K_wing_extended",
+        "name": "K Wing Extended",
+        "placeType": "building",
+        "department": null,
+        "description": "Girl's Hostel Wing K Extended",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "L_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627791,
+          23.186150
+        ]
+      },
+      "properties": {
+        "id": "L_wing",
+        "name": "L Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "Boy's Hostel Wing L",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "R_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627898,
+          23.185946
+        ]
+      },
+      "properties": {
+        "id": "R_wing",
+        "name": "R Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "Boy's Hostel Wing R",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "P_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.628126,
+          23.185860
+        ]
+      },
+      "properties": {
+        "id": "P_wing",
+        "name": "P Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "Boy's Hostel Wing P",
+        "imageUrl": null,
+        "floors": 3,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "M_wing",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.628343,
+          23.185948
+        ]
+      },
+      "properties": {
+        "id": "M_wing",
+        "name": "M Wing",
+        "placeType": "building",
+        "department": null,
+        "description": "Boy's Hostel Wing M",
         "imageUrl": null,
         "floors": 3,
         "hasIndoorMap": false
@@ -709,12 +999,15 @@
       "id": "cricket_ground",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626938,23.190119]
+        "coordinates": [
+          72.626938,
+          23.190119
+        ]
       },
       "properties": {
         "id": "cricket_ground",
         "name": "Cricket Ground",
-        "placeType": "sports_facility",
+        "placeType": "playground",
         "department": null,
         "description": "Cricket Ground",
         "imageUrl": null,
@@ -727,12 +1020,15 @@
       "id": "basketball_court",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626323,23.190641]
+        "coordinates": [
+          72.626323,
+          23.190641
+        ]
       },
       "properties": {
         "id": "basketball_court",
         "name": "Basketball Court",
-        "placeType": "sports_facility",
+        "placeType": "playground",
         "department": null,
         "description": "Basketball Court",
         "imageUrl": null,
@@ -745,12 +1041,15 @@
       "id": "Lab_building",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627989, 23.187059]
+        "coordinates": [
+          72.627989,
+          23.187059
+        ]
       },
       "properties": {
         "id": "place_lab_building",
         "name": "Lab Building",
-        "placeType": "building",
+        "placeType": "lab",
         "department": "Academic Affairs",
         "description": "Lab Building",
         "imageUrl": null,
@@ -763,7 +1062,10 @@
       "id": "LT2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628759, 23.186497]
+        "coordinates": [
+          72.628759,
+          23.186497
+        ]
       },
       "properties": {
         "id": "place_lt2",
@@ -781,7 +1083,10 @@
       "id": "LT3",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628882, 23.186600]
+        "coordinates": [
+          72.628882,
+          23.186600
+        ]
       },
       "properties": {
         "id": "place_lt3",
@@ -799,7 +1104,10 @@
       "id": "NEW_HOR_MEN",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628064, 23.186016]
+        "coordinates": [
+          72.628064,
+          23.186016
+        ]
       },
       "properties": {
         "id": "place_new_hor_men",
@@ -817,7 +1125,10 @@
       "id": "faculty_block_1",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628766, 23.189231]
+        "coordinates": [
+          72.628766,
+          23.189231
+        ]
       },
       "properties": {
         "id": "place_faculty_block_1",
@@ -835,7 +1146,10 @@
       "id": "faculty_block_2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628477, 23.189366]
+        "coordinates": [
+          72.628477,
+          23.189366
+        ]
       },
       "properties": {
         "id": "place_faculty_block_2",
@@ -853,7 +1167,10 @@
       "id": "faculty_block_3",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628115, 23.189532]
+        "coordinates": [
+          72.628115,
+          23.189532
+        ]
       },
       "properties": {
         "id": "place_faculty_block_3",
@@ -871,7 +1188,10 @@
       "id": "faculty_block_4",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627828, 23.189344]
+        "coordinates": [
+          72.627828,
+          23.189344
+        ]
       },
       "properties": {
         "id": "place_faculty_block_4",
@@ -889,12 +1209,15 @@
       "id": "admin_office",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627761, 23.189120]
+        "coordinates": [
+          72.627761,
+          23.189120
+        ]
       },
       "properties": {
         "id": "place_admin_office",
         "name": "Admin Office",
-        "placeType": "building",
+        "placeType": "office",
         "department": null,
         "description": "Admin Office Building",
         "imageUrl": null,
@@ -907,7 +1230,10 @@
       "id": "canteen_building",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626817,23.188540]
+        "coordinates": [
+          72.626817,
+          23.188540
+        ]
       },
       "properties": {
         "id": "place_canteen_building",
@@ -925,12 +1251,18 @@
       "id": "sac1",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626766,23.189320]
+        "coordinates": [
+          72.626766,
+          23.189320
+        ]
       },
       "properties": {
-        "id": "place_sac1",
+        "id": "sac1",
         "name": "SAC 1",
         "placeType": "building",
+        "aliases": [
+          "Badminton Court"
+        ],
         "department": null,
         "description": "Student Activity Center 1",
         "imageUrl": null,
@@ -940,10 +1272,13 @@
     },
     {
       "type": "Feature",
-      "id": "faculty_residence_1", 
+      "id": "faculty_residence_1",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.629126,23.190128]
+        "coordinates": [
+          72.629126,
+          23.190128
+        ]
       },
       "properties": {
         "id": "place_faculty_residence_1",
@@ -958,10 +1293,13 @@
     },
     {
       "type": "Feature",
-      "id": "faculty_residence_2", 
+      "id": "faculty_residence_2",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.629153,23.190269]
+        "coordinates": [
+          72.629153,
+          23.190269
+        ]
       },
       "properties": {
         "id": "place_faculty_residence_2",
@@ -976,10 +1314,13 @@
     },
     {
       "type": "Feature",
-      "id": "faculty_residence_3", 
+      "id": "faculty_residence_3",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.629164,23.190409]
+        "coordinates": [
+          72.629164,
+          23.190409
+        ]
       },
       "properties": {
         "id": "place_faculty_residence_3",
@@ -994,10 +1335,13 @@
     },
     {
       "type": "Feature",
-      "id": "faculty_residence_4", 
+      "id": "faculty_residence_4",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.629177,23.190557]
+        "coordinates": [
+          72.629177,
+          23.190557
+        ]
       },
       "properties": {
         "id": "place_faculty_residence_4",
@@ -1012,10 +1356,13 @@
     },
     {
       "type": "Feature",
-      "id": "HOR_WOMEN_PARKING", 
+      "id": "HOR_WOMEN_PARKING",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628794,23.190491]
+        "coordinates": [
+          72.628794,
+          23.190491
+        ]
       },
       "properties": {
         "id": "place_HOR_WOMEN_PARKING",
@@ -1029,10 +1376,13 @@
     },
     {
       "type": "Feature",
-      "id": "faculty_and_staff_parking", 
+      "id": "faculty_and_staff_parking",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627555,23.189497]
+        "coordinates": [
+          72.627555,
+          23.189497
+        ]
       },
       "properties": {
         "id": "place_faculty_and_staff_parking",
@@ -1046,10 +1396,13 @@
     },
     {
       "type": "Feature",
-      "id": "HOR_MEN_PARKING", 
+      "id": "HOR_MEN_PARKING",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627412,23.187811]
+        "coordinates": [
+          72.627412,
+          23.187811
+        ]
       },
       "properties": {
         "id": "place_HOR_MEN_PARKING",
@@ -1063,10 +1416,13 @@
     },
     {
       "type": "Feature",
-      "id": "LT_Back_Parking", 
+      "id": "LT_Back_Parking",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628796,23.185959]
+        "coordinates": [
+          72.628796,
+          23.185959
+        ]
       },
       "properties": {
         "id": "place_LT_Back_Parking",
@@ -1081,10 +1437,13 @@
     },
     {
       "type": "Feature",
-      "id": "Main_LP", 
+      "id": "Main_LP",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628893,23.188579]
+        "coordinates": [
+          72.628893,
+          23.188579
+        ]
       },
       "properties": {
         "id": "Main_LP",
@@ -1098,17 +1457,20 @@
     },
     {
       "type": "Feature",
-      "id": "Main_Gate", 
+      "id": "Main_Gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.629915,23.188569]
+        "coordinates": [
+          72.629915,
+          23.188569
+        ]
       },
       "properties": {
         "id": "Main_Gate",
         "name": "Main Gate",
-        "placeType": "pond",
+        "placeType": "gate",
         "department": null,
-        "description": "Main Gate Dau",
+        "description": "Timings 6 am - 12 am",
         "imageUrl": null,
         "floors": 4,
         "hasIndoorMap": false
@@ -1116,10 +1478,13 @@
     },
     {
       "type": "Feature",
-      "id": "LT_front_Parking", 
+      "id": "LT_front_Parking",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.629048,23.186830]
+        "coordinates": [
+          72.629048,
+          23.186830
+        ]
       },
       "properties": {
         "id": "place_LT_front_Parking",
@@ -1132,40 +1497,36 @@
         "hasIndoorMap": false
       }
     },
-
-
-
-
-
-
-
-
-
     {
       "type": "Feature",
-      "id": "New_Main_Gate", 
+      "id": "New_Main_Gate",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628797, 23.185679]
+        "coordinates": [
+          72.628797,
+          23.185679
+        ]
       },
       "properties": {
         "id": "New_Main_Gate",
         "name": "New Main Gate",
         "placeType": "gate",
         "department": null,
-        "description": "New Main Gate Dau",
+        "description": "Closes at 10 pm",
         "imageUrl": null,
         "floors": 4,
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Honey_One_Canteen", 
+      "id": "Honey_One_Canteen",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627026, 23.188836]
+        "coordinates": [
+          72.627026,
+          23.188836
+        ]
       },
       "properties": {
         "id": "Honey_One_Canteen",
@@ -1178,13 +1539,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Asha_Pura_Maa_Canteen", 
+      "id": "Asha_Pura_Maa_Canteen",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626914, 23.188803]
+        "coordinates": [
+          72.626914,
+          23.188803
+        ]
       },
       "properties": {
         "id": "Asha_Pura_Maa_Canteen",
@@ -1197,13 +1560,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Padma_Kamal_Canteen", 
+      "id": "Padma_Kamal_Canteen",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626817, 23.188796]
+        "coordinates": [
+          72.626817,
+          23.188796
+        ]
       },
       "properties": {
         "id": "Padma_Kamal_Canteen",
@@ -1216,13 +1581,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Shine_Star_Canteen", 
+      "id": "Shine_Star_Canteen",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626697, 23.188835]
+        "coordinates": [
+          72.626697,
+          23.188835
+        ]
       },
       "properties": {
         "id": "Shine_Star_Canteen",
@@ -1235,13 +1602,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Non_Veg_Canteen", 
+      "id": "Non_Veg_Canteen",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626632, 23.188877]
+        "coordinates": [
+          72.626632,
+          23.188877
+        ]
       },
       "properties": {
         "id": "Non_Veg_Canteen",
@@ -1254,18 +1623,20 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Fruit_Shop", 
+      "id": "Fruit_Shop",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627077, 23.188485]
+        "coordinates": [
+          72.627077,
+          23.188485
+        ]
       },
       "properties": {
         "id": "Fruit_Shop",
         "name": "Fruit Shop Canteen",
-        "placeType": "canteen",
+        "placeType": "fruit_shop",
         "department": null,
         "description": "Fruit Shop Canteen",
         "imageUrl": null,
@@ -1273,33 +1644,36 @@
         "hasIndoorMap": false
       }
     },
-
-
     {
       "type": "Feature",
-      "id": "Kakas_Shop", 
+      "id": "Kakas_Shop",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627040, 23.188510]
+        "coordinates": [
+          72.627040,
+          23.188510
+        ]
       },
       "properties": {
         "id": "Kakas_Shop",
         "name": "Kaka's Shop Canteen",
-        "placeType": "canteen",
+        "placeType": "coffee_shop",
         "department": null,
-        "description": "Kaka's Shop",
+        "description": "Tea & Coffee + Chips",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "SBG_office", 
+      "id": "SBG_office",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627016, 23.188527]
+        "coordinates": [
+          72.627016,
+          23.188527
+        ]
       },
       "properties": {
         "id": "SBG_office",
@@ -1312,37 +1686,45 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Bank", 
+      "id": "ATM",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626984, 23.188549]
+        "coordinates": [
+          72.626984,
+          23.188549
+        ]
       },
       "properties": {
-        "id": "Bank",
-        "name": "Bank",
+        "id": "ATM",
+        "name": "ATM",
         "placeType": "bank",
+        "aliases": [
+          "Bank",
+          "ATM"
+        ],
         "department": null,
-        "description": "Bank",
+        "description": "ATM",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Amul", 
+      "id": "Amul",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626946, 23.188582]
+        "coordinates": [
+          72.626946,
+          23.188582
+        ]
       },
       "properties": {
         "id": "Amul",
         "name": "Amul Parlour",
-        "placeType": "canteen",
+        "placeType": "amul",
         "department": null,
         "description": "Amul Parlour",
         "imageUrl": null,
@@ -1350,13 +1732,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "K++", 
+      "id": "K++",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626903, 23.188593]
+        "coordinates": [
+          72.626903,
+          23.188593
+        ]
       },
       "properties": {
         "id": "K++",
@@ -1369,18 +1753,20 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Bakery", 
+      "id": "Bakery",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626705, 23.188391]
+        "coordinates": [
+          72.626705,
+          23.188391
+        ]
       },
       "properties": {
         "id": "Bakery",
         "name": "Bakery",
-        "placeType": "shop",
+        "placeType": "bakery",
         "department": null,
         "description": "Bakery",
         "imageUrl": null,
@@ -1388,14 +1774,15 @@
         "hasIndoorMap": false
       }
     },
-
-
     {
       "type": "Feature",
-      "id": "Nescafe", 
+      "id": "Nescafe",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.627284, 23.188569]
+        "coordinates": [
+          72.627284,
+          23.188569
+        ]
       },
       "properties": {
         "id": "Nescafe",
@@ -1408,13 +1795,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "DG_Room", 
+      "id": "DG_Room",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628968, 23.185864]
+        "coordinates": [
+          72.628968,
+          23.185864
+        ]
       },
       "properties": {
         "id": "DG_Room",
@@ -1427,14 +1816,15 @@
         "hasIndoorMap": false
       }
     },
-
-
     {
       "type": "Feature",
-      "id": "SubStation", 
+      "id": "SubStation",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.629151, 23.185845]
+        "coordinates": [
+          72.629151,
+          23.185845
+        ]
       },
       "properties": {
         "id": "SubStation",
@@ -1447,13 +1837,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "NetHouse", 
+      "id": "NetHouse",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.629569, 23.189333]
+        "coordinates": [
+          72.629569,
+          23.189333
+        ]
       },
       "properties": {
         "id": "NetHouse",
@@ -1466,13 +1858,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "RC_A_wing", 
+      "id": "RC_A_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628539, 23.188917]
+        "coordinates": [
+          72.628539,
+          23.188917
+        ]
       },
       "properties": {
         "id": "RC_A_wing",
@@ -1485,13 +1879,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "RC_B_wing", 
+      "id": "RC_B_wing",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628652, 23.188924]
+        "coordinates": [
+          72.628652,
+          23.188924
+        ]
       },
       "properties": {
         "id": "RC_B_wing",
@@ -1504,13 +1900,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Hostel_Supervisior", 
+      "id": "Hostel_Supervisior",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626973, 23.187736]
+        "coordinates": [
+          72.626973,
+          23.187736
+        ]
       },
       "properties": {
         "id": "Hostel_Supervisior",
@@ -1523,13 +1921,15 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "LR", 
+      "id": "LR",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.628408, 23.189787]
+        "coordinates": [
+          72.628408,
+          23.189787
+        ]
       },
       "properties": {
         "id": "LR",
@@ -1542,20 +1942,337 @@
         "hasIndoorMap": false
       }
     },
-
     {
       "type": "Feature",
-      "id": "Gym", 
+      "id": "Creche",
       "geometry": {
         "type": "Point",
-        "coordinates": [72.626892, 23.189284]
+        "coordinates": [
+          72.627008,
+          23.188362
+        ]
+      },
+      "properties": {
+        "id": "Creche",
+        "name": "Creche",
+        "placeType": "place",
+        "department": null,
+        "description": "Playing area for children",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Gym",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.626892,
+          23.189284
+        ]
       },
       "properties": {
         "id": "Gym",
         "name": "Gym",
-        "placeType": "place",
+        "placeType": "gym",
         "department": null,
-        "description": "Gym for all",
+        "description": "On the 1st Floor",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Sport_Office",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.626562,
+          23.189264
+        ]
+      },
+      "properties": {
+        "id": "Sport_Office",
+        "name": "Sport Office",
+        "placeType": "office",
+        "department": null,
+        "description": "Sport Office",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Music_Room",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.626573,
+          23.189306
+        ]
+      },
+      "properties": {
+        "id": "Music_Room",
+        "name": "Music Room",
+        "placeType": "music_room",
+        "department": null,
+        "description": "Music Room",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Store_Room",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.626584,
+          23.189375
+        ]
+      },
+      "properties": {
+        "id": "Store_Room",
+        "name": "Store Room",
+        "placeType": "store_room",
+        "department": null,
+        "description": "Store Room",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Stairs_OAT_Left",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.626610,
+          23.188883
+        ]
+      },
+      "properties": {
+        "id": "Stairs_OAT_Left",
+        "name": "Stairs OAT Left",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Stairs for the OAT",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Stairs_OAT_Right",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627048,
+          23.188840
+        ]
+      },
+      "properties": {
+        "id": "Stairs_OAT_Right",
+        "name": "Stairs OAT Right",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Stairs for the OAT",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Stairs_SAC1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.626562,
+          23.189205
+        ]
+      },
+      "properties": {
+        "id": "Stairs_SAC1",
+        "name": "Stairs SAC1",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Stairs to the gym and table tenis court.",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Stairs_SAC2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627985,
+          23.190401
+        ]
+      },
+      "properties": {
+        "id": "Stairs_SAC2",
+        "name": "Stairs SAC2",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Stairs SAC2",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "CEP_Left_Stairs",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627592,
+          23.188480
+        ]
+      },
+      "properties": {
+        "id": "CEP_Left_Stairs",
+        "name": "CEP Left Stairs",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Connects all the floors.",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "CEP_Right_Stairs",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627590,
+          23.188392
+        ]
+      },
+      "properties": {
+        "id": "CEP_Right_Stairs",
+        "name": "CEP Right Stairs",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Connects all the floors.",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "CEP_Admin_Side_Stairs",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627839,
+          23.188707
+        ]
+      },
+      "properties": {
+        "id": "CEP_Admin_Side_Stairs",
+        "name": "CEP Admin Side Stairs",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Located outside the building.\nConnects 1st and 2nd floor.\nNot connected to ground floor.",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "CEP_InSide_Stairs1",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627887,
+          23.188582
+        ]
+      },
+      "properties": {
+        "id": "CEP_InSide_Stairs1",
+        "name": "CEP InSide Stairs 1",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Located inside the building.\nConnects 1st and 2nd floor.\nNot connected to 2nd floor.",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "CEP_InSide_Stairs2",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627895,
+          23.188250
+        ]
+      },
+      "properties": {
+        "id": "CEP_InSide_Stairs2",
+        "name": "CEP InSide Stairs 2",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Located inside the building.\nConnects Ground and 1st floor.\nNot connected to 2nd floor.",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Lab_Stairs_Left_Side",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627810,
+          23.186873
+        ]
+      },
+      "properties": {
+        "id": "Lab_Stairs_Left_Side",
+        "name": "Lab Stairs Left Side",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Located inside the building.\nConnects all the floors",
+        "imageUrl": null,
+        "floors": 0,
+        "hasIndoorMap": false
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Lab_Stairs_Right_Side",
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          72.627810,
+          23.187211
+        ]
+      },
+      "properties": {
+        "id": "Lab_Stairs_Right_Side",
+        "name": "Lab Stairs Right Side",
+        "placeType": "stairs",
+        "department": null,
+        "description": "Located inside the building.\nConnects all the floors",
         "imageUrl": null,
         "floors": 0,
         "hasIndoorMap": false
@@ -1563,5 +2280,3 @@
     }
   ]
 }
-
-

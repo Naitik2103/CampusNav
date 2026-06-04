@@ -10,6 +10,10 @@ import '../models/place_model.dart';
 import '../models/route_model.dart' as route_model;
 import '../services/path_based_routing_service.dart';
 import '../services/routing_service.dart';
+import '../services/indoor_navigation_service.dart';
+import '../models/indoor_models.dart';
+import 'indoor_navigation_screen.dart';
+
 
 class NavigationScreen extends StatefulWidget {
   final LatLng startLocation;
@@ -82,6 +86,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
         return Icons.local_parking;
       case 'restroom':
         return Icons.wc;
+      case 'stairs':
+        return Icons.stairs;
       case 'landmark':
         return Icons.place;
       default:
@@ -101,6 +107,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
         return Colors.blue;
       case 'restroom':
         return Colors.green;
+      case 'stairs':
+        return Colors.amber;
       case 'landmark':
         return Colors.amber;
       default:
@@ -773,6 +781,57 @@ class _NavigationScreenState extends State<NavigationScreen> {
     _speakCurrentStep();
   }
 
+  IndoorBuilding? _getBuildingForCurrentGate() {
+    if (!IndoorNavigationService.instance.isLoaded) return null;
+
+    CampusPlace? destinationPlace;
+    if (widget.routePlaces != null && widget.routePlaces!.isNotEmpty) {
+      destinationPlace = widget.routePlaces!.last;
+    }
+
+    final destNameLower = widget.destinationName.toLowerCase();
+    final isGate = (destinationPlace?.placeType.toLowerCase() == 'gate') ||
+        destNameLower.contains('gate');
+
+    if (!isGate) return null;
+
+    final buildings = IndoorNavigationService.instance.buildings;
+
+    // Helper to normalize keys
+    String norm(String val) => val.toLowerCase().replaceAll(RegExp(r'[^a-z0-9]'), '');
+
+    final destNameNorm = norm(widget.destinationName);
+    final destIdNorm = norm(destinationPlace?.id ?? '');
+
+    for (final building in buildings) {
+      final buildingIdKey = norm(building.buildingId);
+      final buildingNameKeys = [
+        norm(building.name),
+        ...building.aliases.map(norm),
+      ]..removeWhere((k) => k.isEmpty);
+
+      final hasDirectMatch = destNameNorm.contains(buildingIdKey) ||
+          destIdNorm.contains(buildingIdKey) ||
+          buildingNameKeys.any((key) => destNameNorm.contains(key) || destIdNorm.contains(key));
+
+      if (hasDirectMatch) {
+        return building;
+      }
+    }
+
+    // Fallback: check distance to building boundary first coord
+    final endLoc = widget.endLocation;
+    for (final building in buildings) {
+      final boundaryCoord = building.boundary.isNotEmpty ? building.boundary.first : endLoc;
+      final distance = const Distance()(endLoc, boundaryCoord);
+      if (distance < 60) {
+        return building;
+      }
+    }
+
+    return null;
+  }
+
   void _showArrivalDialog() {
     if (!isNavigating) return;
 
@@ -790,12 +849,45 @@ class _NavigationScreenState extends State<NavigationScreen> {
           : 'You have arrived at your destination.',
     );
 
+    final building = _getBuildingForCurrentGate();
+
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
         title: const Text('Arrived'),
-        content: const Text('You have arrived at your destination.'),
+        content: Text(
+          building != null
+              ? 'You have arrived at ${widget.destinationName}.\nWould you like to open the indoor map for ${building.name}?'
+              : 'You have arrived at your destination.',
+        ),
         actions: [
+          if (building != null)
+            ElevatedButton.icon(
+              onPressed: () {
+                Navigator.pop(context); // Close dialog
+                Navigator.pop(context); // Exit active outdoor navigation
+                
+                // Open indoor map screen
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => IndoorNavigationScreen(
+                      building: building,
+                      initialFloor: building.groundFloor,
+                      currentGpsLocation: currentPosition != null
+                          ? LatLng(currentPosition!.latitude, currentPosition!.longitude)
+                          : widget.endLocation,
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.layers),
+              label: const Text('Open Indoor Map'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF0B5FFF),
+                foregroundColor: Colors.white,
+              ),
+            ),
           TextButton(
             onPressed: () {
               Navigator.pop(context);

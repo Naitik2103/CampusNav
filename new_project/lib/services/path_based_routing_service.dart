@@ -58,15 +58,37 @@ class _ProjectedPoint {
 class _SnapResult {
   final PathNode node;
   final double snapDistanceMeters;
+  final _PathSegment? segment;
+  final double? t;
 
-  _SnapResult({required this.node, required this.snapDistanceMeters});
+  _SnapResult({
+    required this.node,
+    required this.snapDistanceMeters,
+    this.segment,
+    this.t,
+  });
+}
+
+class NearestPathTargetResult {
+  final int index;
+  final double distanceMeters;
+  final PathNode targetNode;
+
+  NearestPathTargetResult({
+    required this.index,
+    required this.distanceMeters,
+    required this.targetNode,
+  });
 }
 
 /// Path-based routing service using campus paths from GeoJSON
 /// Builds a graph from campus paths and finds optimal routes through them
 class PathBasedRoutingService {
-  static const double _nodeMergeToleranceMeters = 2.5;
+  // Campus path features were digitized separately, so intended junctions can
+  // be a few meters apart even when they are logically connected.
+  static const double _nodeMergeToleranceMeters = 8.0;
   static const double _snapToExistingNodeToleranceMeters = 1.8;
+  static const double _endpointStitchToleranceMeters = 16.0;
 
   static String _keyForLocation(LatLng point) {
     return '${point.latitude.toStringAsFixed(6)},${point.longitude.toStringAsFixed(6)}';
@@ -145,6 +167,7 @@ class PathBasedRoutingService {
     }
 
     print('🗺️ Built path graph with ${nodes.length} nodes');
+    _stitchNearbyEndpoints(nodes, distanceCalc);
     for (final entry in nodes.entries) {
       final node = entry.value;
       print(
@@ -152,6 +175,54 @@ class PathBasedRoutingService {
       );
     }
     return _PathGraph(nodes: nodes, segments: segments);
+  }
+
+  static void _stitchNearbyEndpoints(
+    Map<String, PathNode> nodes,
+    Distance distanceCalc,
+  ) {
+    final endpointEntries = nodes.entries
+        .where((entry) => entry.value.neighbors.length <= 1)
+        .toList();
+
+    final stitchedPairs = <String>{};
+
+    for (final source in endpointEntries) {
+      PathNode? nearest;
+      String? nearestKey;
+      double nearestDistance = double.infinity;
+
+      for (final target in endpointEntries) {
+        if (identical(source.value, target.value)) continue;
+        if (source.key == target.key) continue;
+        if (source.value.neighbors.contains(target.value)) continue;
+
+        final pairKey = source.key.compareTo(target.key) < 0
+            ? '${source.key}|${target.key}'
+            : '${target.key}|${source.key}';
+        if (stitchedPairs.contains(pairKey)) continue;
+
+        final distance = distanceCalc(source.value.location, target.value.location);
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearest = target.value;
+          nearestKey = target.key;
+        }
+      }
+
+      if (nearest != null && nearestKey != null &&
+          nearestDistance <= _endpointStitchToleranceMeters) {
+        final pairKey = source.key.compareTo(nearestKey) < 0
+            ? '${source.key}|${nearestKey}'
+            : '${nearestKey}|${source.key}';
+        if (!stitchedPairs.add(pairKey)) continue;
+
+        _connectNodes(nodes, source.key, nearestKey, nearestDistance);
+        print(
+          '🔗 Stitched near-endpoints ${source.value.id} <-> ${nearest.id} (${nearestDistance.toStringAsFixed(1)}m)',
+        );
+      }
+    }
   }
 
   static _ProjectedPoint _projectPointOnSegment(LatLng p, LatLng a, LatLng b) {
@@ -227,6 +298,8 @@ class PathBasedRoutingService {
       return _SnapResult(
         node: nearestNode,
         snapDistanceMeters: nearestNodeDistance,
+        segment: null,
+        t: null,
       );
     }
 
@@ -243,6 +316,8 @@ class PathBasedRoutingService {
     return _SnapResult(
       node: tempNode,
       snapDistanceMeters: nearestSegmentDistance,
+      segment: nearestSegment,
+      t: nearestT,
     );
   }
 
@@ -311,89 +386,57 @@ class PathBasedRoutingService {
     return best;
   }
 
-  /// Dijkstra's algorithm to find shortest path through campus paths
+  /// Priority-queue entry for Dijkstra
   static List<PathNode>? _dijkstraShortestPath(PathNode start, PathNode end) {
-    final Map<PathNode, double> distances = {};
-    final Map<PathNode, PathNode?> previous = {};
-    final Set<PathNode> unvisited = {};
+    // dist[node] = best known cost to reach node
+    final Map<PathNode, double> dist = {start: 0.0};
+    final Map<PathNode, PathNode?> prev = {start: null};
 
-    // Initialize
-    distances[start] = 0;
+    // Min-heap: [cost, node] — sorted by cost ascending
+    // We use a simple sorted list; for campus graphs (<1000 nodes) this is fine.
+    final List<(double, PathNode)> heap = [(0.0, start)];
 
-    // Collect all reachable nodes using BFS
-    final List<PathNode> toProcess = [start];
-    final Set<PathNode> visited = {};
+    while (heap.isNotEmpty) {
+      // Pop the smallest-cost entry
+      heap.sort((a, b) => a.$1.compareTo(b.$1));
+      final (currentCost, current) = heap.removeAt(0);
 
-    while (toProcess.isNotEmpty) {
-      final current = toProcess.removeAt(0);
-      if (visited.contains(current)) continue;
-      visited.add(current);
-      unvisited.add(current);
+      // Early exit
+      if (current == end) break;
 
-      for (final neighbor in current.neighbors) {
-        if (!visited.contains(neighbor)) {
-          toProcess.add(neighbor);
-        }
-      }
-    }
+      // Skip stale heap entries
+      if (currentCost > (dist[current] ?? double.infinity)) continue;
 
-    // Dijkstra's algorithm
-    while (unvisited.isNotEmpty) {
-      // Find unvisited node with smallest distance
-      PathNode? current;
-      double minDist = double.infinity;
-
-      for (final node in unvisited) {
-        final dist = distances[node] ?? double.infinity;
-        if (dist < minDist) {
-          minDist = dist;
-          current = node;
-        }
-      }
-
-      if (current == null || current == end) break;
-
-      unvisited.remove(current);
-      final currentDist = distances[current]!;
-
-      // Check neighbors
       for (int i = 0; i < current.neighbors.length; i++) {
         final neighbor = current.neighbors[i];
         final edgeDist = current.edgeDistances[i];
+        final newCost = currentCost + edgeDist;
 
-        if (unvisited.contains(neighbor)) {
-          final newDist = currentDist + edgeDist;
-          if (newDist < (distances[neighbor] ?? double.infinity)) {
-            distances[neighbor] = newDist;
-            previous[neighbor] = current;
-          }
+        if (newCost < (dist[neighbor] ?? double.infinity)) {
+          dist[neighbor] = newCost;
+          prev[neighbor] = current;
+          heap.add((newCost, neighbor));
         }
       }
     }
 
-    // Reconstruct path
-    if (!distances.containsKey(end) || distances[end] == double.infinity) {
+    if (!dist.containsKey(end) || dist[end] == double.infinity) {
       print('❌ No path found from ${start.id} to ${end.id}');
-      print(
-        '   Start node reachability: ${distances[start] != null ? "reachable" : "unreachable"}',
-      );
-      print('   End node distance: ${distances[end]}');
       return null;
     }
 
+    // Reconstruct path
     final path = <PathNode>[];
-    PathNode? current = end;
-    while (current != null) {
-      path.insert(0, current);
-      current = previous[current];
+    PathNode? cur = end;
+    while (cur != null) {
+      path.insert(0, cur);
+      cur = prev[cur];
     }
 
-    final totalDistanceM = distances[end] ?? 0;
+    final totalDist = dist[end] ?? 0;
     print('✅ Found path: ${start.id} → ${end.id}');
     print('   Path length: ${path.length} nodes');
-    print('   Total distance: ${totalDistanceM.toStringAsFixed(1)}m');
-
-    // Print path nodes for debugging
+    print('   Total distance: ${totalDist.toStringAsFixed(1)}m');
     for (int i = 0; i < path.length; i++) {
       final node = path[i];
       print(
@@ -403,6 +446,32 @@ class PathBasedRoutingService {
 
     return path;
   }
+
+  static Map<PathNode, double> _dijkstraDistances(PathNode start) {
+    final Map<PathNode, double> dist = {start: 0.0};
+    final List<(double, PathNode)> heap = [(0.0, start)];
+
+    while (heap.isNotEmpty) {
+      heap.sort((a, b) => a.$1.compareTo(b.$1));
+      final (currentCost, current) = heap.removeAt(0);
+
+      if (currentCost > (dist[current] ?? double.infinity)) continue;
+
+      for (int i = 0; i < current.neighbors.length; i++) {
+        final neighbor = current.neighbors[i];
+        final edgeDist = current.edgeDistances[i];
+        final newCost = currentCost + edgeDist;
+
+        if (newCost < (dist[neighbor] ?? double.infinity)) {
+          dist[neighbor] = newCost;
+          heap.add((newCost, neighbor));
+        }
+      }
+    }
+
+    return dist;
+  }
+
 
   /// Get route using campus paths
   static Future<route_model.Route?> getPathBasedRoute(
@@ -440,6 +509,19 @@ class PathBasedRoutingService {
       if (startNode == null || endNode == null) {
         print('❌ Could not find valid start or end nodes');
         return null;
+      }
+
+      // If both snap to the exact same segment, connect their temporary nodes directly
+      // to prevent backtracking loops through segment endpoints!
+      if (startSnap != null &&
+          endSnap != null &&
+          startSnap.segment != null &&
+          startSnap.segment == endSnap.segment) {
+        final dist = startSnap.segment!.lengthMeters * (startSnap.t! - endSnap.t!).abs();
+        _connectNodes(graphNodes, startSnap.node.id, endSnap.node.id, dist);
+        print(
+          '🔗 Connected same-segment snap nodes directly with distance ${dist.toStringAsFixed(1)}m',
+        );
       }
 
       print(
@@ -581,5 +663,64 @@ class PathBasedRoutingService {
         'type': path.pathType,
       };
     }).toList();
+  }
+
+  /// Find the nearest target location using path distance (not straight line).
+  static NearestPathTargetResult? findNearestTargetByPathDistance(
+    LatLng start,
+    List<LatLng> targets,
+    List<CampusPath> campusPaths,
+  ) {
+    if (targets.isEmpty) return null;
+
+    final graph = _buildPathGraph(campusPaths);
+    if (graph.nodes.isEmpty || graph.segments.isEmpty) return null;
+
+    final graphNodes = Map<String, PathNode>.from(graph.nodes);
+
+    final startSnap = _snapToGraph(
+      start,
+      graphNodes,
+      graph.segments,
+      'snap_start',
+    );
+
+    if (startSnap == null) return null;
+
+    final startNode = startSnap.node;
+    final startSnapDistance = startSnap.snapDistanceMeters;
+
+    final targetNodes = <({int index, PathNode node, double snapDistance})>[];
+    for (int i = 0; i < targets.length; i++) {
+      final snap = _snapToGraph(
+        targets[i],
+        graphNodes,
+        graph.segments,
+        'snap_target_$i',
+      );
+      if (snap != null) {
+        targetNodes.add((index: i, node: snap.node, snapDistance: snap.snapDistanceMeters));
+      }
+    }
+
+    if (targetNodes.isEmpty) return null;
+
+    final distances = _dijkstraDistances(startNode);
+
+    NearestPathTargetResult? best;
+    for (final target in targetNodes) {
+      final baseDistance = distances[target.node];
+      if (baseDistance == null || baseDistance == double.infinity) continue;
+      final totalDistance = startSnapDistance + baseDistance + target.snapDistance;
+      if (best == null || totalDistance < best.distanceMeters) {
+        best = NearestPathTargetResult(
+          index: target.index,
+          distanceMeters: totalDistance,
+          targetNode: target.node,
+        );
+      }
+    }
+
+    return best;
   }
 }

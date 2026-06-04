@@ -6,7 +6,7 @@ class CampusPlace {
   final String name;
   final List<String> aliases;
   final LatLng location;
-  final String placeType; // building, landmark, parking, restroom, etc.
+  final String placeType; // building, landmark, parking, restroom, canteen, restaurant, atm, bank, office, gate, library, pond, playground, gym, coffee_shop, cafe, music, music_room, clinic, hospital, bakery, theatre, auditorium, store_room, lab, laboratory, amul, fruit_shop, etc.
   final String? department;
   final String? description;
   final String? imageUrl;
