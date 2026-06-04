@@ -39,7 +39,7 @@ jobs:
         run: |
           cd new_project
           mkdir -p Payload
-          mv build/ios/iphoneos/new_project.app Payload/
+          mv build/ios/iphoneos/Runner.app Payload/
           zip -r CampusNav.ipa Payload
 
       - name: Upload IPA Artifact
