@@ -1046,6 +1046,14 @@
           [
             72.627871,
             23.18903
+          ],
+          [
+            72.627871,
+            23.189046
+          ],
+          [
+            72.627871,
+            23.189076
           ]
         ]
       },
@@ -2267,7 +2275,7 @@
         "difficulty": "easy",
         "wheelchair_accessible": false,
         "restrictions": "No Vehicles and Girls/Women are not allowed.",
-        "description": "Main pathway connecting library and administrative building"
+        "description": "Gwing to Hostel Supervisior"
       }
     },
     {
@@ -2306,7 +2314,7 @@
         "difficulty": "easy",
         "wheelchair_accessible": false,
         "restrictions": "No Vehicles and Girls/Women are not allowed.",
-        "description": "Main pathway connecting library and administrative building"
+        "description": "Hostel Supervisior to Hwing"
       }
     },
     {
@@ -3139,7 +3147,7 @@
         "difficulty": "easy",
         "wheelchair_accessible": true,
         "restrictions": "No Vehicles",
-        "description": "Main pathway connecting library and administrative building"
+        "description": "CEP Halfway to CEPGate"
       }
     },
     {
@@ -3615,10 +3623,6 @@
           [
             72.627871,
             23.189076
-          ],
-          [
-            72.627871,
-            23.189046
           ],
           [
             72.62781,
@@ -5730,10 +5734,6 @@
         "type": "LineString",
         "coordinates": [
           [
-            72.628013,
-            23.186229
-          ],
-          [
             72.627619,
             23.186301
           ],
@@ -6253,6 +6253,141 @@
         "wheelchair_accessible": true,
         "restrictions": "No Vehicles",
         "description": "HorMen Road to Shops"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "Faculty 3 walkway to faculty 3 gate",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.628126,
+            23.189408
+          ],
+          [
+            72.628121,
+            23.189472
+          ]
+        ]
+      },
+      "properties": {
+        "id": "Faculty 3 walkway to faculty 3 gate",
+        "name": "Faculty 3 walkway to faculty 3 gate",
+        "walkable": true,
+        "pathType": "blocks",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": "No Vehicles",
+        "description": "Faculty 3 walkway to faculty 3 gate"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_1_gate_to_building",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.628697,
+            23.18924
+          ],
+          [
+            72.628766,
+            23.189231
+          ]
+        ]
+      },
+      "properties": {
+        "id": "faculty_block_1_gate_to_building",
+        "name": "Faculty Block 1 Gate to Building",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": "No Vehicles",
+        "description": "Path connecting Faculty Block 1 Entrance Gate to Faculty Block 1 Building"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_2_gate_to_building",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.628491,
+            23.189304
+          ],
+          [
+            72.628477,
+            23.189366
+          ]
+        ]
+      },
+      "properties": {
+        "id": "faculty_block_2_gate_to_building",
+        "name": "Faculty Block 2 Gate to Building",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": "No Vehicles",
+        "description": "Path connecting Faculty Block 2 Entrance Gate to Faculty Block 2 Building"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_3_gate_to_building",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.628121,
+            23.189472
+          ],
+          [
+            72.628115,
+            23.189532
+          ]
+        ]
+      },
+      "properties": {
+        "id": "faculty_block_3_gate_to_building",
+        "name": "Faculty Block 3 Gate to Building",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": "No Vehicles",
+        "description": "Path connecting Faculty Block 3 Entrance Gate to Faculty Block 3 Building"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "faculty_block_4_gate_to_building",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            72.627895,
+            23.189359
+          ],
+          [
+            72.627828,
+            23.189344
+          ]
+        ]
+      },
+      "properties": {
+        "id": "faculty_block_4_gate_to_building",
+        "name": "Faculty Block 4 Gate to Building",
+        "walkable": true,
+        "pathType": "concrete",
+        "difficulty": "easy",
+        "wheelchair_accessible": true,
+        "restrictions": "No Vehicles",
+        "description": "Path connecting Faculty Block 4 Entrance Gate to Faculty Block 4 Building"
       }
     }
   ]

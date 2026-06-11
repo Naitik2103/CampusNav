@@ -200,8 +200,20 @@ class PathBasedRoutingService {
     Distance distanceCalc,
   ) {
     // Collect nodes with degree ≤ 1 (tips / isolated nodes).
+    // Exclude building coordinates that represent logical dead-ends/destinations
+    // so they are not incorrectly stitched to other nearby paths.
     final endpoints = nodes.entries
-        .where((e) => e.value.neighbors.length <= 1)
+        .where((e) {
+          if (e.value.neighbors.length > 1) return false;
+          final lat = e.value.location.latitude;
+          final lng = e.value.location.longitude;
+          final isBuildingDestination =
+              (lat == 23.189231 && lng == 72.628766) || // FB 1 Building
+              (lat == 23.189366 && lng == 72.628477) || // FB 2 Building
+              (lat == 23.189532 && lng == 72.628115) || // FB 3 Building
+              (lat == 23.189344 && lng == 72.627828);   // FB 4 Building
+          return !isBuildingDestination;
+        })
         .toList();
 
     final stitchedPairs = <String>{};
