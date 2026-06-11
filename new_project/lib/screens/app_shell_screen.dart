@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
+import '../services/update_service.dart';
 
 import 'outdoor_map_screen.dart';
 
@@ -12,6 +14,48 @@ class AppShellScreen extends StatefulWidget {
 class _AppShellScreenState extends State<AppShellScreen> {
   int _selectedIndex = 0;
   OutdoorMapQuickAction _pendingMapAction = OutdoorMapQuickAction.none;
+
+  @override
+  void initState() {
+    super.initState();
+    checkUpdate();
+  }
+
+  void checkUpdate() async {
+    bool hasUpdate = await UpdateService().checkForUpdate();
+    if (hasUpdate && mounted) {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: const Text("Update Available"),
+            content: const Text("A new version is available."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("Later"),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Navigator.pop(context);
+                  final url = Uri.parse(
+                    UpdateService.latestApkUrl ??
+                        'https://github.com/Naitik2103/CampusNav/releases',
+                  );
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(url, mode: LaunchMode.externalApplication);
+                  }
+                },
+                child: const Text("Update"),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
