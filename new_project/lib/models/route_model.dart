@@ -51,9 +51,9 @@ class NavigationStep {
 
   String getFormattedDistance() {
     if (distance < 1000) {
-      return '${distance.toStringAsFixed(0)}m';
+      return '${distance.toStringAsFixed(0)} m';
     }
-    return '${(distance / 1000).toStringAsFixed(1)}km';
+    return '${(distance / 1000).toStringAsFixed(1)} km';
   }
 
   String getFormattedDuration() {
@@ -90,19 +90,25 @@ class Route {
 
   String getFormattedTotalDistance() {
     if (totalDistance < 1000) {
-      return '${totalDistance.toStringAsFixed(0)}m';
+      return '${totalDistance.toStringAsFixed(0)} m';
     }
-    return '${(totalDistance / 1000).toStringAsFixed(2)}km';
+    return '${(totalDistance / 1000).toStringAsFixed(2)} km';
   }
 
   String getFormattedTotalDuration() {
-    final minutes = totalDuration ~/ 60;
-    final hours = minutes ~/ 60;
-    
-    if (hours > 0) {
-      return '${hours}h ${minutes % 60}m';
+    final totalSeconds = totalDuration.round();
+    if (totalSeconds < 60) {
+      return '$totalSeconds sec';
     }
-    return '${minutes}m';
+    final minutes = totalSeconds ~/ 60;
+    final hours = minutes ~/ 60;
+    if (hours > 0) {
+      final remainingMinutes = minutes % 60;
+      return remainingMinutes > 0
+          ? '${hours}h $remainingMinutes min'
+          : '${hours}h';
+    }
+    return '$minutes min';
   }
 
   factory Route.fromJson(Map<String, dynamic> json, String routeType) {
