@@ -10,6 +10,10 @@ jobs:
     name: Build APK and Create GitHub Release
     runs-on: ubuntu-latest
 
+    # Required to create GitHub Releases and upload assets
+    permissions:
+      contents: write
+
     steps:
       # ── 1. Checkout ──────────────────────────────────────────────────────────
       - name: Checkout repository
