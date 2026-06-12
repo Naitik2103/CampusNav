@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../services/update_service.dart';
 
@@ -88,16 +89,29 @@ class _AppShellScreenState extends State<AppShellScreen> {
                   ),
                 ),
                 const SizedBox(height: 6),
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFF8FAFC),
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: const Color(0xFFE2E8F0)),
-                  ),
-                  child: Text(
-                    notes,
-                    style: const TextStyle(fontSize: 13, height: 1.5),
+                ConstrainedBox(
+                  constraints: const BoxConstraints(maxHeight: 200),
+                  child: Container(
+                    width: double.maxFinite,
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFF8FAFC),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: const Color(0xFFE2E8F0)),
+                    ),
+                    child: SingleChildScrollView(
+                      child: MarkdownBody(
+                        data: notes,
+                        shrinkWrap: true,
+                        styleSheet: MarkdownStyleSheet.fromTheme(Theme.of(context)).copyWith(
+                          p: const TextStyle(fontSize: 13, height: 1.5, color: Color(0xFF334155)),
+                          h1: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold, height: 1.5, color: Color(0xFF1E293B)),
+                          h2: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold, height: 1.5, color: Color(0xFF1E293B)),
+                          h3: const TextStyle(fontSize: 13, fontWeight: FontWeight.bold, height: 1.5, color: Color(0xFF1E293B)),
+                          listBullet: const TextStyle(fontSize: 13, color: Color(0xFF334155)),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -113,10 +127,7 @@ class _AppShellScreenState extends State<AppShellScreen> {
               FilledButton.icon(
                 onPressed: () async {
                   Navigator.pop(context);
-                  final url = Uri.parse(
-                    UpdateService.latestApkUrl ??
-                        'https://github.com/Naitik2103/CampusNav/releases',
-                  );
+                  final url = Uri.parse('https://naitik2103.github.io/CampusNav/');
                   if (await canLaunchUrl(url)) {
                     await launchUrl(url, mode: LaunchMode.externalApplication);
                   }
