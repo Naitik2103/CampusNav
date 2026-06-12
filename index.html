@@ -426,13 +426,13 @@
           <div class="qr-corner tr"></div>
           <div class="qr-corner bl"></div>
           <div class="qr-corner br"></div>
-          <!-- QR code pointing to this GitHub releases page (always latest) -->
+          <!-- QR code pointing to the GitHub Pages download website -->
           <img
-            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fgithub.com%2FNaitik2103%2FCampusNav%2Freleases%2Flatest&color=0B5FFF&bgcolor=FFFFFF&margin=1"
-            alt="QR Code to download CampusNav" />
+            src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https%3A%2F%2Fnaitik2103.github.io%2FCampusNav%2F&color=0B5FFF&bgcolor=FFFFFF&margin=1"
+            alt="QR Code for CampusNav download page" />
         </div>
         <p class="qr-hint">
-          Scan with any camera app to open<br />the download page instantly
+          Scan to open this page — then tap<br /><strong>Download Latest APK</strong>
         </p>
       </div>
 
@@ -503,11 +503,14 @@
         if (tag) {
           document.getElementById('latest-version').textContent = tag;
 
-          // Find APK asset URL and wire up direct download button
+          // Wire up direct APK download — no intermediate page
           const assets = data.assets || [];
           const apk = assets.find(a => a.name.endsWith('.apk'));
           if (apk) {
-            document.getElementById('download-btn').href = apk.browser_download_url;
+            const btn = document.getElementById('download-btn');
+            btn.href = apk.browser_download_url;
+            btn.setAttribute('download', apk.name); // triggers direct download
+            btn.removeAttribute('target');           // no new tab for file download
           }
         }
       })
