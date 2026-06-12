@@ -1,0 +1,1 @@
+### REAL README INSIDE THE new_project FOLDER
