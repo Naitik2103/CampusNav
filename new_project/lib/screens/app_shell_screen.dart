@@ -24,20 +24,93 @@ class _AppShellScreenState extends State<AppShellScreen> {
   void checkUpdate() async {
     bool hasUpdate = await UpdateService().checkForUpdate();
     if (hasUpdate && mounted) {
+      final version = UpdateService.latestVersion ?? '';
+      final notes = UpdateService.latestReleaseNotes ?? 'A new version is available.';
+
       showDialog(
         context: context,
+        barrierDismissible: false,
         builder: (_) {
           return AlertDialog(
-            title: const Text("Update Available"),
-            content: const Text("A new version is available."),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+            title: Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEAF1FF),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(
+                    Icons.system_update_rounded,
+                    color: Color(0xFF0B5FFF),
+                    size: 22,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Update Available',
+                        style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      if (version.isNotEmpty)
+                        Text(
+                          'v$version',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF0B5FFF),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "What's new:",
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF64748B),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF8FAFC),
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFFE2E8F0)),
+                  ),
+                  child: Text(
+                    notes,
+                    style: const TextStyle(fontSize: 13, height: 1.5),
+                  ),
+                ),
+              ],
+            ),
             actions: [
               TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("Later"),
+                onPressed: () => Navigator.pop(context),
+                child: const Text(
+                  'Later',
+                  style: TextStyle(color: Color(0xFF64748B)),
+                ),
               ),
-              TextButton(
+              FilledButton.icon(
                 onPressed: () async {
                   Navigator.pop(context);
                   final url = Uri.parse(
@@ -48,7 +121,14 @@ class _AppShellScreenState extends State<AppShellScreen> {
                     await launchUrl(url, mode: LaunchMode.externalApplication);
                   }
                 },
-                child: const Text("Update"),
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF0B5FFF),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                icon: const Icon(Icons.download_rounded, size: 18),
+                label: const Text('Update Now'),
               ),
             ],
           );
