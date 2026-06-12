@@ -51,7 +51,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   int currentStepIndex = 0;
   Position? currentPosition;
   bool isNavigating = true;
-  bool voiceEnabled = true;
+  bool voiceEnabled = false;
   bool isLoading = true;
   final MapController mapController = MapController();
   StreamSubscription<Position>? _positionSubscription;

@@ -523,7 +523,7 @@ class _OutdoorMapScreenState extends State<OutdoorMapScreen> {
       _filteredFaculty = [];
     });
 
-    await _fetchAndDisplayRoute(_userLocation!, place.location);
+    _navigateToRoutingScreen(place);
 
     if (!mounted) return;
     final distanceLabel = distanceMeters == null
