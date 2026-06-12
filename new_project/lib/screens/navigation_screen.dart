@@ -68,6 +68,8 @@ class _NavigationScreenState extends State<NavigationScreen> {
   int _nextRouteStopIndex = 1;
   bool _finalArrivalAnnounced = false;
   final List<String> _arrivedStopMessages = <String>[];
+  final DraggableScrollableController _sheetController =
+      DraggableScrollableController();
 
   bool get _isLockedMultiStopRoute {
     final places = widget.routePlaces;
@@ -310,37 +312,25 @@ class _NavigationScreenState extends State<NavigationScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted || !_mapReady || _didShowRouteOverview) return;
 
-      double minLat = waypoints.first.latitude;
-      double maxLat = waypoints.first.latitude;
-      double minLng = waypoints.first.longitude;
-      double maxLng = waypoints.first.longitude;
+      // Use a short delay to let the map fully settle before moving.
+      Future.delayed(const Duration(milliseconds: 200), () {
+        if (!mounted || _didShowRouteOverview) return;
 
-      for (final p in waypoints) {
-        minLat = math.min(minLat, p.latitude);
-        maxLat = math.max(maxLat, p.latitude);
-        minLng = math.min(minLng, p.longitude);
-        maxLng = math.max(maxLng, p.longitude);
-      }
-
-      final center = LatLng((minLat + maxLat) / 2, (minLng + maxLng) / 2);
-      final span = math.max(maxLat - minLat, maxLng - minLng);
-
-      double targetZoom;
-      if (span > 0.02) {
-        targetZoom = 13.0;
-      } else if (span > 0.01) {
-        targetZoom = 14.0;
-      } else if (span > 0.005) {
-        targetZoom = 15.0;
-      } else if (span > 0.002) {
-        targetZoom = 16.0;
-      } else {
-        targetZoom = 17.0;
-      }
-
-      mapController.move(center, targetZoom);
-      _currentZoom = targetZoom;
-      _didShowRouteOverview = true;
+        // Zoom 18 gives enough room to see both the start marker and the
+        // destination within the visible top-half of the screen.
+        // Camera shifted 0.0003° south (~33 m / ~120 px) so the start marker
+        // appears in the lower portion of the upper-half map area, with the
+        // destination visible above it.
+        const navigationZoom = 18.0;
+        const latSouthOffset = 0.0003;
+        final centeredStart = LatLng(
+          waypoints.first.latitude - latSouthOffset,
+          waypoints.first.longitude,
+        );
+        mapController.move(centeredStart, navigationZoom);
+        _currentZoom = navigationZoom;
+        _didShowRouteOverview = true;
+      });
     });
   }
 
@@ -904,6 +894,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
   void dispose() {
     _positionSubscription?.cancel();
     _flutterTts.stop();
+    _sheetController.dispose();
     super.dispose();
   }
 
@@ -978,11 +969,10 @@ class _NavigationScreenState extends State<NavigationScreen> {
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          // Map
-          Expanded(
-            flex: 2,
+          // ── Full-screen map ──────────────────────────────────────────
+          Positioned.fill(
             child: FlutterMap(
               mapController: mapController,
               options: MapOptions(
@@ -1022,7 +1012,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
                           final isFirst = entry.key == 0;
                           final isLiveSource =
                               entry.value.id == '__live_source__';
-                          // For live source, keep only the existing live marker.
                           return !(isFirst && isLiveSource);
                         })
                         .map((entry) {
@@ -1086,7 +1075,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
                   ),
                 MarkerLayer(
                   markers: [
-                    // End marker
                     if (widget.routePlaces == null ||
                         widget.routePlaces!.isEmpty)
                       Marker(
@@ -1099,7 +1087,6 @@ class _NavigationScreenState extends State<NavigationScreen> {
                           size: 40,
                         ),
                       ),
-                    // Live current position marker (single blue arrow)
                     Marker(
                       width: 44,
                       height: 44,
@@ -1116,7 +1103,7 @@ class _NavigationScreenState extends State<NavigationScreen> {
                             border: Border.all(color: Colors.white, width: 2.4),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.blue.withOpacity(0.5),
+                                color: Colors.blue.withValues(alpha: 0.5),
                                 blurRadius: 10,
                               ),
                             ],
@@ -1134,247 +1121,296 @@ class _NavigationScreenState extends State<NavigationScreen> {
               ],
             ),
           ),
-          // Step Information Card
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Color(0xFFEFF4FF), Color(0xFFFFFFFF)],
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Step ${currentStepIndex + 1} of ${currentRoute!.steps.length}',
-                      style: const TextStyle(fontSize: 12, color: Colors.grey),
-                    ),
-                    Text(
-                      '${currentRoute!.getFormattedTotalDistance()} • ${currentRoute!.getFormattedTotalDuration()}',
-                      style: const TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                      ),
+
+          // ── Draggable bottom sheet ────────────────────────────────────
+          DraggableScrollableSheet(
+            controller: _sheetController,
+            initialChildSize: 0.50,
+            minChildSize: 0.15,
+            maxChildSize: 0.90,
+            snap: true,
+            snapSizes: const [0.15, 0.50, 0.90],
+            builder: (context, scrollController) {
+              return Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 12,
+                      offset: Offset(0, -3),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                // Current instruction - Large
-                Text(
-                  currentStep != null
-                      ? _localizeInstruction(currentStep.instruction)
-                      : 'Loading instruction...',
-                  style: const TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 8),
-                // Distance and turn info
-                if (currentStep != null)
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 6,
-                        ),
-                        decoration: BoxDecoration(
-                          color: _brandColor,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Text(
-                          currentStep.getFormattedDistance(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      if (currentStep.turnType != null)
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFF59E0B),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Text(
-                            'Turn ${currentStep.turnType}',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 12,
-                              fontWeight: FontWeight.bold,
+                child: Column(
+                  children: [
+                    // ── Drag handle ──────────────────────────────────────
+                    GestureDetector(
+                      behavior: HitTestBehavior.opaque,
+                      onVerticalDragUpdate: (details) {
+                        // Forward manual drags to the sheet controller
+                        final totalHeight = MediaQuery.of(context).size.height;
+                        if (totalHeight > 0) {
+                          _sheetController.jumpTo(
+                            (_sheetController.size -
+                                    details.delta.dy / totalHeight)
+                                .clamp(0.15, 0.90),
+                          );
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Center(
+                          child: Container(
+                            width: 40,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade300,
+                              borderRadius: BorderRadius.circular(2),
                             ),
                           ),
                         ),
-                    ],
-                  ),
-              ],
-            ),
-          ),
-          // Next Steps Preview
-          Expanded(
-            flex: 1,
-            child: Container(
-              color: const Color(0xFFF8FAFD),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Text(
-                      'Upcoming Steps',
-                      style: Theme.of(context).textTheme.titleMedium,
+                      ),
                     ),
-                  ),
-                  Expanded(
-                    child: Builder(
-                      builder: (context) {
-                        final panelItems = <Map<String, dynamic>>[];
 
-                        for (final message in _arrivedStopMessages) {
-                          panelItems.add({
-                            'type': 'arrival',
-                            'message': message,
-                          });
-                        }
-
-                        final remainingCount =
-                            currentRoute!.steps.length - currentStepIndex - 1;
-                        for (int i = 0; i < remainingCount; i++) {
-                          final step =
-                              currentRoute!.steps[currentStepIndex + 1 + i];
-                          panelItems.add({
-                            'type': 'step',
-                            'step': step,
-                            'label': currentStepIndex + 2 + i,
-                          });
-                        }
-
-                        return ListView.builder(
-                          itemCount: panelItems.length,
-                          itemBuilder: (context, index) {
-                            final item = panelItems[index];
-
-                            if (item['type'] == 'arrival') {
-                              return ListTile(
-                                leading: const CircleAvatar(
-                                  backgroundColor: Color(0xFFD1FAE5),
-                                  foregroundColor: Color(0xFF047857),
-                                  child: Icon(Icons.check_rounded),
+                    // ── Step info card (always visible) ──────────────────
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Step ${currentStepIndex + 1} of ${currentRoute!.steps.length}',
+                                style: const TextStyle(
+                                    fontSize: 12, color: Colors.grey),
+                              ),
+                              Text(
+                                '${currentRoute!.getFormattedTotalDistance()} • ${currentRoute!.getFormattedTotalDuration()}',
+                                style: const TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                title: Text(
-                                  item['message'] as String,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF065F46),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 10),
+                          Text(
+                            currentStep != null
+                                ? _localizeInstruction(currentStep.instruction)
+                                : 'Loading instruction...',
+                            style: const TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const SizedBox(height: 8),
+                          if (currentStep != null)
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 12, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: _brandColor,
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Text(
+                                    currentStep.getFormattedDistance(),
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
-                                subtitle: const Text(
-                                  'Intermediate stop reached',
-                                ),
-                              );
-                            }
+                                const SizedBox(width: 8),
+                                if (currentStep.turnType != null)
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 12, vertical: 6),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFF59E0B),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
+                                    child: Text(
+                                      'Turn ${currentStep.turnType}',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                              ],
+                            ),
+                        ],
+                      ),
+                    ),
 
-                            final step =
-                                item['step'] as route_model.NavigationStep;
-                            final label = item['label'] as int;
-                            return ListTile(
-                              leading: CircleAvatar(
-                                backgroundColor: const Color(0xFFE5EDFF),
-                                foregroundColor: _brandColor,
-                                child: Text('$label'),
-                              ),
-                              title: Text(
-                                _localizeInstruction(step.instruction),
-                              ),
-                              subtitle: Text(
-                                '${step.getFormattedDistance()} • ${step.getFormattedDuration()}',
-                              ),
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          // Navigation Buttons
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              children: [
-                Row(
-                  children: [
+                    const Divider(height: 1),
+
+                    // ── Scrollable upcoming steps ─────────────────────────
                     Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _previousStep,
-                        icon: const Icon(Icons.arrow_back),
-                        label: const Text('Previous'),
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: _brandColor,
-                          backgroundColor: Colors.white,
-                        ),
+                      child: CustomScrollView(
+                        controller: scrollController,
+                        slivers: [
+                          SliverToBoxAdapter(
+                            child: Padding(
+                              padding: const EdgeInsets.fromLTRB(16, 12, 16, 4),
+                              child: Text(
+                                'Upcoming Steps',
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                          ),
+                          SliverList(
+                            delegate: SliverChildBuilderDelegate(
+                              (context, index) {
+                                final panelItems = <Map<String, dynamic>>[];
+                                for (final message in _arrivedStopMessages) {
+                                  panelItems.add({
+                                    'type': 'arrival',
+                                    'message': message,
+                                  });
+                                }
+                                final remainingCount =
+                                    currentRoute!.steps.length -
+                                        currentStepIndex -
+                                        1;
+                                for (int i = 0; i < remainingCount; i++) {
+                                  final step = currentRoute!
+                                      .steps[currentStepIndex + 1 + i];
+                                  panelItems.add({
+                                    'type': 'step',
+                                    'step': step,
+                                    'label': currentStepIndex + 2 + i,
+                                  });
+                                }
+
+                                if (index >= panelItems.length) return null;
+                                final item = panelItems[index];
+
+                                if (item['type'] == 'arrival') {
+                                  return ListTile(
+                                    leading: const CircleAvatar(
+                                      backgroundColor: Color(0xFFD1FAE5),
+                                      foregroundColor: Color(0xFF047857),
+                                      child: Icon(Icons.check_rounded),
+                                    ),
+                                    title: Text(
+                                      item['message'] as String,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF065F46),
+                                      ),
+                                    ),
+                                    subtitle: const Text(
+                                        'Intermediate stop reached'),
+                                  );
+                                }
+
+                                final step = item['step']
+                                    as route_model.NavigationStep;
+                                final label = item['label'] as int;
+                                return ListTile(
+                                  leading: CircleAvatar(
+                                    backgroundColor: const Color(0xFFE5EDFF),
+                                    foregroundColor: _brandColor,
+                                    child: Text('$label'),
+                                  ),
+                                  title: Text(
+                                      _localizeInstruction(step.instruction)),
+                                  subtitle: Text(
+                                    '${step.getFormattedDistance()} • ${step.getFormattedDuration()}',
+                                  ),
+                                );
+                              },
+                              childCount: () {
+                                int count = _arrivedStopMessages.length;
+                                count += currentRoute!.steps.length -
+                                    currentStepIndex -
+                                    1;
+                                return count;
+                              }(),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _advanceStep,
-                        icon: const Icon(Icons.arrow_forward),
-                        label: const Text('Next'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _brandColor,
-                          foregroundColor: Colors.white,
-                        ),
+
+                    // ── Navigation buttons ────────────────────────────────
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: _previousStep,
+                                  icon: const Icon(Icons.arrow_back),
+                                  label: const Text('Previous'),
+                                  style: ElevatedButton.styleFrom(
+                                    foregroundColor: _brandColor,
+                                    backgroundColor: Colors.white,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: _advanceStep,
+                                  icon: const Icon(Icons.arrow_forward),
+                                  label: const Text('Next'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: _brandColor,
+                                    foregroundColor: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: _repeatCurrentInstruction,
+                                  icon: const Icon(Icons.replay_rounded),
+                                  label: const Text('Repeat Voice'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFFEAF1FF),
+                                    foregroundColor: _brandColor,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: ElevatedButton.icon(
+                                  onPressed: () => Navigator.pop(context),
+                                  icon: const Icon(Icons.close),
+                                  label: const Text('Exit'),
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.red,
+                                    foregroundColor: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: _repeatCurrentInstruction,
-                        icon: const Icon(Icons.replay_rounded),
-                        label: const Text('Repeat Voice'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFFEAF1FF),
-                          foregroundColor: _brandColor,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: ElevatedButton.icon(
-                        onPressed: () => Navigator.pop(context),
-                        icon: const Icon(Icons.close),
-                        label: const Text('Exit'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                          foregroundColor: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
+              );
+            },
           ),
         ],
       ),
