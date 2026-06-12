@@ -432,7 +432,8 @@
             alt="QR Code for CampusNav download page" />
         </div>
         <p class="qr-hint">
-          Scan to open this page — then tap<br /><strong>Download Latest APK</strong>
+          📌 This QR code opens <strong>this very page</strong><br />
+          Share it with anyone for quick access &amp; download
         </p>
       </div>
 
@@ -485,11 +486,79 @@
 
   </div>
 
+  <!-- ── Disclaimer ──────────────────────────────────────── -->
+  <div class="container" style="margin-top: 0; padding-top: 0;">
+    <div style="
+      background: #FFFBEB;
+      border: 1px solid #FDE68A;
+      border-radius: 20px;
+      padding: 22px 20px;
+      margin-bottom: 16px;
+    ">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+        <span style="font-size:1.3rem;">⚠️</span>
+        <span
+          style="font-size:0.85rem; font-weight:800; letter-spacing:0.8px; text-transform:uppercase; color:#92400E;">
+          Disclaimer
+        </span>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:14px;">
+
+        <!-- Point 1 -->
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <span style="font-size:1rem; margin-top:1px;">🏪</span>
+          <p style="font-size:0.87rem; color:#78350F; line-height:1.6; margin:0;">
+            <strong>Why isn't this on the Play Store?</strong><br />
+            CampusNav is an academic project developed as part of our university curriculum. Publishing on the Google
+            Play Store requires a one-time developer fee that we, as students, are currently unable to afford. As an
+            alternative, we are distributing the app directly through GitHub — a trusted platform used by millions of
+            developers worldwide.
+          </p>
+        </div>
+
+        <hr style="border:none; border-top:1px solid #FDE68A; margin:0;" />
+
+        <!-- Point 2 -->
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <span style="font-size:1rem; margin-top:1px;">🔒</span>
+          <p style="font-size:0.87rem; color:#78350F; line-height:1.6; margin:0;">
+            <strong>Why does Android show a security warning?</strong><br />
+            Android displays an "Unknown Sources" warning whenever an APK is installed outside the Play Store — this is
+            a standard OS-level precaution, not an indication that our app is harmful. You can safely proceed by tapping
+            <em>Settings → Allow from this source</em> when prompted. The APK is built directly from our open-source
+            code, which you can review at any time on our GitHub repository.
+          </p>
+        </div>
+
+        <hr style="border:none; border-top:1px solid #FDE68A; margin:0;" />
+
+        <!-- Point 3 -->
+        <div style="display:flex; gap:12px; align-items:flex-start;">
+          <span style="font-size:1rem; margin-top:1px;">🛡️</span>
+          <p style="font-size:0.87rem; color:#78350F; line-height:1.6; margin:0;">
+            <strong>Your privacy is fully protected.</strong><br />
+            CampusNav does not collect, store, transmit, or share any personal data. The app uses your device's GPS
+            solely to display your current location on the campus map — this data never leaves your device. We are
+            students building a tool to help our campus community, not a commercial entity with any data monetization
+            interest.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
   <!-- ── Footer ──────────────────────────────────────────── -->
   <footer class="footer">
     <strong>CampusNav</strong> · A BMP'26 Project<br />
     Patel Harsh &amp; Patel Naitik · Dhirubhai Ambani University<br />
     <a href="https://github.com/Naitik2103/CampusNav" target="_blank" rel="noopener">GitHub Repository</a>
+    <br /><br />
+    <span style="font-size:0.75rem; color:#94A3B8;">
+      &copy; 2026 Patel Harsh &amp; Patel Naitik. All rights reserved.<br />
+      Unauthorized reproduction or distribution is prohibited.
+    </span>
   </footer>
 
   <!-- ── Fetch latest version from GitHub API ────────────── -->
